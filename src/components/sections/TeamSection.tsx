@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
 import { Instagram, Linkedin, Twitter } from "lucide-react";
 import Heading from "@/components/common/Heading";
+import Image from "next/image";
 
 const TeamSection = () => {
   const teamMembers = [
@@ -49,7 +50,7 @@ const TeamSection = () => {
   ];
 
   return (
-    <section id="team" className="min-h-screen py-20 bg-luxury-navy">
+    <section id="team" className="min-h-screen py-20 bg-secondary w-screen">
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
@@ -59,7 +60,6 @@ const TeamSection = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => {
-            console.log("member.socialLinks :>> ", member.socialLinks);
             return (
               <AnimatedSection
                 key={member.name}
@@ -67,7 +67,7 @@ const TeamSection = () => {
                 delay={0.2 * (index + 1)}
               >
                 <motion.div
-                  className="glass-luxury-background  rounded-2xl p-8 text-center group hover:shadow-gold transition-all duration-500"
+                  className="glass-effect-bg rounded-2xl p-8 text-center group hover:shadow-gold transition-all duration-500"
                   whileHover={{ y: -10, scale: 1.02 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
@@ -76,12 +76,14 @@ const TeamSection = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover"
+                      width={128}
+                      height={128}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </motion.div>
 
                   <motion.h3
@@ -128,7 +130,7 @@ const TeamSection = () => {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-luxury-gold/60 hover:text-accent transition-colors duration-300"
+                          className="text-primary bg-secondary p-2 rounded-full hover:bg-background transition-colors duration-300"
                         >
                           {link.platform === "linkedin" ? (
                             <Linkedin size={20} />
@@ -145,7 +147,7 @@ const TeamSection = () => {
 
                   {/* Decorative Element */}
                   <motion.div
-                    className="w-12 h-px bg-gradient-gold mx-auto mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="w-12 h-px bg-gradient-to-l from-primary to-background mx-auto mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
                     transition={{ delay: 0.8, duration: 0.6 }}

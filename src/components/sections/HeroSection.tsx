@@ -7,19 +7,19 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden w-screen"
     >
       {/* Background Image Wrapper */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.img
           src={heroImage.src}
-          alt="Luxury Interior Design"
+          alt="Platonic Design Hero"
           className="w-full h-full object-cover"
           initial={{ scale: 1.05 }} // slightly smaller scale to prevent overflow
           animate={{ scale: 1 }}
           transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="absolute inset-0 bg-gradient-hero"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-primary-foreground/80"></div>
       </div>
 
       {/* Content */}

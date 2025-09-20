@@ -51,13 +51,6 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Luxury Design System Colors
-        luxury: {
-          gold: "hsl(var(--luxury-gold))",
-          "gold-dark": "hsl(var(--luxury-gold-dark))",
-          navy: "hsl(var(--luxury-navy))",
-          "navy-light": "hsl(var(--luxury-navy-light))",
-        },
       },
       fontFamily: {
         luxury: ["Lora", "serif"],
@@ -104,10 +97,10 @@ module.exports = {
           "100%": { opacity: "1", transform: "scale(1)" },
         },
         "gold-glow": {
-          "0%": { textShadow: "0 0 10px hsl(var(--luxury-gold) / 0.5)" },
+          "0%": { textShadow: "0 0 10px hsl(var(--primary) / 0.5)" },
           "100%": {
             textShadow:
-              "0 0 20px hsl(var(--luxury-gold) / 0.8), 0 0 30px hsl(var(--luxury-gold) / 0.6)",
+              "0 0 20px hsl(var(--primary) / 0.8), 0 0 30px hsl(var(--primary) / 0.6)",
           },
         },
         float: {

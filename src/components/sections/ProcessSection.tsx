@@ -37,7 +37,7 @@ const ProcessSection = () => {
   ];
 
   return (
-    <section id="process" className="min-h-screen py-20 bg-luxury-navy">
+    <section id="process" className="min-h-screen py-20 bg-secondary w-screen">
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
@@ -53,7 +53,7 @@ const ProcessSection = () => {
               delay={0.2 * (index + 1)}
             >
               <motion.div
-                className="glass-luxury-background rounded-2xl p-8 group hover:shadow-gold transition-all duration-500"
+                className="glass-effect-bg rounded-2xl p-8 group hover:shadow-gold transition-all duration-500"
                 whileHover={{ scale: 1.02, y: -5 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
@@ -71,8 +71,8 @@ const ProcessSection = () => {
                     viewport={{ once: true }}
                   >
                     <div className="relative">
-                      <div className="w-20 h-20 bg-gradient-gold rounded-full flex items-center justify-center">
-                        <span className="font-luxury text-2xl font-bold text-luxury-navy">
+                      <div className="w-20 h-20 bg-gradient rounded-full flex items-center justify-center">
+                        <span className="font-luxury text-2xl font-bold text-background/60">
                           {step.number}
                         </span>
                       </div>

@@ -61,7 +61,10 @@ const ProjectsSection = () => {
   ];
 
   return (
-    <section id="projects" className="min-h-screen py-20 bg-background">
+    <section
+      id="projects"
+      className="min-h-screen py-20 bg-background w-screen"
+    >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
@@ -77,7 +80,7 @@ const ProjectsSection = () => {
               delay={0.1 * (index + 1)}
             >
               <motion.div
-                className="bg-foreground/5 border border-luxury-gold/40 min-h-[27rem] rounded-2xl overflow-hidden group hover:shadow-gold transition-all duration-500 cursor-pointer"
+                className="bg-foreground/5 border border-primary/40 min-h-[27rem] rounded-2xl overflow-hidden group hover:shadow-gold transition-all duration-500 cursor-pointer"
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
@@ -101,7 +104,7 @@ const ProjectsSection = () => {
                   </motion.div>
 
                   {/* Type Badge */}
-                  <div className="absolute top-4 left-4 px-3 py-1 bg-luxury-navy/80 rounded-full">
+                  <div className="absolute top-4 left-4 px-3 py-1 bg-secondary/80 rounded-full">
                     <span className="font-inter text-xs font-medium text-accent">
                       {project.type}
                     </span>
@@ -161,7 +164,7 @@ const ProjectsSection = () => {
             viewport={{ once: true }}
           >
             <motion.button
-              className="btn-luxury-outline px-8 py-4 rounded-full font-inter font-medium"
+              className="effect-btn-outline px-8 py-4 rounded-full font-inter font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

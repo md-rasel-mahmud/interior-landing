@@ -38,11 +38,11 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="min-h-screen py-20 bg-luxury-navy">
+    <section id="contact" className="min-h-screen py-20 bg-secondary w-screen">
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
-            <Heading>Let's Create Together</Heading>
+            <Heading>Let&apos;s Create Together</Heading>
           </div>
         </AnimatedSection>
 
@@ -56,16 +56,16 @@ const ContactSection = () => {
                 delay={0.2 * (index + 1)}
               >
                 <motion.div
-                  className="flex items-start space-x-4 glass-luxury rounded-xl p-6 group hover:shadow-gold transition-all duration-500"
+                  className="flex items-start space-x-4 bg-background/5 border border-background/20 rounded-xl p-6 group hover:shadow-gold transition-all duration-500"
                   whileHover={{ x: 10, scale: 1.02 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <motion.div
-                    className="flex-shrink-0 w-12 h-12 bg-gradient-gold rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                    className="flex-shrink-0 w-12 h-12 bg-gradient rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.8 }}
                   >
-                    <info.icon className="w-6 h-6 text-luxury-navy" />
+                    <info.icon className="w-6 h-6 text-background/60" />
                   </motion.div>
 
                   <div>
@@ -84,7 +84,7 @@ const ContactSection = () => {
           {/* Contact Form */}
           <AnimatedSection animation="slideLeft" delay={0.4}>
             <motion.div
-              className="glass-luxury rounded-2xl p-8"
+              className="glass-effect rounded-2xl p-8"
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -98,12 +98,12 @@ const ContactSection = () => {
                     transition={{ delay: 0.2, duration: 0.6 }}
                     viewport={{ once: true }}
                   >
-                    <label className="block font-inter text-sm font-medium text-luxury-gold mb-2">
+                    <label className="block font-inter text-sm font-medium text-primary mb-2">
                       First Name
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-luxury-gold focus:border-transparent transition-all duration-300 text-background/90"
+                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
                       placeholder="Your first name"
                     />
                   </motion.div>
@@ -114,12 +114,12 @@ const ContactSection = () => {
                     transition={{ delay: 0.3, duration: 0.6 }}
                     viewport={{ once: true }}
                   >
-                    <label className="block font-inter text-sm font-medium text-luxury-gold mb-2">
+                    <label className="block font-inter text-sm font-medium text-primary mb-2">
                       Last Name
                     </label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-luxury-gold focus:border-transparent transition-all duration-300 text-background/90"
+                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
                       placeholder="Your last name"
                     />
                   </motion.div>
@@ -131,12 +131,12 @@ const ContactSection = () => {
                   transition={{ delay: 0.4, duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block font-inter text-sm font-medium text-luxury-gold mb-2">
+                  <label className="block font-inter text-sm font-medium text-primary mb-2">
                     Email
                   </label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-luxury-gold focus:border-transparent transition-all duration-300 text-background/90"
+                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
                     placeholder="your.email@example.com"
                   />
                 </motion.div>
@@ -147,12 +147,12 @@ const ContactSection = () => {
                   transition={{ delay: 0.5, duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block font-inter text-sm font-medium text-luxury-gold mb-2">
+                  <label className="block font-inter text-sm font-medium text-primary mb-2">
                     Project Type
                   </label>
 
                   <Select defaultValue="Residential Design">
-                    <SelectTrigger className="bg-background/10 border text-background/60 border-background/20 focus:outline-luxury-gold focus:border-transparent transition-all duration-300">
+                    <SelectTrigger className="bg-background/10 border text-background/60 border-background/20 focus:outline-primary focus:border-transparent transition-all duration-300">
                       <SelectValue placeholder="Select a project type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -181,19 +181,19 @@ const ContactSection = () => {
                   transition={{ delay: 0.6, duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block font-inter text-sm font-medium text-luxury-gold mb-2">
+                  <label className="block font-inter text-sm font-medium text-primary mb-2">
                     Message
                   </label>
                   <textarea
                     rows={4}
-                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-luxury-gold focus:border-transparent transition-all duration-300 text-background/90 resize-none"
+                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90 resize-none"
                     placeholder="Tell us about your project..."
                   ></textarea>
                 </motion.div>
 
                 <motion.button
                   type="submit"
-                  className="w-full btn-luxury-gold px-8 py-4 rounded-lg font-inter font-medium"
+                  className="w-full effect-btn px-8 py-4 rounded-lg font-inter font-medium"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.6 }}

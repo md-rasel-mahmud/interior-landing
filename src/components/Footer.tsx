@@ -80,7 +80,7 @@ const Footer = () => {
                 <motion.a
                   key={social.label}
                   href={social.href}
-                  className="w-10 h-10 bg-luxury-gold/20 border border-luxury-gold/60 rounded-full flex items-center justify-center text-luxury-gold hover:bg-accent hover:text-background transition-all duration-300"
+                  className="w-10 h-10 bg-primary/20 border border-primary/60 rounded-full flex items-center justify-center text-primary hover:bg-accent hover:text-background transition-all duration-300"
                   whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: 20 }}

@@ -1,47 +1,104 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-const PortfolioSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const innerRef = useRef<HTMLDivElement>(null);
-  const [scrollY, setScrollY] = useState(0);
+gsap.registerPlugin(ScrollTrigger);
+
+type Props = {
+  children: React.ReactNode;
+  direction?: "left" | "right";
+};
+
+export default function LeftRightScroll({
+  children,
+  direction = "right",
+}: Props) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const innerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current || !innerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const offset = window.innerHeight - rect.top; // how much section is visible
-      setScrollY(offset);
+    const wrapper = wrapperRef.current;
+    const inner = innerRef.current;
+    if (!wrapper || !inner) return;
+
+    // setup panels
+    const panels = Array.from(inner.querySelectorAll<HTMLElement>(".lr-panel"));
+    const panelCount = panels.length;
+
+    if (panelCount <= 1) return;
+
+    // calculate distance to scroll
+    const calcDistance = () => inner.scrollWidth - window.innerWidth;
+
+    // set initial position
+    const onRefreshInit = () => {
+      gsap.set(inner, { x: direction === "left" ? -calcDistance() : 0 });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // initial position
+    onRefreshInit();
+
+    // create animation
+    const anim = gsap.to(inner, {
+      x: () => (direction === "left" ? 0 : -calcDistance()),
+      ease: "none",
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top top",
+        // important fix: add window.innerHeight to prevent gap
+        end: () => `+=${calcDistance() + window.innerHeight}`,
+        pin: true,
+        scrub: 1,
+        snap: panelCount > 1 ? 1 / (panelCount - 1) : 0,
+        invalidateOnRefresh: true,
+      },
+    });
+
+    // handle refresh
+    ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
+    ScrollTrigger.refresh();
+
+    // cleanup on unmount
+    return () => {
+      anim.kill();
+      ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
+      const st = anim.scrollTrigger as ScrollTrigger | undefined;
+      if (st) st.kill();
+    };
+  }, [direction, children]);
+
+  // calculate inner width based on number of children
+  const childCount = React.Children.count(children) || 0;
+  const innerWidth = `${Math.max(childCount, 1) * 100}vw`;
 
   return (
-    <div
-      ref={containerRef}
-      className="h-[400px] overflow-hidden relative bg-gray-100 flex items-center"
-    >
+    <div style={{ width: "100%", overflow: "hidden" }}>
       <div
-        ref={innerRef}
-        className="flex gap-6 absolute top-0 left-0 h-full transition-transform duration-0"
-        style={{
-          transform: `translateX(-${scrollY}px)`,
-        }}
+        ref={wrapperRef}
+        style={{ width: "100%", position: "relative" }}
+        className="relative"
       >
-        {["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"].map((item, idx) => (
-          <div
-            key={idx}
-            className="w-[500px] h-full bg-blue-500 flex items-center justify-center text-white text-xl font-bold"
-          >
-            {item}
-          </div>
-        ))}
+        <div
+          ref={innerRef}
+          className="lr-inner flex"
+          style={{
+            width: innerWidth,
+            willChange: "transform",
+          }}
+        >
+          {React.Children.map(children, (child, i) => (
+            <div
+              className="lr-panel w-screen min-h-screen flex items-center justify-center"
+              key={i}
+              style={{ flex: "0 0 100vw" }}
+            >
+              {child}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
-};
-
-export default PortfolioSection;
+}

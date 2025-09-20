@@ -1,6 +1,4 @@
 import LeftRightScroll from "@/components/common/LeftRightScroll";
-import Footer from "@/components/Footer";
-import Navigation from "@/components/Navigation";
 import AboutSection from "@/components/sections/AboutSection";
 import ContactSection from "@/components/sections/ContactSection";
 import HeroSection from "@/components/sections/HeroSection";
@@ -13,14 +11,25 @@ import TeamSection from "@/components/sections/TeamSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <HeroSection />
-      <TaglineSection />
-      <AboutSection />
-      <TeamSection />
-      <ServicesSection />
-      <ProcessSection />
-      <ProjectsSection />
-      <ContactSection />
+      <LeftRightScroll>
+        <HeroSection />
+        <TaglineSection />
+      </LeftRightScroll>
+
+      <LeftRightScroll direction="left">
+        <TeamSection />
+        <AboutSection />
+      </LeftRightScroll>
+
+      <LeftRightScroll>
+        <ServicesSection />
+        <ProcessSection />
+      </LeftRightScroll>
+
+      <LeftRightScroll direction="left">
+        <ContactSection />
+        <ProjectsSection />
+      </LeftRightScroll>
     </div>
   );
 }

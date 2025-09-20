@@ -52,7 +52,10 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="min-h-screen py-20 bg-background">
+    <section
+      id="services"
+      className="min-h-screen py-20 bg-background w-screen"
+    >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
@@ -68,16 +71,16 @@ const ServicesSection = () => {
               delay={0.1 * (index + 1)}
             >
               <motion.div
-                className="bg-foreground/5 border border-luxury-gold/40 min-h-[20rem] rounded-2xl p-8 group hover:shadow-gold transition-all duration-500 cursor-pointer"
+                className="bg-foreground/5 border border-primary/40 min-h-[20rem] rounded-2xl p-8 group hover:shadow-gold transition-all duration-500 cursor-pointer"
                 whileHover={{ y: -10, scale: 1.02 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
                 <motion.div
-                  className="flex items-center justify-center w-16 h-16 bg-gradient-gold rounded-full mb-6 mx-auto group-hover:scale-110 transition-transform duration-300"
+                  className="flex items-center justify-center w-16 h-16 bg-gradient rounded-full mb-6 mx-auto group-hover:scale-110 transition-transform duration-300"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.8 }}
                 >
-                  <service.icon className="w-8 h-8 text-luxury-navy" />
+                  <service.icon className="w-8 h-8 text-background/80" />
                 </motion.div>
 
                 <motion.h3
@@ -101,7 +104,7 @@ const ServicesSection = () => {
                 </motion.p>
 
                 {/* Hover Effect Line */}
-                <motion.div className="w-0 h-px bg-gradient-gold mx-auto mt-6 group-hover:w-12 transition-all duration-300" />
+                <motion.div className="w-0 h-px bg-gradient mx-auto mt-6 group-hover:w-12 transition-all duration-300" />
               </motion.div>
             </AnimatedSection>
           ))}

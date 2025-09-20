@@ -2,13 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { navItems } from "@/constrain/nav-menu";
+import Image from "next/image";
+import logo from "@/assets/logo.svg";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -27,19 +29,27 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "glass-luxury-nav shadow-luxury" : "bg-transparent"
+        isScrolled ? "active-nav-bg shadow-sm" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-1">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.button
-            onClick={() => scrollToSection("#hero")}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="font-luxury text-2xl font-bold text-gradient-gold hover:scale-105 transition-transform duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            PLATONIC
+            <Image
+              src={logo}
+              alt="Logo"
+              width={200}
+              height={200}
+              className="h-20 w-auto"
+            />
           </motion.button>
 
           {/* Navigation Menu */}

@@ -9,7 +9,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center py-20 bg-background"
+      className="min-h-screen flex items-center py-20 bg-background w-screen"
     >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -46,7 +46,7 @@ const AboutSection = () => {
           <div className="space-y-8">
             <AnimatedSection animation="slideLeft" delay={0.4}>
               <motion.h2
-                className=" text-5xl md:text-6xl font-bold text-gradient-gold leading-tight "
+                className=" text-5xl md:text-6xl font-bold text-gradient-foreground leading-tight "
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -89,7 +89,8 @@ const AboutSection = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="flex items-center space-x-4 text-accent">
-                    <div className="w-12 h-px bg-gradient-gold"></div>
+                    <div className="w-12 h-px bg-gradient-to-l from-primary"></div>
+
                     <span className="font-luxury text-xl italic">
                       Creating timeless spaces
                     </span>

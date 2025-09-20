@@ -5,11 +5,11 @@ import AnimatedSection from "../ui/animated-section";
 
 const TaglineSection = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-luxury py-20">
+    <section className="min-h-screen flex items-center justify-center bg-gradient py-20 w-screen">
       <div className="container mx-auto px-6 text-center">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <motion.h1
-            className="font-poppins font-bold text-6xl md:text-8xl text-gradient-gold mb-8 animate-gold-glow"
+            className="font-poppins font-bold text-6xl md:text-8xl text-secondary mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -30,7 +30,7 @@ const TaglineSection = () => {
             viewport={{ once: true }}
           >
             <p className="font-luxury text-xl md:text-2xl text-background italic">
-              "We shape our buildings [so they] shape us."
+              &quot;We shape our buildings [so they] shape us.&quot;
             </p>
             <p className="font-inter text-lg text-background/60 mt-4">
               — Winston Churchill
