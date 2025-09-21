@@ -9,14 +9,14 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center py-20 bg-background w-screen"
+      className="min-h-screen flex items-center py-20 bg-background w-full md:w-screen"
     >
-      <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4 lg:px-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image */}
           <AnimatedSection animation="slideRight" delay={0.2}>
             <motion.div
-              className="relative"
+              className="relative w-full"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
@@ -25,8 +25,10 @@ const AboutSection = () => {
                   src={ownerImage}
                   alt="Founder of Platonic Interior Design"
                   className="w-full h-[600px] object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  height={600}
+                  width={400}
+                  placeholder="blur"
+                  quality={100}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent"></div>
               </div>

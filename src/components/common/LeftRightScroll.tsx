@@ -50,7 +50,7 @@ export default function LeftRightScroll({
         // important fix: add window.innerHeight to prevent gap
         end: () => `+=${calcDistance() + window.innerHeight}`,
         pin: true,
-        scrub: 1,
+        scrub: 0.3,
         snap: panelCount > 1 ? 1 / (panelCount - 1) : 0,
         invalidateOnRefresh: true,
       },

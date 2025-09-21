@@ -4,9 +4,14 @@ import { motion } from "framer-motion";
 import { navItems } from "@/constrain/nav-menu";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,21 +29,28 @@ const Navigation = () => {
     }
   };
 
+  const handleGoToHome = () => {
+    if (pathname !== "/") {
+      router.push("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled ? "active-nav-bg shadow-sm" : "bg-transparent"
-      }`}
+      )}
     >
       <div className="container mx-auto px-6 py-1">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.button
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            onClick={handleGoToHome}
             className="font-luxury text-2xl font-bold text-gradient-gold hover:scale-105 transition-transform duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -54,19 +66,15 @@ const Navigation = () => {
 
           {/* Navigation Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item, index) => (
-              <motion.button
-                key={item.name}
-                onClick={() => scrollToSection(item.href)}
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
                 className="font-helvetica text-sm font-medium drop-shadow-md text-gradient-gold hover:text-accent transition-colors duration-300 relative group"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -2 }}
               >
                 {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-gold transition-all duration-300 group-hover:w-full"></span>
-              </motion.button>
+              </Link>
             ))}
           </div>
 

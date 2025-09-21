@@ -12,24 +12,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Heading from "@/components/common/Heading";
+import { cn } from "@/lib/utils";
 
-const ContactSection = () => {
+const ContactSection = ({ isPage }: { isPage?: boolean }) => {
   const contactInfo = [
     {
       icon: MapPin,
       title: "Visit Our Studio",
       content: "123 Design District, New York, NY 10001",
     },
-    {
-      icon: Phone,
-      title: "Call Us",
-      content: "+1 (555) 123-4567",
-    },
-    {
-      icon: Mail,
-      title: "Email Us",
-      content: "hello@platonicdesign.com",
-    },
+    { icon: Phone, title: "Call Us", content: "+1 (555) 123-4567" },
+    { icon: Mail, title: "Email Us", content: "hello@platonicdesign.com" },
     {
       icon: Clock,
       title: "Studio Hours",
@@ -37,12 +30,69 @@ const ContactSection = () => {
     },
   ];
 
+  // Form field configurations
+  const formFields = [
+    {
+      type: "text",
+      name: "firstName",
+      label: "First Name",
+      placeholder: "Your first name",
+      grid: "md:col-span-1",
+      delay: 0.2,
+    },
+    {
+      type: "text",
+      name: "lastName",
+      label: "Last Name",
+      placeholder: "Your last name",
+      grid: "md:col-span-1",
+      delay: 0.3,
+    },
+    {
+      type: "email",
+      name: "email",
+      label: "Email",
+      placeholder: "your.email@example.com",
+      grid: "md:col-span-2",
+      delay: 0.4,
+    },
+    {
+      type: "select",
+      name: "projectType",
+      label: "Project Type",
+      placeholder: "Select a project type",
+      options: [
+        "Residential Design",
+        "Commercial Space",
+        "Full Renovation",
+        "Consultation",
+      ],
+      grid: "md:col-span-2",
+      delay: 0.5,
+    },
+    {
+      type: "textarea",
+      name: "message",
+      label: "Message",
+      placeholder: "Tell us about your project...",
+      rows: 4,
+      grid: "md:col-span-2",
+      delay: 0.6,
+    },
+  ];
+
   return (
-    <section id="contact" className="min-h-screen py-20 bg-secondary w-screen">
+    <section
+      id="contact"
+      className={cn(
+        "min-h-screen py-20 w-screen",
+        isPage ? "bg-background" : "bg-secondary"
+      )}
+    >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
-            <Heading>Let&apos;s Create Together</Heading>
+            <Heading>Contact Us</Heading>
           </div>
         </AnimatedSection>
 
@@ -56,7 +106,12 @@ const ContactSection = () => {
                 delay={0.2 * (index + 1)}
               >
                 <motion.div
-                  className="flex items-start space-x-4 bg-background/5 border border-background/20 rounded-xl p-6 group hover:shadow-gold transition-all duration-500"
+                  className={cn(
+                    "flex items-start space-x-4 border rounded-xl p-6 group hover:shadow-gold transition-all duration-500",
+                    isPage
+                      ? "bg-primary/5 border-primary/20"
+                      : "bg-background/5 border-background/20"
+                  )}
                   whileHover={{ x: 10, scale: 1.02 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
@@ -72,7 +127,12 @@ const ContactSection = () => {
                     <h3 className="font-luxury text-xl font-semibold text-accent mb-2">
                       {info.title}
                     </h3>
-                    <p className="font-inter text-background/50">
+                    <p
+                      className={cn(
+                        "font-inter",
+                        isPage ? "text-foreground/60" : "text-background/70"
+                      )}
+                    >
                       {info.content}
                     </p>
                   </div>
@@ -84,116 +144,87 @@ const ContactSection = () => {
           {/* Contact Form */}
           <AnimatedSection animation="slideLeft" delay={0.4}>
             <motion.div
-              className="glass-effect rounded-2xl p-8"
+              className={cn(
+                "glass-effect border rounded-2xl p-8",
+                isPage
+                  ? "bg-primary/5 border-primary/20"
+                  : "bg-background/5 border-background/20"
+              )}
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
             >
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form className="grid md:grid-cols-2 gap-6">
+                {formFields.map((field) => (
                   <motion.div
+                    key={field.name}
+                    className={field.grid}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
+                    transition={{ delay: field.delay, duration: 0.6 }}
                     viewport={{ once: true }}
                   >
                     <label className="block font-inter text-sm font-medium text-primary mb-2">
-                      First Name
+                      {field.label}
                     </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
-                      placeholder="Your first name"
-                    />
+
+                    {field.type === "textarea" ? (
+                      <textarea
+                        rows={field.rows}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        className={cn(
+                          "w-full px-4 py-3 border rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 resize-none",
+                          isPage
+                            ? "bg-primary/10 border-primary/20 text-secondary/90"
+                            : "bg-background/10 border-background/20 text-background/90"
+                        )}
+                      />
+                    ) : field.type === "select" ? (
+                      <Select defaultValue={field.options?.[0]}>
+                        <SelectTrigger
+                          className={cn(
+                            "border focus:outline-primary focus:border-transparent transition-all duration-300",
+                            isPage
+                              ? "bg-primary/10 border-primary/20 text-secondary/90"
+                              : "bg-background/10 border-background/20 text-background/90"
+                          )}
+                        >
+                          <SelectValue placeholder={field.placeholder} />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>{field.label}</SelectLabel>
+                            {field.options?.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        className={cn(
+                          "w-full px-4 py-3 border rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300",
+                          isPage
+                            ? "bg-primary/10 border-primary/20 text-secondary/90"
+                            : "bg-background/10 border-background/20 text-background/90"
+                        )}
+                      />
+                    )}
                   </motion.div>
+                ))}
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    viewport={{ once: true }}
-                  >
-                    <label className="block font-inter text-sm font-medium text-primary mb-2">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
-                      placeholder="Your last name"
-                    />
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <label className="block font-inter text-sm font-medium text-primary mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90"
-                    placeholder="your.email@example.com"
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <label className="block font-inter text-sm font-medium text-primary mb-2">
-                    Project Type
-                  </label>
-
-                  <Select defaultValue="Residential Design">
-                    <SelectTrigger className="bg-background/10 border text-background/60 border-background/20 focus:outline-primary focus:border-transparent transition-all duration-300">
-                      <SelectValue placeholder="Select a project type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>Project Type</SelectLabel>
-                        <SelectItem value="Residential Design">
-                          Residential Design
-                        </SelectItem>
-                        <SelectItem value="Commercial Space">
-                          Commercial Space
-                        </SelectItem>
-                        <SelectItem value="Full Renovation">
-                          Full Renovation
-                        </SelectItem>
-                        <SelectItem value="Consultation">
-                          Consultation
-                        </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <label className="block font-inter text-sm font-medium text-primary mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 bg-background/10 border border-background/20 rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 text-background/90 resize-none"
-                    placeholder="Tell us about your project..."
-                  ></textarea>
-                </motion.div>
-
+                {/* Submit Button */}
                 <motion.button
                   type="submit"
-                  className="w-full effect-btn px-8 py-4 rounded-lg font-inter font-medium"
+                  className="w-full effect-btn px-8 py-4 rounded-lg font-inter font-medium md:col-span-2"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.7, duration: 0.6 }}

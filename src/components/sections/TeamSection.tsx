@@ -5,8 +5,9 @@ import AnimatedSection from "../ui/animated-section";
 import { Instagram, Linkedin, Twitter } from "lucide-react";
 import Heading from "@/components/common/Heading";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
-const TeamSection = () => {
+const TeamSection = ({ isPage }: { isPage?: boolean }) => {
   const teamMembers = [
     {
       name: "Sarah Chen",
@@ -50,7 +51,13 @@ const TeamSection = () => {
   ];
 
   return (
-    <section id="team" className="min-h-screen py-20 bg-secondary w-screen">
+    <section
+      id="team"
+      className={cn(
+        "min-h-screen py-20 w-screen",
+        isPage ? "bg-background" : "bg-secondary"
+      )}
+    >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
@@ -67,12 +74,15 @@ const TeamSection = () => {
                 delay={0.2 * (index + 1)}
               >
                 <motion.div
-                  className="glass-effect-bg rounded-2xl p-8 text-center group hover:shadow-gold transition-all duration-500"
+                  className={cn(
+                    "rounded-2xl p-8 text-center group hover:shadow-gold transition-all duration-500",
+                    isPage ? "bg-foreground" : "glass-effect-bg"
+                  )}
                   whileHover={{ y: -10, scale: 1.02 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <motion.div
-                    className="relative mx-auto mb-6 w-32 h-32 rounded-full overflow-hidden shadow-soft"
+                    className="relative mx-auto mb-6 w-48 h-48 rounded-lg overflow-hidden shadow-soft"
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.5 }}
                   >
@@ -80,8 +90,8 @@ const TeamSection = () => {
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover"
-                      width={128}
-                      height={128}
+                      width={300}
+                      height={300}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-secondary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </motion.div>
@@ -104,16 +114,6 @@ const TeamSection = () => {
                     viewport={{ once: true }}
                   >
                     {member.role}
-                  </motion.p>
-
-                  <motion.p
-                    className="font-inter text-background/40 leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.6, duration: 0.6 }}
-                    viewport={{ once: true }}
-                  >
-                    {member.bio}
                   </motion.p>
 
                   {member.socialLinks && (

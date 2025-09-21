@@ -10,7 +10,7 @@ const Heading = ({ children }: { children: ReactNode }) => {
       </motion.h2>
 
       <motion.h3
-        className="font-luxury text-5xl md:text-6xl font-semibold text-gradient-foreground mb-6 "
+        className="font-luxury text-5xl md:text-6xl font-semibold text-gradient-foreground mb-6"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
