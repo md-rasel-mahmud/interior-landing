@@ -7,8 +7,8 @@ import { projects } from "@/constrain/project-list";
 import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 
 export default function ProjectDetailPage() {
-  const { slug } = useParams();
-  const project = projects.find((p) => p.slug === slug);
+  const { projectSlug } = useParams();
+  const project = projects.find((p) => p.slug === projectSlug);
 
   if (!project) {
     return (

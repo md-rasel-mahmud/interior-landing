@@ -60,7 +60,9 @@ const ProjectsSection = ({
                     <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                     {/* Overlay Icon */}
-                    <Link href={`/projects/${project.slug}`}>
+                    <Link
+                      href={`/projects/${project.categorySlug}/${project.slug}`}
+                    >
                       <motion.div
                         className="absolute top-4 right-4 w-10 h-10 bg-accent rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
                         whileHover={{ scale: 1.1, rotate: 15 }}
