@@ -4,7 +4,6 @@ import ContactSection from "@/components/sections/ContactSection";
 import HeroSection from "@/components/sections/HeroSection";
 import ProcessSection from "@/components/sections/ProcessSection";
 import ProjectCategorySection from "@/components/sections/ProjectCategorySection";
-import ProjectsSection from "@/components/sections/ProjectsSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import TaglineSection from "@/components/sections/TaglineSection";
 import TeamSection from "@/components/sections/TeamSection";
@@ -24,12 +23,12 @@ export default function Home() {
 
       <LeftRightScroll>
         <ServicesSection />
-        <ProjectCategorySection />
+        <ProcessSection />
       </LeftRightScroll>
 
       <LeftRightScroll direction="left">
         <ContactSection />
-        <ProjectsSection />
+        <ProjectCategorySection />
       </LeftRightScroll>
     </div>
   );
