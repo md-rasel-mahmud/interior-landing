@@ -4,6 +4,7 @@ import Heading from "@/components/common/Heading";
 import { Card } from "@/components/ui/card";
 import { categories } from "@/constrain/category-list";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -45,14 +46,9 @@ const ProjectCategorySection = () => {
                     </span>
 
                     {/* Arrow Icon (hidden until hover) */}
-                    <motion.span
-                      initial={{ opacity: 0, x: -10 }}
-                      whileHover={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-background"
-                    >
-                      →
-                    </motion.span>
+                    <span className="text-background transform transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 z-10">
+                      <ArrowRight />
+                    </span>
                   </div>
                 </Card>
               </motion.div>
