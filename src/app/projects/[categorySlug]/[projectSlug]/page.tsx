@@ -3,7 +3,6 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Dot, MapPin } from "lucide-react";
 import AnimatedSection from "@/components/ui/animated-section";
-import Heading from "@/components/common/Heading";
 import { projects } from "@/constrain/project-list";
 import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 

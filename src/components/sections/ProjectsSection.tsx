@@ -5,8 +5,23 @@ import { ExternalLink, MapPin } from "lucide-react";
 import Heading from "@/components/common/Heading";
 import { projects } from "@/constrain/project-list";
 import Link from "next/link";
+import { categories } from "@/constrain/category-list";
 
-const ProjectsSection = ({ isPage }: { isPage?: boolean }) => {
+const ProjectsSection = ({
+  isPage,
+  categorySlug,
+}: {
+  isPage?: boolean;
+  categorySlug?: string;
+}) => {
+  const projectList = categorySlug
+    ? projects.filter((project) => project.categorySlug === categorySlug)
+    : projects;
+
+  const category = categorySlug
+    ? categories.find((cat) => cat.slug === categorySlug)
+    : null;
+
   return (
     <section
       id="projects"
@@ -15,12 +30,12 @@ const ProjectsSection = ({ isPage }: { isPage?: boolean }) => {
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
-            <Heading>Featured Projects</Heading>
+            <Heading>Projects {category && `of ${category?.name}`}</Heading>
           </div>
         </AnimatedSection>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects
+          {projectList
             .slice(0, isPage ? projects.length : 3)
             .map((project, index) => (
               <AnimatedSection

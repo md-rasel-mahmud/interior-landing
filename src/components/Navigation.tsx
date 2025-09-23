@@ -7,6 +7,13 @@ import logo from "@/assets/logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,16 +73,36 @@ const Navigation = () => {
 
           {/* Navigation Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-helvetica text-sm font-medium drop-shadow-md text-gradient-gold hover:text-accent transition-colors duration-300 relative group"
-              >
-                {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-gold transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              item.submenu ? (
+                <DropdownMenu key={item.name}>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-1 focus:outline-none focus:border-none font-medium text-foreground hover:text-primary transition-colors duration-300">
+                      {item.name}
+                      <ChevronDown className="w-4 h-4" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {item.submenu.map((subItem) => (
+                      <DropdownMenuItem key={subItem.name} asChild>
+                        <Link href={subItem.href} className="w-full">
+                          {subItem.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="relative group font-helvetica text-sm font-medium drop-shadow-md text-gradient-gold hover:text-accent transition-colors duration-300"
+                >
+                  {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </Link>
+              )
+            )}
           </div>
 
           {/* Mobile Menu Button */}

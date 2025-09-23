@@ -3,6 +3,7 @@ export interface Project {
   title: string;
   location: string;
   type: "Residential" | "Commercial" | "Hospitality" | "Mixed-Use" | "Cultural";
+  categorySlug: string;
   images: string[];
   description: string;
   features: string[];
@@ -14,6 +15,7 @@ export const projects: Project[] = [
     title: "Luxury Penthouse",
     location: "Manhattan, NY",
     type: "Residential",
+    categorySlug: "residential",
     images: [
       "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&h=600&fit=crop",
@@ -33,6 +35,7 @@ export const projects: Project[] = [
     title: "Corporate Headquarters",
     location: "San Francisco, CA",
     type: "Commercial",
+    categorySlug: "commercial",
     images: [
       "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=600&fit=crop",
@@ -51,6 +54,7 @@ export const projects: Project[] = [
     title: "Seaside Villa",
     location: "Malibu, CA",
     type: "Residential",
+    categorySlug: "residential",
     images: [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200&h=600&fit=crop",
@@ -70,6 +74,7 @@ export const projects: Project[] = [
     title: "Modern Art Museum",
     location: "Chicago, IL",
     type: "Cultural",
+    categorySlug: "cultural",
     images: [
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=600&fit=crop",
@@ -88,6 +93,7 @@ export const projects: Project[] = [
     title: "Urban Lifestyle Mall",
     location: "Los Angeles, CA",
     type: "Commercial",
+    categorySlug: "commercial",
     images: [
       "https://images.unsplash.com/photo-1556740758-90de374c12ad?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&h=600&fit=crop",
@@ -106,6 +112,7 @@ export const projects: Project[] = [
     title: "Eco-Resort Retreat",
     location: "Bali, Indonesia",
     type: "Hospitality",
+    categorySlug: "hospitality",
     images: [
       "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&h=600&fit=crop",
@@ -124,6 +131,7 @@ export const projects: Project[] = [
     title: "Tech Innovation Campus",
     location: "Austin, TX",
     type: "Commercial",
+    categorySlug: "commercial",
     images: [
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1538688423619-a81d3f23454b?w=1200&h=600&fit=crop",
@@ -142,6 +150,7 @@ export const projects: Project[] = [
     title: "Mountain Chalet",
     location: "Aspen, CO",
     type: "Residential",
+    categorySlug: "residential",
     images: [
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=600&fit=crop",
     ],
@@ -159,6 +168,7 @@ export const projects: Project[] = [
     title: "Urban Apartments",
     location: "Brooklyn, NY",
     type: "Residential",
+    categorySlug: "residential",
     images: [
       "https://images.unsplash.com/photo-1523217582562-09d0def993a6?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1502673530728-f79b4cab31b1?w=1200&h=600&fit=crop",
@@ -177,6 +187,7 @@ export const projects: Project[] = [
     title: "Coastal Luxury Hotel",
     location: "Miami, FL",
     type: "Hospitality",
+    categorySlug: "hospitality",
     images: [
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200&h=600&fit=crop",
@@ -195,6 +206,7 @@ export const projects: Project[] = [
     title: "Mixed-Use Tower",
     location: "Dubai, UAE",
     type: "Mixed-Use",
+    categorySlug: "mixed-use",
     images: [
       "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=1200&h=600&fit=crop",
@@ -213,6 +225,7 @@ export const projects: Project[] = [
     title: "Desert Retreat",
     location: "Dubai Desert, UAE",
     type: "Hospitality",
+    categorySlug: "hospitality",
     images: [
       "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&h=600&fit=crop",
       "https://images.unsplash.com/photo-1572120360610-d971b9b78825?w=1200&h=600&fit=crop",
