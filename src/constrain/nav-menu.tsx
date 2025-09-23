@@ -11,13 +11,13 @@ export const navItems: NavItem[] = [
   { name: "Team", href: "/team" },
   { name: "Services", href: "/services" },
   {
-    name: "Process",
-    href: "/process",
+    name: "Projects",
+    href: "/projects",
     submenu: categories.map((cat) => ({
       name: cat.name,
       href: `/projects/${cat.slug}`,
     })),
   },
-  { name: "Projects", href: "/projects" },
+  { name: "Process", href: "/process" },
   { name: "Contact Us", href: "/contact" },
 ];
