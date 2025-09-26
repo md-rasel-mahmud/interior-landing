@@ -2,6 +2,10 @@
 import { navItems } from "@/constrain/nav-menu";
 import { motion } from "framer-motion";
 import { Instagram, Facebook, Linkedin, Twitter } from "lucide-react";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
+import logo from "@/assets/logo.svg";
+import Link from "next/link";
 
 const Footer = () => {
   const socialLinks = [
@@ -11,28 +15,38 @@ const Footer = () => {
     { icon: Twitter, href: "#", label: "Twitter" },
   ];
 
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleGoToHome = () => {
+    if (pathname !== "/") {
+      router.push("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="bg-background border-t border-border/20">
       <div className="container mx-auto px-6 py-16">
         {/* Main Footer Content */}
-        <div className="flex flex-col md:flex-row justify-center gap-10 md:gap-24 mb-12">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-24 mb-12">
           {/* Logo & Description */}
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+            <motion.button
+              onClick={handleGoToHome}
+              className="font-luxury text-2xl font-bold text-gradient-gold hover:scale-105 transition-transform duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <h3 className="font-luxury text-2xl font-bold text-gradient-gold mb-4">
-                PLATONIC
-              </h3>
-              <p className="font-inter text-foreground/80 leading-relaxed mb-6 max-w-sm">
-                Creating exceptional spaces that inspire and elevate the human
-                experience through timeless design and uncompromising
-                craftsmanship.
-              </p>
-            </motion.div>
+              <Image
+                src={logo}
+                alt="Logo"
+                width={200}
+                height={200}
+                className="h-20 w-auto"
+              />
+            </motion.button>
           </div>
 
           {/* Footer Links */}
@@ -42,24 +56,19 @@ const Footer = () => {
             transition={{ delay: 0.1 * 2, duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-luxury text-lg font-semibold text-accent mb-4">
-              Quick Links
-            </h4>
-            <ul className="flex flex-wrap gap-3">
+            <ul className="flex justify-center flex-wrap gap-3">
               {navItems.map((link, linkIndex) => (
                 <motion.li key={link.href}>
-                  <motion.a
-                    href="#"
+                  <Link
+                    href={link.href}
                     className="font-inter text-foreground/70 hover:text-accent transition-colors duration-300 relative group"
-                    whileHover={{ x: 5 }}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * linkIndex, duration: 0.4 }}
-                    viewport={{ once: true }}
                   >
                     {link.name}
                     <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
-                  </motion.a>
+                  </Link>{" "}
+                  {linkIndex < navItems.length - 1 && (
+                    <span className="mx-2 text-foreground/50">|</span>
+                  )}
                 </motion.li>
               ))}
             </ul>
@@ -72,9 +81,6 @@ const Footer = () => {
             transition={{ delay: 0.1 * 5, duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-luxury text-lg font-semibold text-accent mb-4">
-              Get in Touch
-            </h4>
             <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <motion.a
@@ -113,7 +119,7 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <p className="font-inter text-foreground/60 text-sm">
-            © 2024 Platonic Interior Design. All rights reserved.
+            © {new Date().getFullYear()} Platonic. All rights reserved.
           </p>
         </motion.div>
       </div>

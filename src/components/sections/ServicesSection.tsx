@@ -1,91 +1,77 @@
 "use client";
 
-import { motion } from "framer-motion";
-import AnimatedSection from "../ui/animated-section";
 import Heading from "@/components/common/Heading";
-import { services } from "@/constrain/services-list";
+import { Card } from "@/components/ui/card";
+import { categories } from "@/constrain/category-list";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
   return (
     <section
-      id="services"
-      className="min-h-screen py-20 bg-background w-screen"
+      className={cn(
+        "py-16 min-h-screen flex flex-col justify-center w-full",
+        isPage ? "bg-background" : "bg-foreground"
+      )}
     >
-      <div className="container mx-auto px-6">
-        <AnimatedSection animation="slideUp" delay={0.2}>
-          <div className="text-center mb-16">
-            <Heading>Our Services</Heading>
-          </div>
-        </AnimatedSection>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services
-            .slice(0, isPage ? services.length : 3)
-            .map((service, index) => (
-              <AnimatedSection
-                key={service.title}
-                animation="scale"
-                delay={0.1 * (index + 1)}
-              >
-                <motion.div
-                  className="bg-foreground/5 border border-primary/40 min-h-[5rem] rounded-2xl p-8 group hover:shadow-gold transition-all duration-500 cursor-pointer"
-                  whileHover={{ y: -10, scale: 1.02 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <motion.div
-                    className="flex items-center justify-center w-16 h-16 bg-gradient rounded-full mb-6 mx-auto group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <service.icon className="w-8 h-8 text-background/80" />
-                  </motion.div>
-
-                  <motion.h3
-                    className="font-luxury text-2xl font-semibold text-accent text-center mb-4"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                    viewport={{ once: true }}
-                  >
-                    {service.title}
-                  </motion.h3>
-
-                  <motion.p
-                    className="font-inter text-foreground/80 text-center leading-relaxed"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                    viewport={{ once: true }}
-                  >
-                    {service.description}
-                  </motion.p>
-
-                  {/* Hover Effect Line */}
-                  <motion.div className="w-0 h-px bg-gradient mx-auto mt-6 group-hover:w-12 transition-all duration-300" />
-                </motion.div>
-              </AnimatedSection>
-            ))}
+      <div className="container mx-auto px-4">
+        <div className="text-center">
+          <Heading isDarkText={isPage ? false : true}>Our Services</Heading>
         </div>
 
-        {isPage || (
-          <div className="flex justify-center">
-            <AnimatedSection animation="fade" delay={1}>
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-5">
+          {categories.map((category, index) => (
+            <Link key={category.slug} href={`/projects/${category.slug}`}>
               <motion.div
-                className="text-center mt-12"
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.15, duration: 0.6 }}
+                whileHover={{ scale: 1.03 }}
+                className="h-full"
               >
-                <Link
-                  className="effect-btn-outline px-8 py-4 rounded-full font-inter font-medium"
-                  href="/services"
-                >
-                  View All Services
-                </Link>
+                <Card className="relative border-none overflow-hidden rounded-2xl shadow-none hover:shadow-xl transition-all duration-300 h-56 group">
+                  {/* Background Image */}
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover"
+                  />
+
+                  {/* Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent" />
+
+                  {/* Category Name */}
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                    <span className="text-background text-xl font-semibold z-10">
+                      {category.name}
+                    </span>
+
+                    {/* Arrow Icon (hidden until hover) */}
+                    <span className="text-background transform transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 z-10">
+                      <ArrowRight />
+                    </span>
+                  </div>
+                </Card>
               </motion.div>
-            </AnimatedSection>
+            </Link>
+          ))}
+        </div>
+        {!isPage && (
+          <div className="text-center mt-12">
+            <Link href="/services">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-3 bg-accent text-background rounded-full font-medium hover:bg-accent/90 transition"
+              >
+                View All Services
+              </motion.button>
+            </Link>
           </div>
         )}
       </div>

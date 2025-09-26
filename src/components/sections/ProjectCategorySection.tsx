@@ -13,7 +13,7 @@ const ProjectCategorySection = () => {
     <section className="py-16 bg-background w-full">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <Heading>Project Categories</Heading>
+          <Heading>Our Services</Heading>
         </div>
 
         {/* Grid */}

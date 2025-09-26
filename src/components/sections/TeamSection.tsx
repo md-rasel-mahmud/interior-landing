@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import { Instagram, Linkedin, Twitter } from "lucide-react";
 import Heading from "@/components/common/Heading";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const TeamSection = ({ isPage }: { isPage?: boolean }) => {
   const teamMembers = [
@@ -15,11 +15,6 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       bio: "15+ years crafting luxury residential spaces with an eye for timeless elegance.",
       image:
         "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&crop=face",
-      socialLinks: [
-        { platform: "linkedin", url: "https://linkedin.com/in/sarahchen" },
-        { platform: "instagram", url: "https://instagram.com/sarahchen" },
-        { platform: "twitter", url: "https://twitter.com/sarahchen" },
-      ],
     },
     {
       name: "Marcus Rodriguez",
@@ -27,14 +22,6 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       bio: "Specializes in sustainable architecture and innovative space planning solutions.",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face",
-      socialLinks: [
-        {
-          platform: "linkedin",
-          url: "https://linkedin.com/in/marcusrodriguez",
-        },
-        { platform: "instagram", url: "https://instagram.com/marcusrodriguez" },
-        { platform: "twitter", url: "https://twitter.com/marcusrodriguez" },
-      ],
     },
     {
       name: "Elena Volkov",
@@ -42,11 +29,13 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       bio: "Ensures seamless project execution from concept to completion with precision.",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face",
-      socialLinks: [
-        { platform: "linkedin", url: "https://linkedin.com/in/elenavolkov" },
-        { platform: "instagram", url: "https://instagram.com/elenavolkov" },
-        { platform: "twitter", url: "https://twitter.com/elenavolkov" },
-      ],
+    },
+    {
+      name: "Sarah Chen",
+      role: "Lead Interior Designer",
+      bio: "15+ years crafting luxury residential spaces with an eye for timeless elegance.",
+      image:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&crop=face",
     },
   ];
 
@@ -54,18 +43,18 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     <section
       id="team"
       className={cn(
-        "min-h-screen py-20 w-screen",
-        isPage ? "bg-background" : "bg-secondary"
+        "min-h-screen flex flex-col gap-7 justify-center w-screen",
+        isPage ? "bg-background" : "bg-foreground"
       )}
     >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
-          <div className="text-center mb-16">
-            <Heading>Our Team</Heading>
+          <div className="text-center">
+            <Heading isDarkText={isPage ? false : true}>Our Team</Heading>
           </div>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-4 gap-2">
           {teamMembers.map((member, index) => {
             return (
               <AnimatedSection
@@ -75,15 +64,13 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
               >
                 <motion.div
                   className={cn(
-                    "rounded-2xl p-8 text-center group hover:shadow-gold transition-all duration-500",
-                    isPage ? "bg-foreground" : "glass-effect-bg"
+                    "rounded-2xl p-2 text-center group hover:shadow-gold transition-all duration-500 overflow-hidden"
                   )}
-                  whileHover={{ y: -10, scale: 1.02 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <motion.div
-                    className="relative mx-auto mb-6 w-48 h-48 rounded-lg overflow-hidden shadow-soft"
-                    whileHover={{ scale: 1.1 }}
+                    className="relative mx-auto mb-6 w-full h-72 rounded-lg overflow-hidden shadow-soft"
+                    whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
                   >
                     <Image
@@ -97,7 +84,10 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                   </motion.div>
 
                   <motion.h3
-                    className="font-luxury text-2xl font-semibold text-accent mb-2"
+                    className={cn(
+                      "text-2xl font-semibold text-accent mb-2",
+                      isPage ? "text-foreground" : "text-background"
+                    )}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.4, duration: 0.6 }}
@@ -106,8 +96,23 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                     {member.name}
                   </motion.h3>
 
+                  {/* Decorative Element */}
+                  <motion.div
+                    className={cn(
+                      "w-12 h-px mx-auto my-2 transition-opacity duration-300",
+                      isPage ? "bg-foreground/30" : "bg-background/30"
+                    )}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
+                    viewport={{ once: true }}
+                  />
+
                   <motion.p
-                    className="font-inter text-lg text-background/70 mb-4"
+                    className={cn(
+                      "font-inter text-sm mb-4",
+                      isPage ? "text-foreground/50" : "text-background/50"
+                    )}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.6 }}
@@ -115,50 +120,23 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                   >
                     {member.role}
                   </motion.p>
-
-                  {member.socialLinks && (
-                    <motion.div
-                      className="flex justify-center space-x-4 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.7, duration: 0.6 }}
-                      viewport={{ once: true }}
-                    >
-                      {member.socialLinks.map((link) => (
-                        <a
-                          key={link.platform}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary bg-secondary p-2 rounded-full hover:bg-background transition-colors duration-300"
-                        >
-                          {link.platform === "linkedin" ? (
-                            <Linkedin size={20} />
-                          ) : link.platform === "instagram" ? (
-                            <Instagram size={20} />
-                          ) : link.platform === "twitter" ? (
-                            <Twitter size={20} />
-                          ) : null}
-                          <span className="sr-only">{link.platform}</span>
-                        </a>
-                      ))}
-                    </motion.div>
-                  )}
-
-                  {/* Decorative Element */}
-                  <motion.div
-                    className="w-12 h-px bg-gradient-to-l from-primary to-background mx-auto mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    transition={{ delay: 0.8, duration: 0.6 }}
-                    viewport={{ once: true }}
-                  />
                 </motion.div>
               </AnimatedSection>
             );
           })}
         </div>
       </div>
+
+      {!isPage && (
+        <div className="text-center">
+          <Link
+            href="/team"
+            className="px-6 py-3 bg-accent text-background rounded-full font-medium hover:bg-accent/90 transition"
+          >
+            Meet the Team
+          </Link>
+        </div>
+      )}
     </section>
   );
 };

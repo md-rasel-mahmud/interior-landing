@@ -1,10 +1,13 @@
-import ContactSection from "@/components/sections/ContactSection";
+import ContactFormSection from "@/components/sections/ContactFormSection";
+import GetInTouch from "@/components/sections/GetInTouch";
+
 import React from "react";
 
 const ContactPage = () => {
   return (
     <div>
-      <ContactSection isPage />
+      <GetInTouch isPage />
+      <ContactFormSection />
     </div>
   );
 };

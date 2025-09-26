@@ -1,9 +1,8 @@
 import LeftRightScroll from "@/components/common/LeftRightScroll";
 import AboutSection from "@/components/sections/AboutSection";
-import ContactSection from "@/components/sections/ContactSection";
+import GetInTouch from "@/components/sections/GetInTouch";
 import HeroSection from "@/components/sections/HeroSection";
 import ProcessSection from "@/components/sections/ProcessSection";
-import ProjectCategorySection from "@/components/sections/ProjectCategorySection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import TaglineSection from "@/components/sections/TaglineSection";
 import TeamSection from "@/components/sections/TeamSection";
@@ -11,25 +10,22 @@ import TeamSection from "@/components/sections/TeamSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <LeftRightScroll>
-        <HeroSection />
+      <LeftRightScroll direction="left">
         <TaglineSection />
+        <HeroSection />
       </LeftRightScroll>
 
-      <LeftRightScroll direction="left">
+      <LeftRightScroll>
         <TeamSection />
         <AboutSection />
       </LeftRightScroll>
 
-      <LeftRightScroll>
-        <ServicesSection />
+      <LeftRightScroll direction="left">
         <ProcessSection />
+        <ServicesSection />
       </LeftRightScroll>
 
-      <LeftRightScroll direction="left">
-        <ContactSection />
-        <ProjectCategorySection />
-      </LeftRightScroll>
+      <GetInTouch />
     </div>
   );
 }

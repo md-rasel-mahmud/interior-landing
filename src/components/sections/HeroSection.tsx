@@ -19,7 +19,8 @@ const HeroSection = () => {
           animate={{ scale: 1 }}
           transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-primary-foreground/80"></div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-black/50"></div>
       </div>
 
       {/* Content */}

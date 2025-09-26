@@ -9,7 +9,7 @@ const TaglineSection = () => {
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <motion.h1
-            className="font-poppins font-bold text-6xl md:text-8xl text-secondary mb-8"
+            className="font-poppins font-bold text-6xl md:text-8xl text-primary mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -28,10 +28,10 @@ const TaglineSection = () => {
             transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true }}
           >
-            <p className="font-luxury text-xl md:text-2xl text-foreground italic">
+            <p className="font-luxury text-xl md:text-2xl text-primary italic">
               &quot;We shape our buildings [so they] shape us.&quot;
             </p>
-            <p className="font-inter text-lg text-foreground/60 mt-4">
+            <p className="font-inter text-lg text-primary/60 mt-4">
               — Winston Churchill
             </p>
           </motion.div>
