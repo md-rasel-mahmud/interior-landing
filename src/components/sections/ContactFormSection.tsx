@@ -18,44 +18,30 @@ const ContactFormSection = () => {
 
   // Form field configurations
   const formFields = [
-    // {
-    //   type: "text",
-    //   name: "firstName",
-    //   label: "First Name",
-    //   placeholder: "Your first name",
-    //   grid: "md:col-span-1",
-    //   delay: 0.2,
-    // },
-    // {
-    //   type: "text",
-    //   name: "lastName",
-    //   label: "Last Name",
-    //   placeholder: "Your last name",
-    //   grid: "md:col-span-1",
-    //   delay: 0.3,
-    // },
-    // {
-    //   type: "email",
-    //   name: "email",
-    //   label: "Email",
-    //   placeholder: "your.email@example.com",
-    //   grid: "md:col-span-2",
-    //   delay: 0.4,
-    // },
-    // {
-    //   type: "select",
-    //   name: "projectType",
-    //   label: "Project Type",
-    //   placeholder: "Select a project type",
-    //   options: [
-    //     "Residential Design",
-    //     "Commercial Space",
-    //     "Full Renovation",
-    //     "Consultation",
-    //   ],
-    //   grid: "md:col-span-2",
-    //   delay: 0.5,
-    // },
+    {
+      type: "text",
+      name: "name",
+      label: "Name",
+      placeholder: "Your name",
+      grid: "md:col-span-1",
+      delay: 0.2,
+    },
+    {
+      type: "text",
+      name: "phone",
+      label: "Phone Number",
+      placeholder: "(123) 456-7890",
+      grid: "md:col-span-1",
+      delay: 0.3,
+    },
+    {
+      type: "email",
+      name: "email",
+      label: "Email",
+      placeholder: "your.email@example.com",
+      grid: "md:col-span-2",
+      delay: 0.4,
+    },
     {
       type: "textarea",
       name: "message",

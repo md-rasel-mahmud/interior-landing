@@ -75,7 +75,7 @@ const Footer = () => {
           </motion.div>
 
           {/* Social Links */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 * 5, duration: 0.6 }}
@@ -98,7 +98,7 @@ const Footer = () => {
                 </motion.a>
               ))}
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
 
         {/* Divider */}

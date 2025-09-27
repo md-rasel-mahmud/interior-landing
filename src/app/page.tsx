@@ -16,8 +16,8 @@ export default function Home() {
       </LeftRightScroll>
 
       <LeftRightScroll>
-        <TeamSection />
         <AboutSection />
+        <TeamSection />
       </LeftRightScroll>
 
       <LeftRightScroll direction="left">
