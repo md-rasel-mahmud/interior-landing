@@ -53,10 +53,11 @@ module.exports = {
         },
       },
       fontFamily: {
-        luxury: ["Lora", "serif"],
         inter: ["Inter", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        helvetica: ["var(--font-helveticaNeue)", "sans-serif"],
       },
+
       backgroundImage: {
         "gradient-luxury": "var(--gradient-luxury)",
         "gradient-gold": "var(--gradient-gold)",

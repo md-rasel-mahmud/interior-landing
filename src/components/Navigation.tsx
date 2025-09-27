@@ -29,12 +29,12 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  // const scrollToSection = (href: string) => {
+  //   const element = document.querySelector(href);
+  //   if (element) {
+  //     element.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
 
   const handleGoToHome = () => {
     if (pathname !== "/") {
@@ -77,7 +77,7 @@ const Navigation = () => {
               item.submenu ? (
                 <DropdownMenu key={item.name}>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-1 focus:outline-none focus:border-none font-medium text-foreground hover:text-primary transition-colors duration-300">
+                    <button className="flex items-center gap-1 focus:outline-none focus:border-none font-helvetica text-foreground hover:text-primary transition-colors duration-300">
                       {item.name}
                       <ChevronDown className="w-4 h-4" />
                     </button>

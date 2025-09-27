@@ -122,15 +122,18 @@
 @layer utilities {
   /* Typography Classes */
   .font-luxury {
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
+    font-family: var(--font-helveticaNeue), sans-serif;
   }
 
   .font-inter {
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
+    font-family: var(--font-helveticaNeue), sans-serif;
   }
 
   .font-poppins {
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
+    font-family: var(--font-helveticaNeue), sans-serif;
   }
 
   /* Animation Classes */
