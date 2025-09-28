@@ -85,8 +85,8 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
 
                   <motion.h3
                     className={cn(
-                      "text-2xl font-semibold text-accent mb-2",
-                      isPage ? "text-foreground" : "text-background"
+                      "text-2xl font-semibold text-accent mb-2"
+                      // isPage ? "text-foreground" : "text-background"
                     )}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -99,8 +99,8 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                   {/* Decorative Element */}
                   <motion.div
                     className={cn(
-                      "w-12 h-px mx-auto my-2 transition-opacity duration-300",
-                      isPage ? "bg-foreground/30" : "bg-background/30"
+                      "w-12 h-px mx-auto my-2 transition-opacity duration-300"
+                      // isPage ? "bg-foreground/30" : "bg-background/30"
                     )}
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
@@ -110,8 +110,8 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
 
                   <motion.p
                     className={cn(
-                      "font-inter text-sm mb-4",
-                      isPage ? "text-foreground/50" : "text-background/50"
+                      "font-inter text-sm mb-4"
+                      // isPage ? "text-foreground/50" : "text-background/50"
                     )}
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
