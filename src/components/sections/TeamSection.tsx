@@ -43,14 +43,14 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     <section
       id="team"
       className={cn(
-        "min-h-screen flex flex-col gap-7 justify-center w-screen",
-        isPage ? "bg-background" : "bg-foreground"
+        "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background"
+        // isPage ? "bg-background" : "bg-foreground"
       )}
     >
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center">
-            <Heading isDarkText={isPage ? false : true}>Our Team</Heading>
+            <Heading>Our Team</Heading>
           </div>
         </AnimatedSection>
 

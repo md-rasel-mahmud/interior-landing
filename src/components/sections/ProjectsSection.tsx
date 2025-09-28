@@ -6,6 +6,7 @@ import Heading from "@/components/common/Heading";
 import { projects } from "@/constrain/project-list";
 import Link from "next/link";
 import { categories } from "@/constrain/category-list";
+import Image from "next/image";
 
 const ProjectsSection = ({
   isPage,
@@ -30,11 +31,11 @@ const ProjectsSection = ({
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <div className="text-center mb-16">
-            <Heading>Projects {category && `of ${category?.name}`}</Heading>
+            <Heading>{category ? `${category?.name}` : "All Projects"}</Heading>
           </div>
         </AnimatedSection>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-1">
           {projectList
             .slice(0, isPage ? projects.length : 3)
             .map((project, index) => (
@@ -46,78 +47,31 @@ const ProjectsSection = ({
                 <Link
                   href={`/projects/${project.categorySlug}/${project.slug}`}
                 >
-                  {" "}
                   <motion.div
-                    className="bg-foreground/5  min-h-[14rem] rounded-2xl overflow-hidden group hover:shadow-gold transition-all duration-500 cursor-pointer"
-                    whileHover={{ y: -10, scale: 1.02 }}
-                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.15, duration: 0.6 }}
+                    className="h-full"
                   >
-                    {/* Image */}
-                    <div className="relative overflow-hidden">
-                      <motion.img
+                    <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
+                      {/* Background Image */}
+                      <Image
                         src={project.images[0]}
                         alt={project.title}
-                        className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.7 }}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                      {/* Overlay Icon */}
-                      <p>
-                        <motion.div
-                          className="absolute top-4 right-4 w-10 h-10 bg-accent rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                          whileHover={{ scale: 1.1, rotate: 15 }}
-                        >
-                          <ExternalLink className="w-5 h-5 text-luxury-navy" />
-                        </motion.div>
-                      </p>
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 group-hover:opacity-0 transition-all bg-black/50" />
 
-                      {/* Type Badge */}
-                      <div className="absolute top-4 left-4 px-3 py-1 bg-background/90 rounded-full">
-                        <span className="font-inter text-xs font-medium text-primary">
-                          {project.type}
-                        </span>
+                      <div className="absolute inset-0 flex items-center justify-center gap-2">
+                        <div className="relative">
+                          <span className="text-background text-xl font-semibold z-10">
+                            {project.title}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <motion.h3
-                        className="font-luxury text-xl font-semibold text-accent mb-2 group-hover:text-gradient-gold transition-colors duration-300"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.6 }}
-                        viewport={{ once: true }}
-                      >
-                        {project.title}
-                      </motion.h3>
-
-                      {/* <motion.div
-                      className="flex items-center text-foreground/70 mb-3"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.4, duration: 0.6 }}
-                      viewport={{ once: true }}
-                    >
-                      <MapPin className="w-4 h-4 mr-2" />
-                      <span className="font-inter text-sm">
-                        {project.location}
-                      </span>
-                    </motion.div>
-
-                    <motion.p
-                      className="font-inter text-foreground/80 text-sm leading-relaxed"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.5, duration: 0.6 }}
-                      viewport={{ once: true }}
-                    >
-                      {project.description}
-                    </motion.p> */}
-
-                      {/* Hover Line */}
-                      <motion.div className="w-0 h-px bg-gradient-gold mt-4 group-hover:w-full transition-all duration-500" />
                     </div>
                   </motion.div>
                 </Link>

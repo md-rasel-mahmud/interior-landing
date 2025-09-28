@@ -17,23 +17,22 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
         isPage ? "bg-background" : "bg-foreground"
       )}
     >
-      <div className="container mx-auto px-4">
+      <div className="">
         <div className="text-center">
           <Heading isDarkText={isPage ? false : true}>Our Services</Heading>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 pt-5">
           {categories.map((category, index) => (
             <Link key={category.slug} href={`/projects/${category.slug}`}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.15, duration: 0.6 }}
-                whileHover={{ scale: 1.03 }}
                 className="h-full"
               >
-                <Card className="relative border-none overflow-hidden rounded-2xl shadow-none hover:shadow-xl transition-all duration-300 h-56 group">
+                <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
                   {/* Background Image */}
                   <Image
                     src={category.image}
@@ -43,20 +42,19 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
                   />
 
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent" />
+                  <div className="absolute inset-0 bg-black/50" />
 
-                  {/* Category Name */}
-                  <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                    <span className="text-background text-xl font-semibold z-10">
-                      {category.name}
-                    </span>
+                  <div className="absolute inset-0 flex items-center justify-center gap-2">
+                    <div className="relative">
+                      <span className="text-background text-xl font-semibold z-10">
+                        {category.name}
+                      </span>
 
-                    {/* Arrow Icon (hidden until hover) */}
-                    <span className="text-background transform transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 z-10">
-                      <ArrowRight />
-                    </span>
+                      {/* Underline Animation */}
+                      <span className="absolute bottom-1 left-0 w-full h-0.5 bg-background transition-all duration-300 group-hover:w-0"></span>
+                    </div>
                   </div>
-                </Card>
+                </div>
               </motion.div>
             </Link>
           ))}
