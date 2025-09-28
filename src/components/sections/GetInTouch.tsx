@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import { Mail, Send, Smartphone } from "lucide-react";
+import { Mail, Send, Smartphone, Instagram } from "lucide-react";
 
 import Heading from "@/components/common/Heading";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,11 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
       icon: Smartphone,
       title: "+1 (555) 123-4567",
       href: "tel:+15551234567",
+    },
+    {
+      icon: Instagram,
+      title: "@platonicdesign",
+      href: "https://www.instagram.com/platonicdesign",
     },
   ];
 
@@ -41,7 +46,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
         <div
           className={cn(
             "grid grid-cols-1 rounded-lg overflow-hidden",
-            isPage ? "lg:grid-cols-2" : "lg:grid-cols-3"
+            isPage ? "lg:grid-cols-3" : "lg:grid-cols-4"
           )}
         >
           {/* Contact Information */}
@@ -51,7 +56,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
               <AnimatedSection animation="slideRight" delay={0.2 * (index + 1)}>
                 <motion.div
                   className={cn(
-                    "h-80 w-full flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow duration-300 group",
+                    "h-[26rem] w-full flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow duration-300 group",
                     index % 2 === 0
                       ? "bg-foreground text-background/70"
                       : "bg-primary/10 text-primary"
