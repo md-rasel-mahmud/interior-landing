@@ -23,7 +23,7 @@ const AchievementsSection = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-foreground">
+    <section className="py-16 px-4 bg-background">
       <div className="max-w-6xl mx-auto text-center py-6">
         <Heading>Achievements</Heading>
 
@@ -36,19 +36,19 @@ const AchievementsSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <Card className="hover:shadow-xl transition-shadow duration-300 rounded-2xl bg-background/10 border-background/20 backdrop-blur-lg">
+              <Card className="hover:shadow-xl shadow-none transition-shadow duration-300 rounded-2xl bg-white border-none backdrop-blur-lg">
                 <CardHeader>
                   <div className="flex justify-center ">
                     <span className="bg-background/80 p-5 rounded-full">
                       {item.icon}
                     </span>
                   </div>
-                  <CardTitle className="text-xl mt-4 text-center text-background">
+                  <CardTitle className="text-xl mt-4 text-center text-foreground">
                     {item.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted/50 text-center px-5">
+                  <p className="text-foreground/50 text-center px-5">
                     {item.description}
                   </p>
                 </CardContent>
