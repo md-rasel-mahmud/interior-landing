@@ -13,13 +13,13 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
   return (
     <section
       className={cn(
-        "py-16 min-h-screen flex flex-col justify-center w-full",
-        isPage ? "bg-background" : "bg-foreground"
+        "py-16 min-h-screen flex flex-col justify-center w-full bg-background"
+        // isPage ? "bg-background" : "bg-foreground"
       )}
     >
       <div className="">
         <div className="text-center">
-          <Heading isDarkText={isPage ? false : true}>Our Services</Heading>
+          <Heading isDarkText={false}>Our Services</Heading>
         </div>
 
         {/* Grid */}

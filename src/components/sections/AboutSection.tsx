@@ -9,7 +9,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center py-20 bg-foreground w-full md:w-screen"
+      className="min-h-screen flex items-center py-20 bg-background w-full md:w-screen"
     >
       <div className="container mx-auto px-4 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -48,7 +48,7 @@ const AboutSection = () => {
           <div className="space-y-8">
             <AnimatedSection animation="slideLeft" delay={0.4}>
               <motion.h2
-                className=" text-5xl md:text-6xl font-bold text-background/60 leading-tight "
+                className=" text-5xl md:text-6xl font-bold text-primary leading-tight "
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -60,7 +60,7 @@ const AboutSection = () => {
 
             <AnimatedSection animation="slideLeft" delay={0.6}>
               <motion.div
-                className="space-y-6"
+                className="space-y-6 text-foreground/90"
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{
@@ -70,14 +70,14 @@ const AboutSection = () => {
                 }}
                 viewport={{ once: true }}
               >
-                <p className="font-inter text-lg text-background/50">
+                <p className="font-inter text-lg text-secondary/70">
                   As the founder of Platonic, my vision has always been simple:
                   to design and build spaces that inspire. I believe every home
                   tells a story, and our role is to bring that story to life
                   with craftsmanship, creativity, and care.
                 </p>
 
-                <p className="font-inter text-lg text-background/50">
+                <p className="font-inter text-lg text-secondary/70">
                   What began as a passion for architecture and design has grown
                   into a full-service firm serving individuals, corporates, and
                   developers. Our philosophy is simple: to blend creativity with
@@ -91,9 +91,9 @@ const AboutSection = () => {
                   transition={{ duration: 0.3 }}
                 >
                   <div className="flex items-center space-x-4 text-accent">
-                    <div className="w-12 h-px bg-gradient-to-l from-background"></div>
+                    <div className="w-12 h-px bg-gradient-to-l from-primary"></div>
 
-                    <span className="text-background/40 text-xl italic">
+                    <span className="text-primary text-xl italic">
                       Creating timeless spaces
                     </span>
                   </div>
