@@ -5,6 +5,7 @@ import { Lightbulb, Layout, Palette, CheckCircle } from "lucide-react";
 import Heading from "@/components/common/Heading";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import NavigateButton from "@/components/common/NavigateButton";
 
 const ProcessSection = ({ isPage }: { isPage?: boolean }) => {
   const processSteps = [
@@ -110,12 +111,7 @@ const ProcessSection = ({ isPage }: { isPage?: boolean }) => {
 
         {!isPage && processSteps.length > 2 && (
           <div className="text-center mu-3">
-            <Link
-              href="/process"
-              className="inline-block px-6 py-3 bg-accent text-background font-semibold rounded-full shadow-md hover:shadow-lg transition-shadow duration-300"
-            >
-              View Full Process
-            </Link>
+            <NavigateButton href="/process">View Full Process</NavigateButton>
           </div>
         )}
       </div>

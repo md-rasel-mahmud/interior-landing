@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { navItems } from "@/constrain/nav-menu";
 import Image from "next/image";
 import logo from "@/assets/logo.svg";
@@ -15,26 +15,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 
+// ================== MAIN NAVIGATION ==================
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // const scrollToSection = (href: string) => {
-  //   const element = document.querySelector(href);
-  //   if (element) {
-  //     element.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
 
   const handleGoToHome = () => {
     if (pathname !== "/") {
@@ -71,13 +65,20 @@ const Navigation = () => {
             />
           </motion.button>
 
-          {/* Navigation Menu */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) =>
               item.submenu ? (
                 <DropdownMenu key={item.name}>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-1 focus:outline-none focus:border-none font-helvetica text-foreground hover:text-primary transition-colors duration-300">
+                    <button
+                      className={cn(
+                        "flex items-center gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
+                        isScrolled || pathname !== "/"
+                          ? "text-primary"
+                          : "text-background"
+                      )}
+                    >
                       {item.name}
                       <ChevronDown className="w-4 h-4" />
                     </button>
@@ -96,37 +97,129 @@ const Navigation = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative group font-helvetica text-sm font-medium drop-shadow-md text-gradient-gold hover:text-accent transition-colors duration-300"
+                  className={cn(
+                    "relative font-helvetica font-medium group hover:opacity-80 transition-opacity duration-300",
+                    isScrolled || pathname !== "/"
+                      ? "text-primary"
+                      : "text-background"
+                  )}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 w-0 h-0.5 bg-background transition-all duration-300 group-hover:w-full",
+                      isScrolled || pathname !== "/"
+                        ? "bg-primary"
+                        : "bg-background"
+                    )}
+                  ></span>
                 </Link>
               )
             )}
           </div>
 
           {/* Mobile Menu Button */}
-          <motion.button
-            className="md:hidden text-foreground"
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div className="md:hidden">
+            <motion.button
+              className={cn(
+                isScrolled || pathname !== "/"
+                  ? "text-primary"
+                  : "text-background",
+                "p-2 rounded-md hover:opacity-80 transition-all duration-300"
+              )}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </motion.button>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </motion.button>
+          </div>
         </div>
+
+        {/* Mobile Accordion Menu */}
+        {mobileMenuOpen && <MobileMenu />}
       </div>
     </motion.nav>
+  );
+};
+
+// ================== MOBILE MENU ==================
+
+const MobileMenu = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleSubmenu = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  return (
+    <motion.div
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      className="md:hidden mt-4 flex flex-col space-y-2 z-[999] p-5 bg-background rounded-lg"
+    >
+      {navItems.map((item, index) =>
+        item.submenu ? (
+          <div key={item.name} className="w-full">
+            <button
+              onClick={() => toggleSubmenu(index)}
+              className="flex items-center justify-between w-full font-helvetica font-medium py-2"
+            >
+              {item.name}
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform duration-300",
+                  openIndex === index && "rotate-180"
+                )}
+              />
+            </button>
+
+            {/* Submenu with animation */}
+            <AnimatePresence initial={false}>
+              {openIndex === index && (
+                <motion.div
+                  key="content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="overflow-hidden pl-4 flex flex-col"
+                >
+                  {item.submenu.map((subItem) => (
+                    <Link
+                      key={subItem.name}
+                      href={subItem.href}
+                      className="py-1 text-sm hover:underline"
+                    >
+                      {subItem.name}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ) : (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="font-helvetica font-medium py-2"
+          >
+            {item.name}
+          </Link>
+        )
+      )}
+    </motion.div>
   );
 };
 

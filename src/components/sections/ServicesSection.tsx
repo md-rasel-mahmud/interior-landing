@@ -1,11 +1,10 @@
 "use client";
 
 import Heading from "@/components/common/Heading";
-import { Card } from "@/components/ui/card";
+import NavigateButton from "@/components/common/NavigateButton";
 import { categories } from "@/constrain/category-list";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -32,7 +31,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
                 transition={{ delay: index * 0.15, duration: 0.6 }}
                 className="h-full"
               >
-                <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
+                <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[25rem] group">
                   {/* Background Image */}
                   <Image
                     src={category.image}
@@ -61,15 +60,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
         </div>
         {!isPage && (
           <div className="text-center mt-12">
-            <Link href="/services">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-accent text-background rounded-full font-medium hover:bg-accent/90 transition"
-              >
-                View All Services
-              </motion.button>
-            </Link>
+            <NavigateButton href="/services">View All Services</NavigateButton>
           </div>
         )}
       </div>

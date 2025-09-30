@@ -15,71 +15,60 @@ export default function LeftRightScroll({
   children,
   direction = "right",
 }: Props) {
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const wrapper = wrapperRef.current;
+    const container = containerRef.current;
     const inner = innerRef.current;
-    if (!wrapper || !inner) return;
+    if (!container || !inner) return;
 
-    // setup panels
-    const panels = Array.from(inner.querySelectorAll<HTMLElement>(".lr-panel"));
-    const panelCount = panels.length;
+    const panels = gsap.utils.toArray<HTMLElement>(".lr-panel");
+    if (panels.length <= 1) return;
 
-    if (panelCount <= 1) return;
+    const getDistance = () => inner.scrollWidth - window.innerWidth;
 
-    // calculate distance to scroll
-    const calcDistance = () => inner.scrollWidth - window.innerWidth;
-
-    // set initial position
-    const onRefreshInit = () => {
-      gsap.set(inner, { x: direction === "left" ? -calcDistance() : 0 });
+    // Set initial position depending on direction
+    const setInitial = () => {
+      const distance = getDistance();
+      gsap.set(inner, { x: direction === "left" ? -distance : 0 });
     };
+    setInitial();
 
-    // initial position
-    onRefreshInit();
-
-    // create animation
     const anim = gsap.to(inner, {
-      x: () => (direction === "left" ? 0 : -calcDistance()),
+      x: () => {
+        const distance = getDistance();
+        return direction === "left" ? 0 : -distance;
+      },
       ease: "none",
       scrollTrigger: {
-        trigger: wrapper,
+        trigger: container,
         start: "top top",
-        // important fix: add window.innerHeight to prevent gap
-        end: () => `+=${calcDistance() + window.innerHeight}`,
+        end: () => `+=${getDistance()}`,
         pin: true,
-        scrub: 0.3,
-        snap: panelCount > 1 ? 1 / (panelCount - 1) : 0,
+        scrub: 0.5,
+        snap: 1 / (panels.length - 1),
+        anticipatePin: 1,
         invalidateOnRefresh: true,
       },
     });
 
-    // handle refresh
-    ScrollTrigger.addEventListener("refreshInit", onRefreshInit);
+    ScrollTrigger.addEventListener("refreshInit", setInitial);
     ScrollTrigger.refresh();
 
-    // cleanup on unmount
     return () => {
       anim.kill();
-      ScrollTrigger.removeEventListener("refreshInit", onRefreshInit);
-      const st = anim.scrollTrigger as ScrollTrigger | undefined;
-      if (st) st.kill();
+      ScrollTrigger.removeEventListener("refreshInit", setInitial);
+      anim.scrollTrigger?.kill();
     };
   }, [direction, children]);
 
-  // calculate inner width based on number of children
-  const childCount = React.Children.count(children) || 0;
+  const childCount = React.Children.count(children);
   const innerWidth = `${Math.max(childCount, 1) * 100}vw`;
 
   return (
-    <div style={{ width: "100%", overflow: "hidden" }}>
-      <div
-        ref={wrapperRef}
-        style={{ width: "100%", position: "relative" }}
-        className="relative"
-      >
+    <section className="relative w-full">
+      <div ref={containerRef} className="overflow-hidden relative">
         <div
           ref={innerRef}
           className="lr-inner flex"
@@ -99,6 +88,6 @@ export default function LeftRightScroll({
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

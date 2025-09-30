@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import heroImage from "@/assets/hero-interior.jpg";
+import heroImage from "@/assets/hero-interior.png";
 
 const HeroSection = () => {
   return (
@@ -15,12 +15,12 @@ const HeroSection = () => {
           src={heroImage.src}
           alt="Platonic Design Hero"
           className="w-full h-full object-cover"
-          initial={{ scale: 1.05 }} // slightly smaller scale to prevent overflow
+          initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-black/60"></div>
       </div>
 
       {/* Content */}

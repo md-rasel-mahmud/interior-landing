@@ -57,7 +57,13 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <ul className="flex justify-center flex-wrap gap-3">
-              {navItems.map((link, linkIndex) => (
+              {[
+                ...navItems,
+                {
+                  name: "Career",
+                  href: "/career",
+                },
+              ].map((link, linkIndex) => (
                 <motion.li key={link.href}>
                   <Link
                     href={link.href}
@@ -66,7 +72,7 @@ const Footer = () => {
                     {link.name}
                     <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full"></span>
                   </Link>{" "}
-                  {linkIndex < navItems.length - 1 && (
+                  {linkIndex < navItems.length && (
                     <span className="mx-2 text-foreground/50">|</span>
                   )}
                 </motion.li>

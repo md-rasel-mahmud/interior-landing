@@ -9,7 +9,7 @@ const TaglineSection = () => {
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
           <motion.h1
-            className="font-bold text-6xl md:text-8xl text-primary mb-8"
+            className="font-bold text-6xl md:text-7xl text-primary mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
