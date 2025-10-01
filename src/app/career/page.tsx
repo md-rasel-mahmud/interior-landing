@@ -22,9 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SendHorizonal } from "lucide-react";
 
-const inputClass =
-  "w-full px-4 py-3 border rounded-sm focus:outline-primary focus:border-transparent transition-all duration-300 bg-primary/10 border-primary/20 text-secondary/90";
-
 const fields = [
   {
     name: "fullName",
@@ -121,6 +118,12 @@ type FormData = {
 export default function CareerPage() {
   const [loading, setLoading] = useState(false);
 
+  const inputClass = cn(
+    "w-full bg-transparent border-0 border-b border-primary/30 rounded-none px-0 py-2",
+    "focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 focus:border-b-2 focus:border-primary",
+    "transition-all duration-300 text-secondary/90 placeholder:text-secondary/50"
+  );
+
   // Form Validation Schema
   const validationSchema = z.object({
     fullName: z.string().min(2, "Full Name must be at least 2 characters"),
@@ -174,134 +177,136 @@ export default function CareerPage() {
   };
 
   return (
-    <section className="min-h-screen flex flex-col justify-end w-full">
-      <div className="text-center pb-8 pt-20">
-        <Heading>Join Our Team</Heading>
-      </div>
+    <section className="pt-20">
+      <div className="min-h-screen flex flex-col justify-end w-full">
+        <div className="text-center pb-8 pt-20">
+          <Heading>Join Our Team</Heading>
+        </div>
 
-      {/* Contact Form */}
-      <div className="container mx-auto px-2">
-        <AnimatedSection animation="slideLeft" delay={0.4}>
-          <motion.div
-            className={cn(
-              "glass-effect border rounded-2xl p-8 bg-background/5 border-background/20"
-            )}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-          >
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        {/* Contact Form */}
+        <div className="container mx-auto px-2">
+          <AnimatedSection animation="slideLeft" delay={0.4}>
+            <motion.div
+              className={cn(
+                "glass-effect border rounded-2xl p-8 bg-background/5 border-background/20"
+              )}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true }}
             >
-              {fields.map((field) => (
-                <div key={field.name} className={cn(field.className)}>
-                  {field.type !== "checkbox" && (
-                    <Label htmlFor={field.name}>{field.label}</Label>
-                  )}
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                {fields.map((field) => (
+                  <div key={field.name} className={cn(field.className)}>
+                    {field.type !== "checkbox" && (
+                      <Label htmlFor={field.name}>{field.label}</Label>
+                    )}
 
-                  {field.type === "textarea" ? (
-                    <>
-                      <Textarea
-                        id={field.name}
-                        className={inputClass}
-                        placeholder={field.placeholder}
-                        {...register(field.name as keyof FormData, {
-                          required: field.required,
-                        })}
-                      />
-
-                      {errors[field.name as keyof FormData] && (
-                        <p className="text-sm text-destructive mt-1">
-                          {
-                            errors[field.name as keyof FormData]
-                              ?.message as string
-                          }
-                        </p>
-                      )}
-                    </>
-                  ) : field.type === "select" ? (
-                    <>
-                      <Select
-                        onValueChange={(val) =>
-                          setValue(field.name as keyof FormData, val)
-                        }
-                      >
-                        <SelectTrigger className={inputClass}>
-                          <SelectValue placeholder={field.placeholder} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {field.options?.map((option) => (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      {errors[field.name as keyof FormData] && (
-                        <p className="text-sm text-destructive mt-1">
-                          {
-                            errors[field.name as keyof FormData]
-                              ?.message as string
-                          }
-                        </p>
-                      )}
-                    </>
-                  ) : field.type === "checkbox" ? (
-                    <>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
+                    {field.type === "textarea" ? (
+                      <>
+                        <Textarea
                           id={field.name}
-                          className="rounded"
+                          className={inputClass}
+                          placeholder={field.placeholder}
                           {...register(field.name as keyof FormData, {
                             required: field.required,
                           })}
                         />
-                        <Label htmlFor={field.name}>{field.label}</Label>
-                      </div>
-                      {errors[field.name as keyof FormData] && (
-                        <p className="text-sm text-destructive mt-1">
-                          {
-                            errors[field.name as keyof FormData]
-                              ?.message as string
-                          }
-                        </p>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <Input
-                        id={field.name}
-                        type={field.type}
-                        accept={field.accept}
-                        className={inputClass}
-                        placeholder={field.placeholder}
-                        {...register(field.name as keyof FormData, {
-                          required: field.required,
-                        })}
-                      />
-                      {errors[field.name as keyof FormData] && (
-                        <p className="text-sm text-destructive mt-1">
-                          {
-                            errors[field.name as keyof FormData]
-                              ?.message as string
-                          }
-                        </p>
-                      )}
-                    </>
-                  )}
-                </div>
-              ))}
 
-              <Button type="submit" className="w-full md:col-span-2 ">
-                {loading ? "Sending..." : "Submit Application"}
-                {!loading && <SendHorizonal size={12} />}
-              </Button>
-            </form>
-          </motion.div>
-        </AnimatedSection>
+                        {errors[field.name as keyof FormData] && (
+                          <p className="text-sm text-destructive mt-1">
+                            {
+                              errors[field.name as keyof FormData]
+                                ?.message as string
+                            }
+                          </p>
+                        )}
+                      </>
+                    ) : field.type === "select" ? (
+                      <>
+                        <Select
+                          onValueChange={(val) =>
+                            setValue(field.name as keyof FormData, val)
+                          }
+                        >
+                          <SelectTrigger className={inputClass}>
+                            <SelectValue placeholder={field.placeholder} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {field.options?.map((option) => (
+                              <SelectItem key={option} value={option}>
+                                {option}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        {errors[field.name as keyof FormData] && (
+                          <p className="text-sm text-destructive mt-1">
+                            {
+                              errors[field.name as keyof FormData]
+                                ?.message as string
+                            }
+                          </p>
+                        )}
+                      </>
+                    ) : field.type === "checkbox" ? (
+                      <>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox
+                            id={field.name}
+                            className="rounded"
+                            {...register(field.name as keyof FormData, {
+                              required: field.required,
+                            })}
+                          />
+                          <Label htmlFor={field.name}>{field.label}</Label>
+                        </div>
+                        {errors[field.name as keyof FormData] && (
+                          <p className="text-sm text-destructive mt-1">
+                            {
+                              errors[field.name as keyof FormData]
+                                ?.message as string
+                            }
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <Input
+                          id={field.name}
+                          type={field.type}
+                          accept={field.accept}
+                          className={inputClass}
+                          placeholder={field.placeholder}
+                          {...register(field.name as keyof FormData, {
+                            required: field.required,
+                          })}
+                        />
+                        {errors[field.name as keyof FormData] && (
+                          <p className="text-sm text-destructive mt-1">
+                            {
+                              errors[field.name as keyof FormData]
+                                ?.message as string
+                            }
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
+
+                <Button type="submit" className="w-full md:col-span-2 ">
+                  {loading ? "Sending..." : "Submit Application"}
+                  {!loading && <SendHorizonal size={12} />}
+                </Button>
+              </form>
+            </motion.div>
+          </AnimatedSection>
+        </div>
       </div>
     </section>
   );

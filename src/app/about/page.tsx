@@ -5,7 +5,7 @@ import AchievementsSection from "@/components/sections/AchievementsSection";
 
 const AboutPage = () => {
   return (
-    <div>
+    <div className="pt-20">
       <AboutSection />
 
       <AchievementsSection />

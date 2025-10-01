@@ -2,7 +2,7 @@ import ServicesSection from "@/components/sections/ServicesSection";
 
 const ServicesPage = () => {
   return (
-    <div>
+    <div className="pt-20">
       <ServicesSection isPage />
     </div>
   );

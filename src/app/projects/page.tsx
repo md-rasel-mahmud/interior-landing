@@ -3,9 +3,9 @@ import React from "react";
 
 const ProjectsPage = async () => {
   return (
-    <>
+    <div className="pt-20">
       <ProjectsSection isPage />
-    </>
+    </div>
   );
 };
 

@@ -10,7 +10,7 @@ import TeamSection from "@/components/sections/TeamSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <LeftRightScroll direction="left">
+      {/* <LeftRightScroll direction="left">
         <TaglineSection />
         <HeroSection />
       </LeftRightScroll>
@@ -23,7 +23,16 @@ export default function Home() {
       <LeftRightScroll direction="left">
         <ProcessSection />
         <ServicesSection />
-      </LeftRightScroll>
+      </LeftRightScroll> */}
+
+      <HeroSection />
+      <TaglineSection />
+
+      <AboutSection />
+      <TeamSection />
+
+      <ProcessSection />
+      <ServicesSection />
 
       <GetInTouch />
     </div>

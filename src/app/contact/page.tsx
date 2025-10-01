@@ -5,7 +5,7 @@ import React from "react";
 
 const ContactPage = () => {
   return (
-    <div>
+    <div className="pt-20">
       <GetInTouch isPage />
       <ContactFormSection />
     </div>

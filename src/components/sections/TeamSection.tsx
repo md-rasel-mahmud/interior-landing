@@ -7,44 +7,57 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import NavigateButton from "@/components/common/NavigateButton";
 
-import tm_1 from "@/assets/team-members/tm-mohammad_al_samad.png";
-import tm_2 from "@/assets/team-members/tm-hassan_yaacoub.png";
-import tm_3 from "@/assets/team-members/tm-zainab_al-ali.png";
-import tm_4 from "@/assets/team-members/tm-gulzar_mazumder.png";
-import tm_5 from "@/assets/team-members/tm-sayed_mohamad_ali.png";
-import tm_6 from "@/assets/team-members/tm-kareem.png";
+// Team Members Images
+import tm_1 from "@/assets/team-members/tm-karam_awada.png";
+import tm_2 from "@/assets/team-members/tm-mohamad_achour.png";
+import tm_3 from "@/assets/team-members/tm-mohammad_al_samad.png";
+import tm_4 from "@/assets/team-members/tm-hassan_yaacoub.png";
+import tm_5 from "@/assets/team-members/tm-zainab_al-ali.png";
+import tm_6 from "@/assets/team-members/tm-gulzar_mazumder.png";
+import tm_7 from "@/assets/team-members/tm-sayed_mohamad_ali.png";
+import tm_8 from "@/assets/team-members/tm-kareem.png";
 
 const TeamSection = ({ isPage }: { isPage?: boolean }) => {
   const teamMembers = [
     {
+      name: "Karam Awada",
+      role: "Founder & CEO",
+      image: tm_1,
+    },
+    {
+      name: "Mohamad Achour",
+      role: "Co Founder & Construction Manager",
+      image: tm_2,
+    },
+    {
       name: "Mohammad Al Samad",
       role: "Arch. Engineer",
-      image: tm_1,
+      image: tm_3,
     },
     {
       name: "Hassan Yaacoub",
       role: "Finishing Supervisor",
-      image: tm_2,
+      image: tm_4,
     },
     {
       name: "Zainab AL Ali",
       role: "Secretary",
-      image: tm_3,
+      image: tm_5,
     },
     {
       name: "Gulzar Mazumder",
       role: "Sr. Draftsman",
-      image: tm_4,
+      image: tm_6,
     },
     {
       name: "Sayed Mohamad Ali",
       role: "Paint Specialist",
-      image: tm_5,
+      image: tm_7,
     },
     {
       name: "Kareem",
       role: "Office Attendant",
-      image: tm_6,
+      image: tm_8,
     },
   ];
 
@@ -63,9 +76,9 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
           </div>
         </AnimatedSection>
 
-        <div className="grid grid-col-1 md:grid-cols-3 gap-2">
+        <div className="grid grid-col-1 md:grid-cols-4 gap-2">
           {teamMembers
-            .slice(0, isPage ? teamMembers.length : 3)
+            .slice(0, isPage ? teamMembers.length : 4)
             .map((member, index) => {
               return (
                 <AnimatedSection
