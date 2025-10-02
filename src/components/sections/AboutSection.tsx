@@ -2,7 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import ownerImage from "@/assets/about-karam_awada.png";
+import ownerImage from "@/assets/team-members/karam-awada.jpg";
 import Image from "next/image";
 
 const AboutSection = () => {

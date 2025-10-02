@@ -1,32 +1,71 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedSection from "../ui/animated-section";
 
+gsap.registerPlugin(ScrollTrigger);
+
 const TaglineSection = () => {
+  const textRef = useRef<HTMLHeadingElement | null>(null);
+
+  useEffect(() => {
+    if (textRef.current) {
+      // split characters
+      const chars = textRef.current.querySelectorAll("span.char");
+
+      gsap.fromTo(
+        chars,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.05, // delay between chars
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: textRef.current,
+            start: "top 80%", // when to trigger
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+  }, []);
+
+  // helper function to wrap characters in spans
+  const splitText = (text: string) =>
+    text.split("").map((char, i) => (
+      <span key={i} className="char inline-block">
+        {char === " " ? "\u00A0" : char}
+      </span>
+    ));
+
   return (
     <section className="min-h-screen flex items-center justify-center bg-background py-20 w-screen">
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.2}>
-          <motion.h1
-            className="font-bold text-6xl md:text-7xl text-primary mb-8"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
+          <h1
+            ref={textRef}
+            className="font-bold text-6xl md:text-7xl text-primary mb-8 leading-tight"
           >
-            Designing dreams,
+            {splitText("Designing dreams,")}
             <br />
-            Building realities
-          </motion.h1>
+            {splitText("Building realities")}
+          </h1>
         </AnimatedSection>
 
         <AnimatedSection animation="fade" delay={0.8}>
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
+            transition={{
+              delay: 0.3,
+              duration: 1.2,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            viewport={{ once: true, amount: 0.6 }}
           >
             <p className="font-thin text-xl md:text-2xl text-foreground/80 italic">
               &quot;We shape our buildings [so they] shape us.&quot;
