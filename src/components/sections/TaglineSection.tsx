@@ -36,24 +36,6 @@ const TaglineSection = () => {
             </p>
           </motion.div>
         </AnimatedSection>
-
-        {/* Decorative Elements */}
-        <motion.div
-          className="absolute left-1/4 top-1/4 w-2 h-2 bg-accent rounded-full"
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.3, 1, 0.3],
-          }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute right-1/4 bottom-1/4 w-3 h-3 bg-accent rounded-full"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 1, 0.5],
-          }}
-          transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-        />
       </div>
     </section>
   );

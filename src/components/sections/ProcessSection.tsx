@@ -54,7 +54,7 @@ const ProcessSection = ({ isPage }: { isPage?: boolean }) => {
         </motion.div>
 
         {/* Vertical Line Center */}
-        <div className="absolute left-1/2 top-40 bottom-20 w-[3px] bg-gradient-to-b from-accent/50 to-transparent hidden lg:block" />
+        <div className="absolute left-1/2 top-40 bottom-20 w-[3px] bg-gradient-to-b from-primary/50 to-transparent hidden lg:block" />
 
         <div className="flex flex-col space-y-20">
           {processSteps
@@ -84,10 +84,10 @@ const ProcessSection = ({ isPage }: { isPage?: boolean }) => {
                     )}
                   >
                     <div className="flex items-center mb-6">
-                      <div className="w-14 h-14 bg-gradient-to-tr from-accent to-accent/60 rounded-full flex items-center justify-center text-background font-bold text-xl mr-4 shadow-md">
+                      <div className="w-14 h-14 bg-gradient-to-tr from-primary to-primary/60 rounded-full flex items-center justify-center text-background font-bold text-xl mr-4 shadow-md">
                         {step.number}
                       </div>
-                      <step.icon className="w-8 h-8 text-accent" />
+                      <step.icon className="w-8 h-8 text-primary" />
                       <h3 className="ml-3 font-luxury text-2xl font-semibold text-gray-800">
                         {step.title}
                       </h3>
@@ -97,7 +97,7 @@ const ProcessSection = ({ isPage }: { isPage?: boolean }) => {
                   {/* Connector Dot */}
                   <div className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 top-1/2 -mt-3">
                     <motion.div
-                      className="w-6 h-6 rounded-full bg-accent border-4 border-white shadow-lg"
+                      className="w-6 h-6 rounded-full bg-primary border-4 border-white shadow-lg"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
