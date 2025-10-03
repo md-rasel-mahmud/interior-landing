@@ -1,11 +1,35 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import ownerImage from "@/assets/team-members/karam-awada.jpg";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+// Image import
+import ownerImage from "@/assets/team-members/owner.jpg";
+import ownerAndCo_founder1 from "@/assets/team-members/owner_and_co-founder-2.jpg";
+import ownerAndCo_founder2 from "@/assets/team-members/owner_and_co-founder-3.jpg";
+import ownerAndCo_founder3 from "@/assets/team-members/owner_and_co-founder-1.jpg";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+
+const images = [
+  ownerImage,
+  ownerAndCo_founder1,
+  ownerAndCo_founder2,
+  ownerAndCo_founder3,
+];
 
 const AboutSection = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, duration: 40 }, // duration = smoothness
+    [Autoplay({ delay: 3000 })]
+  );
+
+  const [loading, setLoading] = useState(true);
+
+  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  const scrollNext = () => emblaApi && emblaApi.scrollNext();
   return (
     <section
       id="about"
@@ -13,36 +37,47 @@ const AboutSection = () => {
     >
       <div className="container mx-auto px-4 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Image */}
-          <AnimatedSection animation="slideRight" delay={0.2}>
-            <motion.div
-              className="relative w-full"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="relative overflow-hidden rounded-2xl shadow-luxury">
-                <Image
-                  src={ownerImage}
-                  alt="Founder of Platonic Interior Design"
-                  className="w-full h-[600px] object-cover"
-                  height={600}
-                  width={400}
-                  placeholder="blur"
-                  quality={100}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent"></div>
-              </div>
+          {/* Image Slider */}
+          <div
+            className="relative overflow-hidden rounded-2xl shadow-lg"
+            ref={emblaRef}
+          >
+            {/* Slides */}
+            <div className="flex">
+              {images.map((img, index) => (
+                <div className="relative flex-[0_0_100%] h-[600px]" key={index}>
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-background">
+                      <span className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></span>
+                    </div>
+                  )}
+                  <Image
+                    src={img}
+                    alt={`Slide ${index + 1}`}
+                    fill
+                    className="object-cover object-top"
+                    quality={100}
+                    onLoadingComplete={() => setLoading(false)}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent"></div>
+                </div>
+              ))}
+            </div>
 
-              {/* Decorative Frame */}
-              <motion.div
-                className="absolute -top-4 -left-4 w-full h-full border-2 border-accent rounded-2xl -z-10"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 0.3, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                viewport={{ once: true }}
-              />
-            </motion.div>
-          </AnimatedSection>
+            {/* Prev/Next Arrows */}
+            <button
+              onClick={scrollPrev}
+              className="absolute top-1/2 left-4 -translate-y-1/2 bg-background/50 backdrop-blur-md hover:bg-background text-primary p-2 rounded-full shadow z-10"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={scrollNext}
+              className="absolute top-1/2 right-4 -translate-y-1/2 bg-background/50 backdrop-blur-md hover:bg-background text-primary p-2 rounded-full shadow z-10"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
 
           {/* Content */}
           <div className="space-y-8">

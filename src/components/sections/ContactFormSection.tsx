@@ -73,8 +73,13 @@ const formFields = [
   },
 ];
 
-const baseInputClass =
-  "w-full px-4 py-3 border rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 bg-primary/10 border-primary/20 text-secondary/90";
+// const baseInputClass =
+//   "w-full px-4 py-3 border rounded-lg focus:outline-primary focus:border-transparent transition-all duration-300 bg-primary/10 border-primary/20 text-secondary/90";
+const baseInputClass = cn(
+  "w-full bg-transparent border-0 border-b border-primary/30 rounded-none px-0 py-2",
+  "focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 focus:border-b-2 focus:border-primary",
+  "transition-all duration-300 text-secondary/90 placeholder:text-secondary/50"
+);
 
 const ContactFormSection = () => {
   const [loading, setLoading] = useState(false);

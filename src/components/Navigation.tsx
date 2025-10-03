@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navItems } from "@/constrain/nav-menu";
 import Image from "next/image";
-import logo from "@/assets/logo.svg";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -14,6 +13,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+
+import logo from "@/assets/logo.svg";
+import logoWhite from "@/assets/logo-white.svg";
 
 // ================== MAIN NAVIGATION ==================
 const Navigation = () => {
@@ -57,7 +59,7 @@ const Navigation = () => {
             whileTap={{ scale: 0.95 }}
           >
             <Image
-              src={logo}
+              src={isScrolled || pathname !== "/" ? logo : logoWhite}
               alt="Logo"
               width={200}
               height={200}

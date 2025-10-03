@@ -45,7 +45,7 @@ const TaglineSection = () => {
   return (
     <section className="min-h-screen flex items-center justify-center bg-background py-20 w-screen">
       <div className="container mx-auto px-6">
-        <AnimatedSection animation="slideUp" delay={0.2}>
+        <AnimatedSection animation="slideUp" delay={0.1}>
           <h1
             ref={textRef}
             className="font-bold text-6xl md:text-7xl text-primary mb-8 leading-tight"
@@ -56,14 +56,14 @@ const TaglineSection = () => {
           </h1>
         </AnimatedSection>
 
-        <AnimatedSection animation="fade" delay={0.8}>
+        <AnimatedSection animation="fade" delay={0.3}>
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{
-              delay: 0.3,
-              duration: 1.2,
-              ease: [0.16, 1, 0.3, 1],
+              delay: 0.1,
+              duration: 1,
+              ease: [0.5, 1, 0.3, 1],
             }}
             viewport={{ once: true, amount: 0.6 }}
           >

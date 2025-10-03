@@ -21,6 +21,8 @@ import tm_10 from "@/assets/team-members/gulzar-mazumder.jpg";
 import tm_11 from "@/assets/team-members/sayed-mohamad-ali.jpg";
 import tm_12 from "@/assets/team-members/kareem.jpg";
 
+import allMembers from "@/assets/team-members/all-members.jpg";
+
 const TeamSection = ({ isPage }: { isPage?: boolean }) => {
   const teamMembers = [
     {
@@ -93,9 +95,19 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
         "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background",
         isPage && "pt-24"
       )}
+      style={{
+        backgroundImage: isPage ? `url(${allMembers.src})` : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "top",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+
+        backgroundColor: isPage ? "rgba(0, 0, 0, 0.8)" : "transparent",
+        backgroundBlendMode: isPage ? "overlay" : "normal",
+      }}
     >
       <div className="max-w-screen-lg mx-auto px-6">
-        <AnimatedSection animation="slideUp" delay={0.2}>
+        <AnimatedSection animation="slideUp" delay={0.1}>
           <div className="text-center">
             <Heading>Our Team</Heading>
           </div>
@@ -109,7 +121,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                 <AnimatedSection
                   key={member.name}
                   animation="scale"
-                  delay={0.2 * (index + 1)}
+                  delay={0.1 * (index + 1)}
                 >
                   <motion.div
                     className={cn(
@@ -136,7 +148,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                       )}
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.4, duration: 0.6 }}
+                      transition={{ delay: 0.2, duration: 0.6 }}
                       viewport={{ once: true }}
                     >
                       {member.name}
@@ -146,7 +158,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
                       className={cn("font-inter text-primary/80 text-lg mb-4")}
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
-                      transition={{ delay: 0.5, duration: 0.6 }}
+                      transition={{ delay: 0.3, duration: 0.6 }}
                       viewport={{ once: true }}
                     >
                       {member.role}
