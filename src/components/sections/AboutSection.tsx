@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Image import
 import ownerImage from "@/assets/team-members/owner.jpg";
-import ownerAndCo_founder1 from "@/assets/team-members/owner_and_co-founder-2.jpg";
+// import ownerAndCo_founder1 from "@/assets/team-members/owner_and_co-founder-2.jpg";
 import ownerAndCo_founder2 from "@/assets/team-members/owner_and_co-founder-3.jpg";
 import ownerAndCo_founder3 from "@/assets/team-members/owner_and_co-founder-1.jpg";
 import useEmblaCarousel from "embla-carousel-react";
@@ -15,7 +15,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 const images = [
   ownerImage,
-  ownerAndCo_founder1,
+  // ownerAndCo_founder1,
   ownerAndCo_founder2,
   ownerAndCo_founder3,
 ];
@@ -55,7 +55,7 @@ const AboutSection = () => {
                     src={img}
                     alt={`Slide ${index + 1}`}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover object-center"
                     quality={100}
                     onLoadingComplete={() => setLoading(false)}
                   />
