@@ -21,6 +21,7 @@ import logoWhite from "@/assets/logo-white.svg";
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isOpenDesktopDropdown, setIsOpenDesktopDropdown] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -122,9 +123,19 @@ const Navigation = () => {
                       <Link
                         key={subItem.name}
                         href={subItem.href}
-                        className="block py-2 text-sm rounded-md"
+                        className="block py-2 text-sm rounded-md relative group"
                       >
                         {subItem.name}
+
+                        {/* 
+                        <span
+                          className={cn(
+                            "absolute -bottom-1 left-0 w-0 h-0.5 bg-background transition-all duration-300 group-hover:w-full",
+                            isScrolled || pathname !== "/"
+                              ? "bg-primary"
+                              : "bg-background"
+                          )}
+                        ></span> */}
                       </Link>
                     ))}
                   </div>

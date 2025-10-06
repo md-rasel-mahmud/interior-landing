@@ -83,12 +83,13 @@ const AboutSection = () => {
             </button>
           </div> */}
 
-          <div className="relative flex-[0_0_100%] h-[600px]">
+          <div className="relative flex-[0_0_100%] h-[750px]">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-background">
                 <span className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></span>
               </div>
             )}
+
             <Image
               src={images[0]}
               alt={"about image"}
