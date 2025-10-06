@@ -150,7 +150,7 @@ const AboutSection = () => {
                     <div className="w-12 h-px bg-gradient-to-l from-primary"></div>
 
                     <span className="text-primary text-xl italic">
-                      Founder & CEO
+                      Architect Karam Awada, Founder.
                     </span>
                   </div>
                 </motion.div>
