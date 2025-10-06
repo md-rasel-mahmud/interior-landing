@@ -9,9 +9,8 @@ export type NavItem = {
 export const navItems: NavItem[] = [
   { name: "About", href: "/about" },
   { name: "Team", href: "/team" },
-  { name: "Services", href: "/services" },
   {
-    name: "Projects",
+    name: "Service",
     href: "/projects",
     submenu: categories.map((cat) => ({
       name: cat.name,

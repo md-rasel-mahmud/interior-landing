@@ -71,36 +71,70 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) =>
               item.submenu ? (
-                <DropdownMenu key={item.name}>
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      className={cn(
-                        "flex items-center gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
-                        isScrolled || pathname !== "/"
-                          ? "text-primary"
-                          : "text-background"
-                      )}
-                    >
-                      {item.name}
-                      <ChevronDown className="w-4 h-4" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
+                // <DropdownMenu key={item.name}>
+                //   <DropdownMenuTrigger asChild>
+                //     <button
+                // className={cn(
+                //   "flex text-sm items-center gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
+                //   isScrolled || pathname !== "/"
+                //     ? "text-primary"
+                //     : "text-background"
+                // )}
+                //     >
+                //       {item.name}
+                //       <ChevronDown className="w-4 h-4" />
+                //     </button>
+                //   </DropdownMenuTrigger>
+
+                //   <DropdownMenuContent align="start" className="w-48">
+                //     {item.submenu.map((subItem) => (
+                //       <DropdownMenuItem key={subItem.name} asChild>
+                //         <Link href={subItem.href} className="w-full">
+                //           {subItem.name}
+                //         </Link>
+                //       </DropdownMenuItem>
+                //     ))}
+                //   </DropdownMenuContent>
+                // </DropdownMenu>
+
+                <div key={item.name} className="relative group">
+                  <button
+                    key={item.name}
+                    className={cn(
+                      "flex text-sm items-center gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
+                      isScrolled || pathname !== "/"
+                        ? "text-primary"
+                        : "text-background"
+                    )}
+                  >
+                    {item.name}
+                  </button>
+
+                  <div
+                    className={cn(
+                      "absolute mt-2 left-0 rounded-md p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                      isScrolled || pathname !== "/"
+                        ? "text-primary bg-background"
+                        : "text-background"
+                    )}
+                  >
                     {item.submenu.map((subItem) => (
-                      <DropdownMenuItem key={subItem.name} asChild>
-                        <Link href={subItem.href} className="w-full">
-                          {subItem.name}
-                        </Link>
-                      </DropdownMenuItem>
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="block py-2 text-sm rounded-md"
+                      >
+                        {subItem.name}
+                      </Link>
                     ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                  </div>
+                </div>
               ) : (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative font-helvetica font-medium group hover:opacity-80 transition-opacity duration-300",
+                    "relative text-sm font-helvetica font-medium group hover:opacity-80 transition-opacity duration-300",
                     isScrolled || pathname !== "/"
                       ? "text-primary"
                       : "text-background"

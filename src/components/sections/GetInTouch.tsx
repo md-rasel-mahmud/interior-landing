@@ -45,7 +45,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
 
         <div
           className={cn(
-            "grid grid-cols-1 rounded-lg overflow-hidden",
+            "grid grid-cols-1 overflow-hidden",
             isPage ? "lg:grid-cols-3" : "lg:grid-cols-4"
           )}
         >
@@ -56,7 +56,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
               <AnimatedSection animation="slideRight" delay={0.2 * (index + 1)}>
                 <motion.div
                   className={cn(
-                    "h-[26rem] w-full flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow duration-300 group",
+                    "h-[20rem] w-full flex flex-col items-center justify-center text-center p-6 hover:shadow-lg transition-shadow duration-300 group",
                     index % 2 === 0
                       ? "bg-foreground text-background/70"
                       : "bg-primary/10 text-primary"

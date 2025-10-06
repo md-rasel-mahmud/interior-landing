@@ -8,7 +8,7 @@ const AboutPage = () => {
     <div className="pt-20">
       <AboutSection />
 
-      <AchievementsSection />
+      {/* <AchievementsSection /> */}
     </div>
   );
 };

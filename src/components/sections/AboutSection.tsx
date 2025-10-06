@@ -38,11 +38,13 @@ const AboutSection = () => {
       <div className="container mx-auto px-4 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Image Slider */}
-          <div
+          {/* <div
             className="relative overflow-hidden rounded-2xl shadow-lg"
             ref={emblaRef}
           >
-            {/* Slides */}
+            {
+              //Slides
+            }
             <div className="flex">
               {images.map((img, index) => (
                 <div className="relative flex-[0_0_100%] h-[600px]" key={index}>
@@ -64,7 +66,9 @@ const AboutSection = () => {
               ))}
             </div>
 
-            {/* Prev/Next Arrows */}
+            {
+              // Prev/Next Arrows
+            }
             <button
               onClick={scrollPrev}
               className="absolute top-1/2 left-4 -translate-y-1/2 bg-background/50 backdrop-blur-md hover:bg-background text-primary p-2 rounded-full shadow z-10"
@@ -77,6 +81,23 @@ const AboutSection = () => {
             >
               <ChevronRight size={24} />
             </button>
+          </div> */}
+
+          <div className="relative flex-[0_0_100%] h-[600px]">
+            {loading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-background">
+                <span className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></span>
+              </div>
+            )}
+            <Image
+              src={images[0]}
+              alt={"about image"}
+              fill
+              className="object-cover object-center rounded-lg"
+              quality={100}
+              onLoadingComplete={() => setLoading(false)}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-luxury-navy/30 to-transparent"></div>
           </div>
 
           {/* Content */}
@@ -129,7 +150,7 @@ const AboutSection = () => {
                     <div className="w-12 h-px bg-gradient-to-l from-primary"></div>
 
                     <span className="text-primary text-xl italic">
-                      Creating timeless spaces
+                      Founder & CEO
                     </span>
                   </div>
                 </motion.div>

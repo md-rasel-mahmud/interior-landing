@@ -47,12 +47,14 @@ const TaglineSection = () => {
       <div className="container mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.1}>
           <h1
-            ref={textRef}
+            // ref={textRef}
             className="font-bold text-6xl md:text-7xl text-primary mb-8 leading-tight"
           >
-            {splitText("Designing dreams,")}
+            {/* {splitText("Designing dreams,")} */}
+            Designing dreams,
             <br />
-            {splitText("Building realities")}
+            {/* {splitText("Building realities")} */}
+            Building realities
           </h1>
         </AnimatedSection>
 

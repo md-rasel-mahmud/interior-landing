@@ -41,7 +41,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       image: tm_3,
     },
     {
-      name: "Hazi Hamze",
+      name: "Hadi Hamze",
       role: "Head of Architecture",
       image: tm_4,
     },
@@ -62,7 +62,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     },
 
     {
-      name: "Hassan Yaacoub",
+      name: "Hassan Yacoub",
       role: "Finishing Supervisor",
       image: tm_8,
     },
@@ -95,16 +95,16 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
         "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background",
         isPage && "pt-24"
       )}
-      style={{
-        backgroundImage: isPage ? `url(${allMembers.src})` : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "top",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
+      // style={{
+      //   backgroundImage: isPage ? `url(${allMembers.src})` : "none",
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "top",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundAttachment: "fixed",
 
-        backgroundColor: isPage ? "rgba(0, 0, 0, 0.8)" : "transparent",
-        backgroundBlendMode: isPage ? "overlay" : "normal",
-      }}
+      //   backgroundColor: isPage ? "rgba(0, 0, 0, 0.8)" : "transparent",
+      //   backgroundBlendMode: isPage ? "overlay" : "normal",
+      // }}
     >
       <div className="max-w-screen-lg mx-auto px-6">
         <AnimatedSection animation="slideUp" delay={0.1}>
