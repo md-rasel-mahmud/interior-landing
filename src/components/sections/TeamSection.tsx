@@ -67,7 +67,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       image: tm_8,
     },
     {
-      name: "Zainab AL Ali",
+      name: "Zainab Al-Ali",
       role: "Secretary",
       image: tm_9,
     },
