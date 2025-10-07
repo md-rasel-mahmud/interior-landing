@@ -6,12 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 
 import logo from "@/assets/logo.svg";
@@ -123,19 +123,14 @@ const Navigation = () => {
                       <Link
                         key={subItem.name}
                         href={subItem.href}
-                        className="block py-2 text-sm rounded-md relative group"
+                        className={cn(
+                          "block py-2 text-sm rounded-md relative group",
+                          isScrolled || pathname !== "/"
+                            ? "line-hover"
+                            : "line-hover-light"
+                        )}
                       >
                         {subItem.name}
-
-                        {/* 
-                        <span
-                          className={cn(
-                            "absolute -bottom-1 left-0 w-0 h-0.5 bg-background transition-all duration-300 group-hover:w-full",
-                            isScrolled || pathname !== "/"
-                              ? "bg-primary"
-                              : "bg-background"
-                          )}
-                        ></span> */}
                       </Link>
                     ))}
                   </div>

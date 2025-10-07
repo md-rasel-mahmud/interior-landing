@@ -150,7 +150,7 @@ const AboutSection = () => {
                   <div className="flex items-center space-x-4 text-accent">
                     <div className="w-12 h-px bg-gradient-to-l from-primary"></div>
 
-                    <span className="text-primary text-xl italic">
+                    <span className="text-primary text-xl ">
                       Architect Karam Awada, Founder.
                     </span>
                   </div>

@@ -23,7 +23,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 pt-5">
-          {categories.map((category, index) => (
+          {categories.slice(0, 3).map((category, index) => (
             <Link key={category.slug} href={`/projects/${category.slug}`}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -58,6 +58,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
             </Link>
           ))}
         </div>
+
         {!isPage && (
           <div className="text-center mt-12">
             <NavigateButton href="/services">View All Services</NavigateButton>

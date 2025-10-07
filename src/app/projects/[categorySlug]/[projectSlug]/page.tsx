@@ -1,10 +1,11 @@
 "use client";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Dot, MapPin } from "lucide-react";
+// import { Dot, MapPin } from "lucide-react";
 import AnimatedSection from "@/components/ui/animated-section";
 import { projects } from "@/constrain/project-list";
 import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
+import Image from "next/image";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
@@ -40,17 +41,45 @@ export default function ProjectDetailPage() {
               >
                 {project.title}
               </motion.h3>
-              <div className="flex items-center text-foreground/70 mt-3">
+
+              <AnimatedSection animation="slideRight" delay={0.5}>
+                <div className="p-6">
+                  <h3 className="font-luxury text-lg font-semibold text-accent mb-4">
+                    Project Details
+                  </h3>
+                  <div className="space-y-3 text-sm font-inter text-foreground/80">
+                    <p>
+                      <span className="font-medium text-primary">Type:</span>{" "}
+                      {project.type}
+                    </p>
+                    <p>
+                      <span className="font-medium text-primary">
+                        Location:
+                      </span>{" "}
+                      {project.location}
+                    </p>
+                    <p>
+                      <span className="font-medium text-primary">Status:</span>{" "}
+                      Completed
+                    </p>
+                    <p>
+                      <span className="font-medium text-primary">Year:</span>{" "}
+                      2024
+                    </p>
+                  </div>
+                </div>
+              </AnimatedSection>
+              {/* <div className="flex items-center text-foreground/70 mt-3">
                 <MapPin className="w-4 h-4 mr-2" />
                 <span className="font-inter text-sm">{project.location}</span>
-              </div>
-              <p className="mt-6 font-inter text-lg leading-relaxed text-foreground/80">
+              </div> */}
+              {/* <p className="mt-6 font-inter text-lg leading-relaxed text-foreground/80">
                 {project.description}
-              </p>
+              </p> */}
             </AnimatedSection>
 
             {/* Features List */}
-            <AnimatedSection animation="slideUp" delay={0.4}>
+            {/* <AnimatedSection animation="slideUp" delay={0.4}>
               <h3 className="font-luxury text-xl font-semibold text-accent mt-10 mb-4">
                 Key Features
               </h3>
@@ -68,11 +97,11 @@ export default function ProjectDetailPage() {
                   </motion.li>
                 ))}
               </ul>
-            </AnimatedSection>
+            </AnimatedSection> */}
           </div>
 
           {/* Sidebar Info */}
-          <div>
+          {/* <div>
             <AnimatedSection animation="slideRight" delay={0.5}>
               <div className="p-6 rounded-2xl bg-foreground/5 border border-primary/30 shadow-md">
                 <h3 className="font-luxury text-lg font-semibold text-accent mb-4">
@@ -97,7 +126,26 @@ export default function ProjectDetailPage() {
                 </div>
               </div>
             </AnimatedSection>
-          </div>
+          </div> */}
+        </div>
+
+        {/* picture */}
+        <div className="mt-20 grid lg:grid-cols-2 gap-3">
+          {project.images.map((img, index) => (
+            <AnimatedSection
+              animation="slideUp"
+              delay={0.6 + index * 0.2}
+              key={index}
+            >
+              <Image
+                src={img}
+                alt={`${project.title} image ${index + 1}`}
+                width={1200}
+                height={800}
+                className="w-full h-auto object-cover"
+              />
+            </AnimatedSection>
+          ))}
         </div>
       </div>
     </section>

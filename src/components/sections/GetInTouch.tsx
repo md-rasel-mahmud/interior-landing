@@ -21,8 +21,8 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
     },
     {
       icon: Instagram,
-      title: "@platonicdesign",
-      href: "https://www.instagram.com/platonicdesign",
+      title: "@platonic.kw",
+      href: "https://www.instagram.com/platonic.kw/?hl=en",
     },
   ];
 
