@@ -47,16 +47,17 @@ export default function ProjectDetailPage() {
                   <h3 className="font-luxury text-lg font-semibold text-accent mb-4">
                     Project Details
                   </h3>
-                  <div className="space-y-3 text-sm font-inter text-foreground/80">
-                    <p>
-                      <span className="font-medium text-primary">Type:</span>{" "}
-                      {project.type}
-                    </p>
+
+                  <div className="space-y-6 text-sm font-inter text-foreground/80">
                     <p>
                       <span className="font-medium text-primary">
                         Location:
                       </span>{" "}
                       {project.location}
+                    </p>
+                    <p>
+                      <span className="font-medium text-primary">Type:</span>{" "}
+                      {project.type}
                     </p>
                     <p>
                       <span className="font-medium text-primary">Status:</span>{" "}
