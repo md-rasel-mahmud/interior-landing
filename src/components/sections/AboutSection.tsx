@@ -12,6 +12,8 @@ import ownerAndCo_founder2 from "@/assets/team-members/owner_and_co-founder-3.jp
 import ownerAndCo_founder3 from "@/assets/team-members/owner_and_co-founder-1.jpg";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import AboutServiceSection from "@/components/sections/AboutServiceSection";
+import { cn } from "@/lib/utils";
 
 const images = [
   ownerImage,
@@ -20,7 +22,7 @@ const images = [
   ownerAndCo_founder3,
 ];
 
-const AboutSection = () => {
+const AboutSection = ({ isPage }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, duration: 40 }, // duration = smoothness
     [Autoplay({ delay: 3000 })]
@@ -35,8 +37,13 @@ const AboutSection = () => {
       id="about"
       className="min-h-screen flex items-center py-20 bg-background w-full md:w-screen"
     >
-      <div className="container mx-auto px-4 lg:px-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4lg:px-20">
+        <div
+          className={cn(
+            "grid grid-cols-1 lg:grid-cols-2 gap-16",
+            isPage ? "items-center" : "items-start"
+          )}
+        >
           {/* Image Slider */}
           {/* <div
             className="relative overflow-hidden rounded-2xl shadow-lg"
@@ -116,6 +123,8 @@ const AboutSection = () => {
             </AnimatedSection>
 
             <AnimatedSection animation="slideLeft" delay={0.6}>
+              {isPage || <AboutServiceSection />}
+
               <motion.div
                 className="space-y-6 text-foreground/90"
                 initial={{ opacity: 0, x: 50 }}

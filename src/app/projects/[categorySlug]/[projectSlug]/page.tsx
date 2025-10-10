@@ -6,6 +6,7 @@ import AnimatedSection from "@/components/ui/animated-section";
 import { projects } from "@/constrain/project-list";
 import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 import Image from "next/image";
+import * as React from "react";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
@@ -24,7 +25,17 @@ export default function ProjectDetailPage() {
       <div className="container mx-auto px-6">
         {/* Hero Carousel */}
         <AnimatedSection animation="slideUp" delay={0.2}>
-          <ProjectCarousel images={project.images} />
+          {/* <ProjectCarousel images={project.images} /> */}
+
+          <div className="min-w-full relative">
+            <Image
+              src={project.images[0]}
+              alt={`Project image`}
+              width={1200}
+              height={800}
+              className="h-[550px] w-full object-cover"
+            />
+          </div>
         </AnimatedSection>
 
         {/* Content */}

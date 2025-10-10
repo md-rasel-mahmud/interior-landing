@@ -102,7 +102,7 @@ const Navigation = () => {
                   <button
                     key={item.name}
                     className={cn(
-                      "flex text-sm items-center gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
+                      "flex text-sm items-center font-medium gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
                       isScrolled || pathname !== "/"
                         ? "text-primary"
                         : "text-background"
@@ -113,7 +113,7 @@ const Navigation = () => {
 
                   <div
                     className={cn(
-                      "absolute mt-2 left-0 rounded-md p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                      "absolute mt-2 left-0 rounded-md p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col min-w-[150px]",
                       isScrolled || pathname !== "/"
                         ? "text-primary bg-background"
                         : "text-background"
@@ -124,7 +124,7 @@ const Navigation = () => {
                         key={subItem.name}
                         href={subItem.href}
                         className={cn(
-                          "block py-2 text-sm rounded-md relative group",
+                          "block py-2 text-sm rounded-md relative w-max",
                           isScrolled || pathname !== "/"
                             ? "line-hover"
                             : "line-hover-light"

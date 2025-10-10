@@ -28,7 +28,7 @@ export default function Home() {
       <HeroSection />
       <TaglineSection />
 
-      <AboutSection />
+      <AboutSection isPage />
       <TeamSection />
 
       {/* <ProcessSection /> */}

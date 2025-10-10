@@ -69,7 +69,7 @@ const TaglineSection = () => {
             }}
             viewport={{ once: true, amount: 0.6 }}
           >
-            <p className="font-thin text-xl md:text-2xl text-foreground/80 italic">
+            <p className="font-thin text-xl md:text-2xl text-foreground/80">
               &quot;We shape our buildings [so they] shape us.&quot;
             </p>
             <p className="font-thin text-lg text-foreground/70 mt-4">
