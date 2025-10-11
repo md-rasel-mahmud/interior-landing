@@ -162,12 +162,12 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
                     </span>
                   </div>
                 </motion.div>
-
-                {isPage || <AboutServiceSection />}
               </motion.div>
             </AnimatedSection>
           </div>
         </div>
+
+        {isPage || <AboutServiceSection />}
       </div>
     </section>
   );

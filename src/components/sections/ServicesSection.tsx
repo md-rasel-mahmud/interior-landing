@@ -12,7 +12,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
   return (
     <section
       className={cn(
-        "py-16 min-h-screen flex flex-col justify-center w-full bg-background"
+        "pb-16 pt-3 min-h-screen flex flex-col justify-center w-full bg-background"
         // isPage ? "bg-background" : "bg-foreground"
       )}
     >

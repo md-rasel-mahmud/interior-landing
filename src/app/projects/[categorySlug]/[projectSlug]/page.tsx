@@ -10,7 +10,8 @@ import * as React from "react";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
-  const project = projects.find((p) => p.slug === projectSlug);
+  const projectIndex = projects.findIndex((p) => p.slug === projectSlug);
+  const project = projects[projectIndex];
 
   if (!project) {
     return (

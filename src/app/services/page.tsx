@@ -8,7 +8,7 @@ const ServicesPage = () => {
       <Image
         src={serviceChart}
         alt="Service Chart"
-        className="mx-auto h-[70vh] w-full max-w-4xl"
+        className="mx-auto h-[80vh] w-full max-w-4xl"
         width={200}
         height={200}
       />

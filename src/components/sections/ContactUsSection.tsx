@@ -2,14 +2,14 @@ export default function ContactSection() {
   return (
     <section className="bg-background text-primary py-24 relative flex flex-col md:flex-row items-start overflow-hidden">
       {/* Vertical CONTACT US text */}
-      <div className="absolute left-14 top-1/2 -translate-y-1/2 -translate-x-1/2">
+      <div className="absolute left-[calc(7%_-_2rem)] top-1/2 -translate-y-1/2 -translate-x-1/2">
         <h2 className="text-3xl font-semibold tracking-widest [writing-mode:vertical-rl] rotate-180">
           CONTACT&nbsp;US
         </h2>
       </div>
 
       {/* Main Content */}
-      <div className="ml-16 md:ml-24 flex-1 grid gap-8 md:grid-cols-2 text-sm md:text-base">
+      <div className="ml-16 md:ml-44 flex-1 grid gap-16 md:grid-cols-2 text-sm md:text-base">
         {/* Email */}
         <div>
           <h3 className="font-semibold mb-1">Email</h3>
@@ -27,8 +27,8 @@ export default function ContactSection() {
         <div className="">
           <h3 className="font-semibold mb-1">Address</h3>
           <p className="opacity-90">
-            Salmiya | Plot 4 | Salem Al-Mubarak Street | Al-Sahab Tower | 4th
-            Floor
+            Salmiya | Plot 4 | Salem Al-Mubarak <br /> Street | Al-Sahab Tower |
+            4th Floor
           </p>
         </div>
 
