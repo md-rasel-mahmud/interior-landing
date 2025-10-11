@@ -7,8 +7,8 @@ import React from "react";
 const GetInTouchPage = () => {
   return (
     <div className="pt-20">
-      <GetInTouch isPage />
       <ContactUsSection />
+      <GetInTouch isPage />
       <ContactFormSection />
     </div>
   );

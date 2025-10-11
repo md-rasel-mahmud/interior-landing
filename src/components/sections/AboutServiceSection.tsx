@@ -55,6 +55,9 @@ const sectors = [
 export default function AboutServiceSection() {
   return (
     <section className="bg-background text-primary pb-16">
+      <h2 className="py-4 text-3xl font-bold">
+        Vision | Mission | Core Values
+      </h2>
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-y-12 gap-x-16">
         {serviceCategories.map((category) => (
           <div key={category.id}>

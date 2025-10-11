@@ -1,6 +1,6 @@
 export default function ContactSection() {
   return (
-    <section className="bg-primary text-background py-24 relative flex flex-col md:flex-row items-start overflow-hidden">
+    <section className="bg-background text-primary py-24 relative flex flex-col md:flex-row items-start overflow-hidden">
       {/* Vertical CONTACT US text */}
       <div className="absolute left-14 top-1/2 -translate-y-1/2 -translate-x-1/2">
         <h2 className="text-3xl font-semibold tracking-widest [writing-mode:vertical-rl] rotate-180">

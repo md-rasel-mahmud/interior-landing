@@ -11,8 +11,8 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
   const contactInfo = [
     {
       icon: Mail,
-      title: "hello@platonicdesign.com",
-      href: "mailto:hello@platonicdesign.com",
+      title: "info@themodern-arch.com",
+      href: "mailto:info@themodern-arch.com",
     },
     {
       icon: Smartphone,

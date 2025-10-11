@@ -123,8 +123,6 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
             </AnimatedSection>
 
             <AnimatedSection animation="slideLeft" delay={0.6}>
-              {isPage || <AboutServiceSection />}
-
               <motion.div
                 className="space-y-6 text-foreground/90"
                 initial={{ opacity: 0, x: 50 }}
@@ -164,6 +162,8 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
                     </span>
                   </div>
                 </motion.div>
+
+                {isPage || <AboutServiceSection />}
               </motion.div>
             </AnimatedSection>
           </div>
