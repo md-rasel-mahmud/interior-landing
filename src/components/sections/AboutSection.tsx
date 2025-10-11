@@ -22,7 +22,7 @@ const images = [
   ownerAndCo_founder3,
 ];
 
-const AboutSection = ({ isPage }) => {
+const AboutSection = ({ isPage }: { isPage?: boolean }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, duration: 40 }, // duration = smoothness
     [Autoplay({ delay: 3000 })]
