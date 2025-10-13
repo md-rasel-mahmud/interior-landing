@@ -7,6 +7,7 @@ import { projects } from "@/constrain/project-list";
 import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 import Image from "next/image";
 import * as React from "react";
+import Link from "next/link";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
@@ -159,6 +160,34 @@ export default function ProjectDetailPage() {
               />
             </AnimatedSection>
           ))}
+        </div>
+
+        <div className="flex justify-between items-center mt-10">
+          <div>
+            {projectIndex > 0 && (
+              <Link
+                href={`/projects/${projects[projectIndex - 1].categorySlug}/${
+                  projects[projectIndex - 1].slug
+                }`}
+                className="mt-20 text-sm font-inter text-primary hover:underline"
+              >
+                &larr; {projects[projectIndex - 1].title}
+              </Link>
+            )}
+          </div>
+
+          <div>
+            {projectIndex < projects.length - 1 && (
+              <Link
+                href={`/projects/${projects[projectIndex + 1].categorySlug}/${
+                  projects[projectIndex + 1].slug
+                }`}
+                className="mt-20 text-sm font-inter text-primary hover:underline"
+              >
+                {projects[projectIndex + 1].title} &rarr;
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>
