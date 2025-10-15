@@ -102,7 +102,7 @@ const ContactFormSection = () => {
   const onSubmit = async (values: any) => {
     try {
       setLoading(true);
-      const { data } = await axiosInstance.post("/contact", values);
+      const { data } = await axiosInstance.post("/contact/", values);
 
       console.log("data :>> ", data);
 
