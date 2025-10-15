@@ -19,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import axiosInstance from "@/lib/axios.instanse";
+import { toast } from "sonner";
 
 // Zod schema for form validation
 const formSchema = z.object({
@@ -100,8 +102,14 @@ const ContactFormSection = () => {
   const onSubmit = async (values: any) => {
     try {
       setLoading(true);
-      console.log("values :>> ", values);
-    } catch (error) {
+      const { data } = await axiosInstance.post("/contact", values);
+
+      console.log("data :>> ", data);
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error?.message || "Something went wrong!");
+
       console.error(error);
     } finally {
       setLoading(false);

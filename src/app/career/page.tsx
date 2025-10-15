@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -21,6 +21,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { SendHorizonal } from "lucide-react";
+import axiosInstance from "@/lib/axios.instanse";
+import { toast } from "sonner";
 
 const fields = [
   {
@@ -148,16 +150,15 @@ export default function CareerPage() {
     coverLetter: z
       .string()
       .min(10, "Cover Letter must be at least 10 characters"),
-    consent: z.literal(true, {
-      errorMap: () => ({
-        message: "You must agree to data processing policies",
-      }),
+    consent: z.boolean().refine((val) => val === true, {
+      message: "You must agree to data processing policies",
     }),
   });
 
   const {
     register,
     handleSubmit,
+    control,
     setValue,
     formState: { errors },
   } = useForm<FormData>({
@@ -168,8 +169,14 @@ export default function CareerPage() {
   const onSubmit = async (values: FormData) => {
     try {
       setLoading(true);
+      const { data } = await axiosInstance.post("/career", values);
+
+      console.log("data :>> ", data);
+
       console.log("values :>> ", values);
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error?.message || "Something went wrong!");
       console.error(error);
     } finally {
       setLoading(false);
@@ -256,14 +263,25 @@ export default function CareerPage() {
                     ) : field.type === "checkbox" ? (
                       <>
                         <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id={field.name}
-                            className="rounded"
-                            {...register(field.name as keyof FormData, {
-                              required: field.required,
-                            })}
+                          <Controller
+                            name={field.name as keyof FormData}
+                            control={control}
+                            rules={{ required: field.required }}
+                            render={({ field: controllerField }) => (
+                              <Checkbox
+                                id={field.name}
+                                checked={
+                                  Boolean(controllerField.value) || false
+                                }
+                                onCheckedChange={(checked) =>
+                                  controllerField.onChange(checked)
+                                }
+                              />
+                            )}
                           />
-                          <Label htmlFor={field.name}>{field.label}</Label>
+                          <Label htmlFor={field.name} className="mb-0">
+                            {field.label}
+                          </Label>
                         </div>
                         {errors[field.name as keyof FormData] && (
                           <p className="text-sm text-destructive mt-1">
@@ -299,7 +317,11 @@ export default function CareerPage() {
                   </div>
                 ))}
 
-                <Button type="submit" className="w-full md:col-span-2 ">
+                <Button
+                  type="submit"
+                  className="w-full md:col-span-2"
+                  disabled={loading}
+                >
                   {loading ? "Sending..." : "Submit Application"}
                   {!loading && <SendHorizonal size={12} />}
                 </Button>
