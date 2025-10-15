@@ -13,17 +13,21 @@ import { cn } from "@/lib/utils";
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-
 import logo from "@/assets/logo.svg";
 import logoWhite from "@/assets/logo-white.svg";
+import axiosInstance from "@/lib/axios.instanse";
 
 // ================== MAIN NAVIGATION ==================
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOpenDesktopDropdown, setIsOpenDesktopDropdown] = useState(false);
+  const [categories, setCategories] = useState([]);
+
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const handleScroll = () => {

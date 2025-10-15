@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import { Mail, Send, Smartphone, Instagram } from "lucide-react";
+import { Mail, Send, Smartphone, Instagram, PhoneCall } from "lucide-react";
 
 import Heading from "@/components/common/Heading";
 import { cn } from "@/lib/utils";
@@ -16,14 +16,13 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
     },
     {
       icon: Smartphone,
-
       title: "+9655000 61 51",
       href: "tel:+9655000 61 51",
-
-      multipleInfo: [
-        { title: "+9652208 86 67", href: "tel:+9652208 86 67" },
-        { title: "+9655000 61 51", href: "tel:+9655000 61 51" },
-      ],
+    },
+    {
+      icon: PhoneCall,
+      title: "+9652208 86 67",
+      href: "tel:+9652208 86 67",
     },
     {
       icon: Instagram,
@@ -52,7 +51,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
         <div
           className={cn(
             "grid grid-cols-1 overflow-hidden",
-            isPage ? "lg:grid-cols-3" : "lg:grid-cols-4"
+            isPage ? "lg:grid-cols-4" : "lg:grid-cols-5"
           )}
         >
           {/* Contact Information */}
@@ -76,20 +75,7 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
                       <info.icon size={50} />
                     </motion.div>
 
-                    {info.multipleInfo ? (
-                      <div className="mt-4 space-y-2">
-                        {info.multipleInfo.map((item) => (
-                          <p
-                            key={item.title + Math.random()}
-                            className="font-medium"
-                          >
-                            {item.title}
-                          </p>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="mt-4 font-medium">{info.title}</p>
-                    )}
+                    <p className="mt-4 font-medium">{info.title}</p>
                   </motion.div>
                 </AnimatedSection>
               </Link>
