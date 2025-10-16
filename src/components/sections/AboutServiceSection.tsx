@@ -77,7 +77,7 @@ export default function AboutServiceSection() {
         ))}
       </div>
 
-      <h2 className="py-10 text-3xl font-bold text-center">Our Core System</h2>
+      <h2 className="py-10 text-3xl font-bold text-center">Our Core Systems</h2>
 
       <div className="lg:ml-10 grid md:grid-cols-2 gap-y-12 gap-x-16">
         {serviceCategories.map((category) => (
