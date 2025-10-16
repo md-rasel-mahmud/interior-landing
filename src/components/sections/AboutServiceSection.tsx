@@ -46,6 +46,15 @@ const serviceCategories: ServiceCategory[] = [
   },
 ];
 
+const visionMissionCoreValues = {
+  VISION:
+    "To design and build spaces that inspire, believing every home tells a story, and our role is to bring that story to life with craftmanship, creativity, and care.",
+  MISSION:
+    "Our philosophy is simple: to blend creativity with precision, ensuring every project reflects both beauty and function for individuals, corporates, and developers.",
+  "CORE VALUES":
+    "We operate with transparency, collaboration, and a dedication to quality control and value engineering, ensuring client goals are always met.",
+};
+
 const sectors = [
   ["Residential", "Commercial"],
   ["Retail and F&B", "Healthcare"],
@@ -55,9 +64,20 @@ const sectors = [
 export default function AboutServiceSection() {
   return (
     <section className="bg-background text-primary pb-16 mt-10">
-      <h2 className="py-4 text-3xl font-bold">
+      <h2 className="py-4 text-3xl font-bold text-center">
         Vision | Mission | Core Values
       </h2>
+
+      <div className="py-10">
+        {Object.entries(visionMissionCoreValues).map(([key, value]) => (
+          <div key={key} className="pb-6">
+            <h3 className="font-semibold text-lg">{key}</h3>
+            <p className="opacity-90">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="py-10 text-3xl font-bold text-center">Our Core System</h2>
 
       <div className="lg:ml-10 grid md:grid-cols-2 gap-y-12 gap-x-16">
         {serviceCategories.map((category) => (

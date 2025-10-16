@@ -39,10 +39,7 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
     >
       <div className="container mx-auto px-4lg:px-20">
         <div
-          className={cn(
-            "grid grid-cols-1 lg:grid-cols-2 gap-16",
-            isPage ? "items-center" : "items-start"
-          )}
+          className={cn("grid grid-cols-1 lg:grid-cols-2 gap-16 items-center")}
         >
           {/* Image Slider */}
           {/* <div
