@@ -40,11 +40,11 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       role: "Operations Manager",
       image: tm_3,
     },
-    {
-      name: "Hadi Hamze",
-      role: "Head of Architecture",
-      image: tm_4,
-    },
+    // {
+    //   name: "Hadi Hamze",
+    //   role: "Head of Architecture",
+    //   image: tm_4,
+    // },
     {
       name: "Batoul Fares",
       role: "Head of Interior",
@@ -55,11 +55,11 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
       role: "Cost Control Manager",
       image: tm_7,
     },
-    {
-      name: "Mohammad Al Samad",
-      role: "Arch. Engineer",
-      image: tm_5,
-    },
+    // {
+    //   name: "Mohammad Al Samad",
+    //   role: "Arch. Engineer",
+    //   image: tm_5,
+    // },
 
     {
       name: "Hassan Yacoub",

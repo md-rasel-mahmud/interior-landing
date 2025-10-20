@@ -1,7 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import { Mail, Send, Smartphone, Instagram, PhoneCall } from "lucide-react";
+import {
+  Mail,
+  Send,
+  Smartphone,
+  Instagram,
+  PhoneCall,
+  MapPin,
+} from "lucide-react";
 
 import Heading from "@/components/common/Heading";
 import { cn } from "@/lib/utils";
@@ -29,6 +36,12 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
       title: "@platonic.kw",
       href: "https://www.instagram.com/platonic.kw/?hl=en",
     },
+    {
+      icon: MapPin,
+      title:
+        "Salmiya | Plot 4 | Salem Al-Mubarak Street | Al-Sahab Tower | 4th Floor",
+      href: "https://maps.app.goo.gl/Tho2fphAgRWdQN9x8",
+    },
   ];
 
   if (!isPage) {
@@ -51,14 +64,20 @@ const GetInTouch = ({ isPage }: { isPage?: boolean }) => {
         <div
           className={cn(
             "grid grid-cols-1 overflow-hidden",
-            isPage ? "lg:grid-cols-4" : "lg:grid-cols-5"
+            isPage ? "lg:grid-cols-5" : "lg:grid-cols-6"
           )}
         >
           {/* Contact Information */}
 
           {contactInfo.map((info, index) => {
             return (
-              <Link className="group" href={info.href} key={info.title}>
+              <Link
+                className="group"
+                href={info.href}
+                key={info.title}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <AnimatedSection
                   animation="slideRight"
                   delay={0.2 * (index + 1)}

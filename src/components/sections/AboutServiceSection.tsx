@@ -64,22 +64,22 @@ const sectors = [
 export default function AboutServiceSection() {
   return (
     <section className="bg-background text-primary pb-16 mt-10">
-      <h2 className="py-4 text-3xl font-bold text-center">
+      {/* <h2 className="py-4 text-3xl font-bold text-center">
         Vision | Mission | Core Values
-      </h2>
+      </h2> */}
 
       <div className="py-10">
         {Object.entries(visionMissionCoreValues).map(([key, value]) => (
           <div key={key} className="pb-6">
-            <h3 className="font-semibold text-lg">{key}</h3>
+            <h3 className="font-semibold text-lg pb-4">{key}</h3>
             <p className="opacity-90">{value}</p>
           </div>
         ))}
       </div>
 
-      <h2 className="py-10 text-3xl font-bold text-center">Our Core Systems</h2>
+      {/* <h2 className="py-10 text-3xl font-bold text-center">Our Core Systems</h2> */}
 
-      <div className="lg:ml-10 grid md:grid-cols-2 gap-y-12 gap-x-16">
+      {/* <div className="lg:ml-10 grid md:grid-cols-2 gap-y-12 gap-x-16">
         {serviceCategories.map((category) => (
           <div key={category.id}>
             <h3 className="font-semibold text-lg mb-3">
@@ -97,10 +97,10 @@ export default function AboutServiceSection() {
             )}
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Sectors */}
-      <div className="mt-16 text-center">
+      {/* <div className="mt-16 text-center">
         <h3 className="font-semibold text-lg mb-4">Sectors</h3>
         <div className="flex flex-wrap justify-center gap-x-10 gap-y-2 opacity-90">
           {sectors.map((group, index) => (
@@ -111,7 +111,7 @@ export default function AboutServiceSection() {
             </ul>
           ))}
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

@@ -7,6 +7,74 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import serviceChart from "@/assets/service-chart.svg";
+
+type ServiceCategory = {
+  id: string;
+  title: string;
+  items?: string[];
+  description?: string;
+};
+
+const serviceCategories: ServiceCategory[] = [
+  {
+    id: "01",
+    title: "Design Services",
+    items: [
+      "Architectural Design",
+      "Interior Design",
+      "Structure Design",
+      "Landscape Design",
+      "M.E.P, F.F & L.V",
+      "Branding Design",
+    ],
+  },
+  {
+    id: "02",
+    title: "Construction Services",
+    items: [
+      "Turnkey Solutions",
+      "Skeleton Construction",
+      "Finishing Works",
+      "Renovation Works",
+    ],
+  },
+  {
+    id: "03",
+    title: "Project Delivery Systems",
+    items: [
+      "Project Management",
+      "Supervision",
+      "Financial Management",
+      "Quality Control",
+      "Value Engineering",
+    ],
+  },
+  {
+    id: "04",
+    title: "Design-Build",
+    description: "We provide design & execution services for all sectors.",
+  },
+];
+
+const sectors = [
+  ["Residential", "Commercial"],
+  ["Retail and F&B", "Healthcare"],
+  ["Educational", "Governmental"],
+];
+
+const detailsDescription = [
+  {
+    title: "Architecture",
+    description:
+      "We develop the project starting with an initial inspection and survey phase, then we prepare the necessary building permit documents. Once the executive design is developed, we oversee all construction phases, coordinating the necessary personnel for the project's completion.",
+  },
+  {
+    title: "Interior design",
+    description:
+      "We design every detail of your home, starting with a general concept and developing a mood board with inspirational images. Once a design concept has been finalized, we take care of the lighting, finishes, and custom furniture design. We provide photorealistic renderings to immerse you in the space.",
+  },
+];
 
 const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
   return (
@@ -20,6 +88,74 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
         <div className="text-center">
           <Heading isDarkText={false}>Our Services</Heading>
         </div>
+
+        {isPage && (
+          <>
+            {
+              // Service Chart
+            }
+            <Image
+              src={serviceChart}
+              alt="Service Chart"
+              className="mx-auto h-[80vh] w-full max-w-4xl"
+              width={200}
+              height={200}
+            />
+
+            {
+              // Service Categories
+            }
+            <div className="container mx-auto mt-16">
+              <div className="grid md:grid-cols-2 gap-y-12 gap-x-16">
+                {serviceCategories.map((category) => (
+                  <div key={category.id}>
+                    <h3 className="font-semibold text-lg mb-3">
+                      {category.id} - {category.title}
+                    </h3>
+
+                    {category.items ? (
+                      <ul className="space-y-1 opacity-90">
+                        {category.items.map((item, index) => (
+                          <li key={index}>- {item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="opacity-90">{category.description}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {
+              // Sectors
+            }
+            <div className="mt-16 text-center mb-16">
+              <h3 className="font-semibold text-lg mb-4">Sectors</h3>
+              <div className="flex flex-wrap justify-center gap-x-10 gap-y-2 opacity-90">
+                {sectors.map((group, index) => (
+                  <ul key={index}>
+                    {group.map((sector, i) => (
+                      <li key={i}>- {sector}</li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
+            </div>
+
+            {
+              // Details Description
+            }
+            <div className="container mx-auto mb-16">
+              {detailsDescription.map((detail, index) => (
+                <div key={index} className="mb-10">
+                  <h3 className="font-semibold text-xl mb-2">{detail.title}</h3>
+                  <p className="opacity-90">{detail.description}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Grid */}
         <div

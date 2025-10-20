@@ -103,7 +103,8 @@ const Navigation = () => {
                 // </DropdownMenu>
 
                 <div key={item.name} className="relative group">
-                  <button
+                  <Link
+                    href={item.href}
                     key={item.name}
                     className={cn(
                       "flex text-sm items-center font-medium gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
@@ -113,7 +114,7 @@ const Navigation = () => {
                     )}
                   >
                     {item.name}
-                  </button>
+                  </Link>
 
                   <div
                     className={cn(

@@ -5,7 +5,7 @@ import GetInTouch from "@/components/sections/GetInTouch";
 const GetInTouchPage = () => {
   return (
     <div className="pt-20">
-      <ContactUsSection />
+      {/* <ContactUsSection /> */}
       <GetInTouch isPage />
       <ContactFormSection />
     </div>
