@@ -35,7 +35,7 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center py-20 bg-background w-full md:w-screen"
+      className="min-h-screen flex items-center pt-20 bg-background w-full md:w-screen"
     >
       <div className="container mx-auto px-4lg:px-20">
         <div

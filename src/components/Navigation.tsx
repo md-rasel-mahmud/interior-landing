@@ -15,19 +15,14 @@ import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import logo from "@/assets/logo.svg";
 import logoWhite from "@/assets/logo-white.svg";
-import axiosInstance from "@/lib/axios.instanse";
 
 // ================== MAIN NAVIGATION ==================
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isOpenDesktopDropdown, setIsOpenDesktopDropdown] = useState(false);
-  const [categories, setCategories] = useState([]);
 
   const pathname = usePathname();
   const router = useRouter();
-
-  useEffect(() => {}, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,13 +102,22 @@ const Navigation = () => {
                     href={item.href}
                     key={item.name}
                     className={cn(
-                      "flex text-sm items-center font-medium gap-1 font-helvetica hover:opacity-80 transition-colors duration-300",
+                      "flex text-sm items-center font-medium gap-1 font-helvetica hover:opacity-80 transition-colors duration-300 relative",
                       isScrolled || pathname !== "/"
                         ? "text-primary"
                         : "text-background"
                     )}
                   >
                     {item.name}
+
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 w-0 h-0.5 bg-background transition-all duration-300 group-hover:w-full",
+                        isScrolled || pathname !== "/"
+                          ? "bg-primary"
+                          : "bg-background"
+                      )}
+                    ></span>
                   </Link>
 
                   <div

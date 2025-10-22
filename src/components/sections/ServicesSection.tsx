@@ -147,7 +147,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               // Service Categories
             }
             <div className="container mx-auto mt-20">
-              <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
+              <h2 className="text-2xl md:text-3xl font-semibold text-center mb-32">
                 Our Service Categories
               </h2>
 
@@ -185,12 +185,12 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
             {
               // Sectors
             }
-            <div className="mt-24 text-center">
+            <div className="mt-24 text-center mb-24">
               <h3 className="text-2xl md:text-3xl font-semibold mb-10">
                 Sectors
               </h3>
 
-              <div className="flex flex-wrap justify-center gap-x-14 gap-y-3 text-muted-foreground text-lg leading-relaxed">
+              <div className="flex flex-wrap justify-center gap-x-14 gap-y-3 text-black/60 text-lg leading-relaxed">
                 {sectors.map((group, index) => (
                   <ul key={index} className="text-left space-y-1">
                     {group.map((sector, i) => (

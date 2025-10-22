@@ -11,15 +11,14 @@ import NavigateButton from "@/components/common/NavigateButton";
 import tm_1 from "@/assets/team-members/karam-awada.jpg";
 import tm_2 from "@/assets/team-members/mohamad-achour.jpg";
 import tm_3 from "@/assets/team-members/wassim-abdul-nabi.jpg";
-import tm_4 from "@/assets/team-members/hadi-hamze.jpg";
-import tm_5 from "@/assets/team-members/mohammad-al-samad.jpg";
-import tm_6 from "@/assets/team-members/batoul-fares.jpg";
-import tm_7 from "@/assets/team-members/ahmad-awada.jpg";
-import tm_8 from "@/assets/team-members/hassan-yaacoub.jpg";
-import tm_9 from "@/assets/team-members/zainab-al-ali.jpg";
-import tm_10 from "@/assets/team-members/gulzar-mazumder.jpg";
-import tm_11 from "@/assets/team-members/sayed-mohamad-ali.jpg";
-import tm_12 from "@/assets/team-members/kareem.jpg";
+import tm_4 from "@/assets/team-members/batoul-fares.jpg";
+import tm_5 from "@/assets/team-members/ahmad-awada.jpg";
+import tm_6 from "@/assets/team-members/hassan-yaacoub.jpg";
+import tm_7 from "@/assets/team-members/daher.jpg";
+import tm_8 from "@/assets/team-members/zainab-al-ali.jpg";
+import tm_9 from "@/assets/team-members/gulzar-mazumder.jpg";
+import tm_10 from "@/assets/team-members/sayed-mohamad-ali.jpg";
+import tm_11 from "@/assets/team-members/kareem.jpg";
 
 import allMembers from "@/assets/team-members/all-members.jpg";
 
@@ -48,12 +47,12 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     {
       name: "Batoul Fares",
       role: "Head of Interior",
-      image: tm_6,
+      image: tm_4,
     },
     {
       name: "Ahmad Awada",
       role: "Cost Control Manager",
-      image: tm_7,
+      image: tm_5,
     },
     // {
     //   name: "Mohammad Al Samad",
@@ -64,27 +63,32 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     {
       name: "Hassan Yacoub",
       role: "Finishing Supervisor",
-      image: tm_8,
+      image: tm_6,
+    },
+    {
+      name: "Mohammad Daher",
+      role: "Project Engineer",
+      image: tm_7,
     },
     {
       name: "Zainab Al-Ali",
       role: "Secretary",
-      image: tm_9,
+      image: tm_8,
     },
     {
       name: "Gulzar Mazumder",
       role: "Sr. Draftsman",
-      image: tm_10,
+      image: tm_9,
     },
     {
       name: "Sayed Mohamad Ali",
       role: "Paint Specialist",
-      image: tm_11,
+      image: tm_10,
     },
     {
       name: "Kareem",
       role: "Office Attendant",
-      image: tm_12,
+      image: tm_11,
     },
   ];
 

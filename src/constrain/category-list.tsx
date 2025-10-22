@@ -1,3 +1,4 @@
+import architectureImg from "@/assets/categories/01.png";
 export interface Category {
   slug: string;
   name: string;
@@ -9,8 +10,7 @@ export const categories: Category[] = [
   {
     slug: "architecture",
     name: "Architecture",
-    image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop",
+    image: architectureImg.src,
   },
   {
     slug: "interior",

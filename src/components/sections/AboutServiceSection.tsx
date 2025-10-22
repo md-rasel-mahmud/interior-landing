@@ -68,7 +68,7 @@ export default function AboutServiceSection() {
         Vision | Mission | Core Values
       </h2> */}
 
-      <div className="py-10">
+      <div className="pt-10">
         {Object.entries(visionMissionCoreValues).map(([key, value]) => (
           <div key={key} className="pb-6">
             <h3 className="font-semibold text-lg pb-4">{key}</h3>
