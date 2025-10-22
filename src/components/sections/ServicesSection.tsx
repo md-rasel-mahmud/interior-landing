@@ -102,7 +102,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               height={200}
             />
 
-            {
+            {/* {
               // Service Categories
             }
             <div className="container mx-auto mt-16">
@@ -141,19 +141,82 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
                   </ul>
                 ))}
               </div>
+            </div> */}
+
+            {
+              // Service Categories
+            }
+            <div className="container mx-auto mt-20">
+              <h2 className="text-2xl md:text-3xl font-semibold text-center mb-12">
+                Our Service Categories
+              </h2>
+
+              <div className="grid md:grid-cols-2 gap-x-16 gap-y-16">
+                {serviceCategories.map((category) => (
+                  <div key={category.id} className="relative group">
+                    <div className="mb-5">
+                      <h3 className="text-xl font-semibold text-primary mb-2 group-hover:text-black transition-colors">
+                        {category.id} - {category.title}
+                      </h3>
+                      <div className="h-0.5 w-12 bg-primary group-hover:w-20 group-hover:bg-black transition-all"></div>
+                    </div>
+
+                    {category.items ? (
+                      <ul className="space-y-1 text-black/60 leading-relaxed">
+                        {category.items.map((item, index) => (
+                          <li
+                            key={index}
+                            className="transition-all hover:translate-x-1 hover:text-primary"
+                          >
+                            • {item}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-black/60 leading-relaxed">
+                        {category.description}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {
+              // Sectors
+            }
+            <div className="mt-24 text-center">
+              <h3 className="text-2xl md:text-3xl font-semibold mb-10">
+                Sectors
+              </h3>
+
+              <div className="flex flex-wrap justify-center gap-x-14 gap-y-3 text-muted-foreground text-lg leading-relaxed">
+                {sectors.map((group, index) => (
+                  <ul key={index} className="text-left space-y-1">
+                    {group.map((sector, i) => (
+                      <li
+                        key={i}
+                        className="hover:text-primary transition-colors duration-200"
+                      >
+                        • {sector}
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
             </div>
 
             {
               // Details Description
             }
-            <div className="container mx-auto mb-16">
+            {/* <div className="container mx-auto mb-16">
               {detailsDescription.map((detail, index) => (
                 <div key={index} className="mb-10">
                   <h3 className="font-semibold text-xl mb-2">{detail.title}</h3>
                   <p className="opacity-90">{detail.description}</p>
                 </div>
               ))}
-            </div>
+            </div> */}
           </>
         )}
 
