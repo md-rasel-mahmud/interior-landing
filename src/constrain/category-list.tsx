@@ -1,6 +1,6 @@
 import architectureImg from "@/assets/categories/01.png";
 import fitOutImg from "@/assets/categories/03.png";
-import turnkeySolutionImg from "@/assets/categories/03.png";
+import turnkeySolutionImg from "@/assets/categories/04.png";
 export interface Category {
   slug: string;
   name: string;
