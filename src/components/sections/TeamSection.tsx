@@ -96,7 +96,7 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     <section
       id="team"
       className={cn(
-        "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background",
+        "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background my-32",
         isPage && "pt-24"
       )}
       // style={{

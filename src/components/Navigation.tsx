@@ -49,7 +49,7 @@ const Navigation = () => {
         isScrolled ? "active-nav-bg shadow-sm" : "bg-transparent"
       )}
     >
-      <div className="container mx-auto px-6 py-1">
+      <div className="px-6 lg:px-12 py-1">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.button
@@ -199,7 +199,7 @@ const Navigation = () => {
         </div>
 
         {/* Mobile Accordion Menu */}
-        {mobileMenuOpen && <MobileMenu />}
+        {mobileMenuOpen && <MobileMenu setMobileMenuOpen={setMobileMenuOpen} />}
       </div>
     </motion.nav>
   );
@@ -207,7 +207,11 @@ const Navigation = () => {
 
 // ================== MOBILE MENU ==================
 
-const MobileMenu = () => {
+const MobileMenu = ({
+  setMobileMenuOpen,
+}: {
+  setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleSubmenu = (index: number) => {
@@ -252,6 +256,7 @@ const MobileMenu = () => {
                       key={subItem.name}
                       href={subItem.href}
                       className="py-1 text-sm hover:underline"
+                      onClick={() => setMobileMenuOpen(false)}
                     >
                       {subItem.name}
                     </Link>
@@ -264,7 +269,8 @@ const MobileMenu = () => {
           <Link
             key={item.href}
             href={item.href}
-            className="font-helvetica font-medium py-2"
+            onClick={() => setMobileMenuOpen(false)}
+            className="font-helvetica font-medium py-2 hover:underline"
           >
             {item.name}
           </Link>

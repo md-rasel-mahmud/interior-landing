@@ -35,9 +35,9 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
   return (
     <section
       id="about"
-      className="min-h-screen flex items-center pt-20 bg-background w-full md:w-screen"
+      className="min-h-screen flex items-center pt-20 bg-background w-full overflow-x-hidden"
     >
-      <div className="container mx-auto px-4lg:px-20">
+      <div className="container mx-auto px-4 lg:px-20">
         <div
           className={cn("grid grid-cols-1 lg:grid-cols-2 gap-16 items-center")}
         >
@@ -87,7 +87,7 @@ const AboutSection = ({ isPage }: { isPage?: boolean }) => {
             </button>
           </div> */}
 
-          <div className="relative flex-[0_0_100%] h-[750px]">
+          <div className="relative flex-[0_0_100%] h-[400px] md:h-[600px] lg:h-[750px]">
             {loading && (
               <div className="absolute inset-0 flex items-center justify-center bg-background">
                 <span className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></span>
