@@ -97,7 +97,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
             <Image
               src={serviceChart}
               alt="Service Chart"
-              className="mx-auto h-[80vh] w-full max-w-4xl"
+              className="mx-auto lg:h-[80vh] h-[40vh] object-cover w-full max-w-4xl"
               width={200}
               height={200}
             />
@@ -147,7 +147,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               // Service Categories
             }
             <div className="container mx-auto mt-20">
-              <h2 className="text-2xl md:text-3xl font-semibold text-center mb-32">
+              <h2 className="text-2xl md:text-3xl font-semibold text-center mb-16 lg:mb-32">
                 Our Service Categories
               </h2>
 

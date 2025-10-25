@@ -96,8 +96,9 @@ const TeamSection = ({ isPage }: { isPage?: boolean }) => {
     <section
       id="team"
       className={cn(
-        "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background my-32",
-        isPage && "pt-24"
+        "min-h-screen flex flex-col gap-7 justify-center w-screen bg-background",
+        isPage && "pt-24",
+        isPage || "my-32"
       )}
       // style={{
       //   backgroundImage: isPage ? `url(${allMembers.src})` : "none",
