@@ -1,6 +1,8 @@
 import architectureImg from "@/assets/categories/01.png";
 import fitOutImg from "@/assets/categories/03.png";
 import turnkeySolutionImg from "@/assets/categories/04.png";
+import interiorImg from "@/assets/categories/02.jpg";
+
 export interface Category {
   slug: string;
   name: string;
@@ -17,8 +19,7 @@ export const categories: Category[] = [
   {
     slug: "interior",
     name: "Interior",
-    image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop",
+    image: interiorImg.src,
   },
   {
     slug: "fit-out",
