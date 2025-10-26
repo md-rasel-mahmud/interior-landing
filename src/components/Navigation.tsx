@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 //   DropdownMenuItem,
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MenuIcon, X } from "lucide-react";
 import logo from "@/assets/logo.svg";
 import logoWhite from "@/assets/logo-white.svg";
 
@@ -181,19 +181,11 @@ const Navigation = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+              {mobileMenuOpen ? (
+                <X className="text-destructive" />
+              ) : (
+                <MenuIcon />
+              )}
             </motion.button>
           </div>
         </div>

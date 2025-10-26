@@ -118,7 +118,7 @@ const ContactFormSection = () => {
 
   return (
     <section>
-      <div className="container mx-auto px-2">
+      <div className="container mx-auto px-2 overflow-x-auto">
         <AnimatedSection animation="slideLeft" delay={0.4}>
           <motion.div
             className={cn(
