@@ -133,11 +133,7 @@ export default function RootLayout({
       </head>
 
       <body className={`${poppins.variable} ${helveticaNeueFont.variable}`}>
-        <Providers>
-          <Navigation />
-          {children}
-          <Footer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

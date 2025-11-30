@@ -1,12 +1,17 @@
 "use client";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
-import { ExternalLink, MapPin } from "lucide-react";
+// import { ExternalLink, MapPin } from "lucide-react";
 import Heading from "@/components/common/Heading";
-import { projects } from "@/constrain/project-list";
+import { projects } from "@/constants/project-list";
 import Link from "next/link";
-import { categories } from "@/constrain/category-list";
+import { categories } from "@/constants/category-list";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
+import axiosInstance from "@/lib/axios.instanse";
+import { ProjectTypeWithId } from "@/backend/models/project/project.dto";
+import Loading from "@/components/common/Loading";
 
 const ProjectsSection = ({
   isPage,
@@ -15,9 +20,16 @@ const ProjectsSection = ({
   isPage?: boolean;
   categorySlug?: string;
 }) => {
-  const projectList = categorySlug
-    ? projects.filter((project) => project.categorySlug === categorySlug)
-    : projects;
+  const searchParams = useSearchParams();
+
+  const { data: projectListData, isLoading: projectListLoading } = useSWR(
+    `/project?${searchParams.toString()}&category=${categorySlug || ""}`,
+    (url) => axiosInstance.get(url).then((res) => res.data),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   const category = categorySlug
     ? categories.find((cat) => cat.slug === categorySlug)
@@ -35,48 +47,65 @@ const ProjectsSection = ({
           </div>
         </AnimatedSection>
 
+        {projectListLoading && <Loading />}
+
         <div className="grid md:grid-cols-2 gap-1">
-          {projectList
-            .slice(0, isPage ? projects.length : 3)
-            .map((project, index) => (
-              <AnimatedSection
-                key={project.title}
-                animation="scale"
-                delay={0.1 * (index + 1)}
-              >
-                <Link
-                  href={`/projects/${project.categorySlug}/${project.slug}`}
+          {projectListData?.data &&
+            projectListData?.data
+              .slice(0, isPage ? projects.length : 3)
+              .map((project: ProjectTypeWithId, index: number) => (
+                <AnimatedSection
+                  key={project.name}
+                  animation="scale"
+                  delay={0.1 * (index + 1)}
                 >
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.15, duration: 0.6 }}
-                    className="h-full"
+                  <Link
+                    href={`/projects/${
+                      typeof project.category === "string"
+                        ? project.category
+                        : project.category["_id"]
+                    }/${project._id}`}
                   >
-                    <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
-                      {/* Background Image */}
-                      <Image
-                        src={project.images[0]}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                    <motion.div
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.15, duration: 0.6 }}
+                      className="h-full"
+                    >
+                      <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
+                        {/* Background Image */}
+                        {project?.images?.[0] && (
+                          <Image
+                            src={project?.images?.[0]}
+                            alt={project.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        )}
 
-                      {/* Gradient Overlay */}
-                      <div className="absolute inset-0 group-hover:opacity-0 transition-all bg-black/50" />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 group-hover:opacity-0 transition-all bg-black/50" />
 
-                      <div className="absolute inset-0 flex items-center justify-center gap-2">
-                        <div className="relative">
-                          <span className="text-background text-xl font-semibold z-10">
-                            {project.title}
-                          </span>
+                        <div className="absolute inset-0 flex items-center justify-center gap-2">
+                          <div className="relative">
+                            <span className="text-background text-xl font-semibold z-10">
+                              {project.name}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                </Link>
-              </AnimatedSection>
-            ))}
+                    </motion.div>
+                  </Link>
+                </AnimatedSection>
+              ))}
+        </div>
+
+        <div>
+          {projectListData?.data?.length === 0 && !projectListLoading && (
+            <p className="text-center text-muted-foreground mt-12">
+              No projects found.
+            </p>
+          )}
         </div>
 
         {/* View All Button */}

@@ -173,7 +173,6 @@ export default function CareerPage() {
 
       console.log("data :>> ", data);
 
-      console.log("values :>> ", values);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error?.message || "Something went wrong!");

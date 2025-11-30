@@ -1,5 +1,5 @@
 "use client";
-import { navItems } from "@/constrain/nav-menu";
+import { navItems } from "@/constants/nav-menu";
 import { motion } from "framer-motion";
 import { Instagram, Facebook, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";

@@ -2,12 +2,17 @@
 
 import Heading from "@/components/common/Heading";
 import NavigateButton from "@/components/common/NavigateButton";
-import { categories } from "@/constrain/category-list";
+import { categories } from "@/constants/category-list";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import serviceChart from "@/assets/service-chart.svg";
+import useSWR from "swr";
+import axiosInstance from "@/lib/axios.instanse";
+import { CategoryTypeWithId } from "@/backend/models/category/category.dto";
+import Loading from "@/components/common/Loading";
+import { SectorTypeWithId } from "@/backend/models/sector/sector.dto";
 
 type ServiceCategory = {
   id: string;
@@ -77,6 +82,28 @@ const detailsDescription = [
 ];
 
 const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
+  const { data: categoryList, isLoading: categoryListLoading } = useSWR(
+    `/category?page=1&limit=${isPage ? "100" : "3"}`,
+    (url: string) => axiosInstance.get(url).then((res) => res.data),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  const { data: sectorList, isLoading: sectorListLoading } = useSWR(
+    `/sector?page=1&limit=100`,
+    (url: string) => axiosInstance.get(url).then((res) => res.data),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  if (categoryListLoading || sectorListLoading) {
+    return <Loading />;
+  }
+
   return (
     <section
       className={cn(
@@ -152,33 +179,40 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               </h2>
 
               <div className="grid md:grid-cols-2 gap-x-16 gap-y-16">
-                {serviceCategories.map((category) => (
-                  <div key={category.id} className="relative group">
-                    <div className="mb-5">
-                      <h3 className="text-xl font-semibold text-primary mb-2 group-hover:text-black transition-colors">
-                        {category.id} - {category.title}
-                      </h3>
-                      <div className="h-0.5 w-12 bg-primary group-hover:w-20 group-hover:bg-black transition-all"></div>
-                    </div>
+                {categoryList?.data &&
+                  categoryList?.data?.map(
+                    (category: CategoryTypeWithId, index: number) => (
+                      <div key={category._id} className="relative group">
+                        <div className="mb-5">
+                          <h3 className="text-xl font-semibold text-primary mb-2 group-hover:text-black transition-colors">
+                            {index + 1} - {category.name}
+                          </h3>
+                          <div className="h-0.5 w-12 bg-primary group-hover:w-20 group-hover:bg-black transition-all"></div>
+                        </div>
 
-                    {category.items ? (
-                      <ul className="space-y-1 text-black/60 leading-relaxed">
-                        {category.items.map((item, index) => (
-                          <li
-                            key={index}
-                            className="transition-all hover:translate-x-1 hover:text-primary"
-                          >
-                            • {item}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="text-black/60 leading-relaxed">
-                        {category.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
+                        {/* {category.items ? (
+                          <ul className="space-y-1 text-black/60 leading-relaxed">
+                            {category.items.map((item, index) => (
+                              <li
+                                key={index}
+                                className="transition-all hover:translate-x-1 hover:text-primary"
+                              >
+                                • {item}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-black/60 leading-relaxed">
+                            {category.description}
+                          </p>
+                        )} */}
+
+                        <p className="text-black/60 leading-relaxed">
+                          {category.description}
+                        </p>
+                      </div>
+                    )
+                  )}
               </div>
             </div>
 
@@ -191,18 +225,18 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               </h3>
 
               <div className="flex flex-wrap justify-center gap-x-14 gap-y-3 text-black/60 text-lg leading-relaxed">
-                {sectors.map((group, index) => (
-                  <ul key={index} className="text-left space-y-1">
-                    {group.map((sector, i) => (
+                <ul className="text-left space-y-1 grid grid-cols-2 lg:grid-cols-4 gap-x-10">
+                  {sectorList?.data?.map(
+                    (singleSector: SectorTypeWithId, index: number) => (
                       <li
-                        key={i}
+                        key={index}
                         className="hover:text-primary transition-colors duration-200"
                       >
-                        • {sector}
+                        • {singleSector?.name}
                       </li>
-                    ))}
-                  </ul>
-                ))}
+                    )
+                  )}
+                </ul>
               </div>
             </div>
 
@@ -227,42 +261,43 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
             isPage ? "lg:grid-cols-2" : "lg:grid-cols-3"
           )}
         >
-          {categories
-            .slice(0, isPage ? categories.length : 3)
-            .map((category, index) => (
-              <Link key={category.slug} href={`/projects/${category.slug}`}>
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.15, duration: 0.6 }}
-                  className="h-full"
-                >
-                  <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[25rem] group">
-                    {/* Background Image */}
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover"
-                    />
+          {categoryList?.data &&
+            categoryList?.data.map(
+              (category: CategoryTypeWithId, index: number) => (
+                <Link key={category._id} href={`/projects/${category._id}`}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.15, duration: 0.6 }}
+                    className="h-full"
+                  >
+                    <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[25rem] group">
+                      {/* Background Image */}
+                      <Image
+                        src={category.image}
+                        alt={category.name}
+                        fill
+                        className="object-cover"
+                      />
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-black/50" />
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-black/50" />
 
-                    <div className="absolute inset-0 flex items-center justify-center gap-2">
-                      <div className="relative">
-                        <span className="text-background text-xl font-semibold z-10">
-                          {category.name}
-                        </span>
+                      <div className="absolute inset-0 flex items-center justify-center gap-2">
+                        <div className="relative">
+                          <span className="text-background text-xl font-semibold z-10">
+                            {category.name}
+                          </span>
 
-                        {/* Underline Animation */}
-                        <span className="absolute bottom-1 left-0 w-full h-0.5 bg-background transition-all duration-300 group-hover:w-0"></span>
+                          {/* Underline Animation */}
+                          <span className="absolute bottom-1 left-0 w-full h-0.5 bg-background transition-all duration-300 group-hover:w-0"></span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
+                  </motion.div>
+                </Link>
+              )
+            )}
         </div>
 
         {!isPage && (

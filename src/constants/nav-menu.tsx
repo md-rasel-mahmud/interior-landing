@@ -1,4 +1,4 @@
-import { categories } from "@/constrain/category-list";
+import { categories } from "@/constants/category-list";
 
 export type NavItem = {
   name: string;
@@ -12,10 +12,11 @@ export const navItems: NavItem[] = [
   {
     name: "Service",
     href: "/services",
-    submenu: categories.map((cat) => ({
-      name: cat.name,
-      href: `/projects/${cat.slug}`,
-    })),
+    // submenu: categories.map((cat) => ({
+    //   name: cat.name,
+    //   href: `/projects/${cat.slug}`,
+    // }))
+    submenu: [],
   },
   { name: "Process", href: "/process" },
   { name: "Contact Us", href: "/contact" },

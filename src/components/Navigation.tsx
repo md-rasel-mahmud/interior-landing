@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { navItems } from "@/constrain/nav-menu";
+import { navItems } from "@/constants/nav-menu";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 // import {
 //   DropdownMenu,
@@ -15,6 +15,9 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, MenuIcon, X } from "lucide-react";
 import logo from "@/assets/logo.svg";
 import logoWhite from "@/assets/logo-white.svg";
+import useSWR from "swr";
+import axiosInstance from "@/lib/axios.instanse";
+import { CategoryTypeWithId } from "@/backend/models/category/category.dto";
 
 // ================== MAIN NAVIGATION ==================
 const Navigation = () => {
@@ -23,6 +26,31 @@ const Navigation = () => {
 
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const { data: categoryList } = useSWR(
+    `/category?${searchParams.toString()}`,
+    (url) => axiosInstance.get(url).then((res) => res.data),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  const parsedNavItems = navItems.map((item) => {
+    if (item.name === "Service") {
+      return {
+        ...item,
+        submenu: categoryList
+          ? categoryList?.data?.map((cat: CategoryTypeWithId) => ({
+              name: cat?.name,
+              href: `/projects/${cat?._id}`,
+            }))
+          : [],
+      };
+    }
+    return item;
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,7 +97,7 @@ const Navigation = () => {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) =>
+            {parsedNavItems.map((item) =>
               item.submenu ? (
                 // <DropdownMenu key={item.name}>
                 //   <DropdownMenuTrigger asChild>
@@ -128,7 +156,8 @@ const Navigation = () => {
                         : "text-background"
                     )}
                   >
-                    {item.submenu.map((subItem) => (
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                    {item.submenu.map((subItem: any) => (
                       <Link
                         key={subItem.name}
                         href={subItem.href}

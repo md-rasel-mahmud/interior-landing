@@ -3,18 +3,33 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 // import { Dot, MapPin } from "lucide-react";
 import AnimatedSection from "@/components/ui/animated-section";
-import { projects } from "@/constrain/project-list";
-import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
 import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
+import useSWR from "swr";
+import axiosInstance from "@/lib/axios.instanse";
+import { ProjectTypeWithId } from "@/backend/models/project/project.dto";
+import Loading from "@/components/common/Loading";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
-  const projectIndex = projects.findIndex((p) => p.slug === projectSlug);
-  const project = projects[projectIndex];
 
-  if (!project) {
+  const { data: project, isLoading: projectListLoading } = useSWR(
+    `/project/${projectSlug}?next=true&prev=true`,
+    (url) => axiosInstance.get(url).then((res) => res.data),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  const projectData = project?.data as ProjectTypeWithId | undefined;
+
+  if (projectListLoading) {
+    return <Loading />;
+  }
+
+  if (!projectData) {
     return (
       <div className="min-h-screen flex items-center justify-center text-foreground">
         Project not found
@@ -27,16 +42,18 @@ export default function ProjectDetailPage() {
       <div className="container mx-auto px-6">
         {/* Hero Carousel */}
         <AnimatedSection animation="slideUp" delay={0.2}>
-          {/* <ProjectCarousel images={project.images} /> */}
+          {/* <ProjectCarousel images={projectData.images} /> */}
 
           <div className="min-w-full relative">
-            <Image
-              src={project.images[0]}
-              alt={`Project image`}
-              width={1200}
-              height={800}
-              className="h-[550px] w-full object-cover"
-            />
+            {projectData?.images?.[0] && (
+              <Image
+                src={projectData?.images?.[0]}
+                alt={`Project image`}
+                width={1200}
+                height={800}
+                className="h-[550px] w-full object-cover"
+              />
+            )}
           </div>
         </AnimatedSection>
 
@@ -52,7 +69,7 @@ export default function ProjectDetailPage() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 viewport={{ once: true }}
               >
-                {project.title}
+                {projectData.name}
               </motion.h3>
 
               <AnimatedSection animation="slideRight" delay={0.5}>
@@ -61,35 +78,38 @@ export default function ProjectDetailPage() {
                     Project Details
                   </h3>
 
-                  <div className="space-y-6 text-sm font-inter text-foreground/80">
+                  <p className="mt-6 font-inter text-sm leading-relaxed text-foreground/80">
+                    {projectData.description}
+                  </p>
+
+                  {/* <div className="space-y-6 text-sm font-inter text-foreground/80">
                     <p>
                       <span className="font-medium text-primary">
                         Location:
                       </span>{" "}
-                      {project.location}
+                      {projectData.location}
                     </p>
                     <p>
                       <span className="font-medium text-primary">Type:</span>{" "}
-                      {project.type}
+                      {typeof projectData.category === "string"
+                        ? projectData.category
+                        : projectData.category?.["name"] || "N/A"}
                     </p>
                     <p>
                       <span className="font-medium text-primary">Status:</span>{" "}
-                      Completed
+                      {projectData.status ? projectData.status : "N/A"}
                     </p>
                     <p>
                       <span className="font-medium text-primary">Year:</span>{" "}
-                      2024
+                      {projectData.year ? projectData.year : "N/A"}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </AnimatedSection>
               {/* <div className="flex items-center text-foreground/70 mt-3">
                 <MapPin className="w-4 h-4 mr-2" />
-                <span className="font-inter text-sm">{project.location}</span>
+                <span className="font-inter text-sm">{projectData.location}</span>
               </div> */}
-              {/* <p className="mt-6 font-inter text-lg leading-relaxed text-foreground/80">
-                {project.description}
-              </p> */}
             </AnimatedSection>
 
             {/* Features List */}
@@ -98,7 +118,7 @@ export default function ProjectDetailPage() {
                 Key Features
               </h3>
               <ul className="space-y-3">
-                {project.features.map((feature, i) => (
+                {projectData.features.map((feature, i) => (
                   <motion.li
                     key={i}
                     className="flex items-center text-foreground/70"
@@ -124,11 +144,11 @@ export default function ProjectDetailPage() {
                 <div className="space-y-3 text-sm font-inter text-foreground/80">
                   <p>
                     <span className="font-medium text-primary">Type:</span>{" "}
-                    {project.type}
+                    {projectData.type}
                   </p>
                   <p>
                     <span className="font-medium text-primary">Location:</span>{" "}
-                    {project.location}
+                    {projectData.location}
                   </p>
                   <p>
                     <span className="font-medium text-primary">Status:</span>{" "}
@@ -145,7 +165,7 @@ export default function ProjectDetailPage() {
 
         {/* picture */}
         <div className="mt-20 grid lg:grid-cols-2 gap-3">
-          {project.images.map((img, index) => (
+          {projectData.images.map((img: string, index: number) => (
             <AnimatedSection
               animation="slideUp"
               delay={0.6 + index * 0.2}
@@ -153,7 +173,7 @@ export default function ProjectDetailPage() {
             >
               <Image
                 src={img}
-                alt={`${project.title} image ${index + 1}`}
+                alt={`${projectData.name} image ${index + 1}`}
                 width={1200}
                 height={800}
                 className="w-full h-auto object-cover"
@@ -164,27 +184,23 @@ export default function ProjectDetailPage() {
 
         <div className="flex justify-between items-center mt-10">
           <div>
-            {projectIndex > 0 && (
+            {project?.prevProject && (
               <Link
-                href={`/projects/${projects[projectIndex - 1].categorySlug}/${
-                  projects[projectIndex - 1].slug
-                }`}
+                href={`/projects/${project?.prevProject?.category?._id}/${project?.prevProject._id}`}
                 className="mt-20 text-sm font-inter text-primary hover:underline"
               >
-                &larr; {projects[projectIndex - 1].title}
+                &larr; {project?.prevProject?.name}
               </Link>
             )}
           </div>
 
           <div>
-            {projectIndex < projects.length - 1 && (
+            {project?.nextProject && (
               <Link
-                href={`/projects/${projects[projectIndex + 1].categorySlug}/${
-                  projects[projectIndex + 1].slug
-                }`}
+                href={`/projects/${project?.nextProject?.category?._id}/${project?.nextProject._id}`}
                 className="mt-20 text-sm font-inter text-primary hover:underline"
               >
-                {projects[projectIndex + 1].title} &rarr;
+                {project?.nextProject?.name} &rarr;
               </Link>
             )}
           </div>
