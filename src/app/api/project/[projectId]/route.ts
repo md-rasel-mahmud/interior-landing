@@ -3,18 +3,13 @@
 
 import { validateRequest } from "@/helper/validation-request";
 import { connectDB } from "@/backend/db";
-import {
-  IProject,
-  projectValidation,
-} from "@/backend/models/project/project.dto";
+import { projectValidation } from "@/backend/models/project/project.dto";
 import { Project } from "@/backend/models/project/project.model";
 import { NextRequest, NextResponse } from "next/server";
-import "@/backend/models/unit/unit.model";
 import "@/backend/models/category/category.model";
 import { Types } from "mongoose";
 
 // GET - get a single project by ID
-
 export async function GET(
   req: NextRequest,
   {

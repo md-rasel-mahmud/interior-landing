@@ -1,11 +1,14 @@
+import Loading from "@/components/common/Loading";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Navigation />
+      <Suspense fallback={<Loading />}>
+        <Navigation />
+      </Suspense>
       {children}
       <Footer />
     </>

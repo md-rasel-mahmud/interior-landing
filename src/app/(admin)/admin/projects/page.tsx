@@ -4,9 +4,11 @@ import { Suspense } from "react";
 
 const ProductPage = () => {
   return (
-    <Suspense fallback={<Loading />}>
-      <ProjectPageClient />
-    </Suspense>
+    <div>
+      <Suspense fallback={<Loading />}>
+        <ProjectPageClient />
+      </Suspense>
+    </div>
   );
 };
 

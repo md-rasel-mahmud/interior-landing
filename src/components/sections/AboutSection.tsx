@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import AnimatedSection from "../ui/animated-section";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+// import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // Image import
 import ownerImage from "@/assets/team-members/owner.jpg";
 // import ownerAndCo_founder1 from "@/assets/team-members/owner_and_co-founder-2.jpg";
 import ownerAndCo_founder2 from "@/assets/team-members/owner_and_co-founder-3.jpg";
 import ownerAndCo_founder3 from "@/assets/team-members/owner_and_co-founder-1.jpg";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+// import useEmblaCarousel from "embla-carousel-react";
+// import Autoplay from "embla-carousel-autoplay";
 import AboutServiceSection from "@/components/sections/AboutServiceSection";
 import { cn } from "@/lib/utils";
 
@@ -23,15 +23,15 @@ const images = [
 ];
 
 const AboutSection = ({ isPage }: { isPage?: boolean }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, duration: 40 }, // duration = smoothness
-    [Autoplay({ delay: 3000 })]
-  );
+  // const [emblaRef, emblaApi] = useEmblaCarousel(
+  //   { loop: true, duration: 40 }, // duration = smoothness
+  //   [Autoplay({ delay: 3000 })]
+  // );
 
   const [loading, setLoading] = useState(true);
 
-  const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
-  const scrollNext = () => emblaApi && emblaApi.scrollNext();
+  // const scrollPrev = () => emblaApi && emblaApi.scrollPrev();
+  // const scrollNext = () => emblaApi && emblaApi.scrollNext();
   return (
     <section
       id="about"

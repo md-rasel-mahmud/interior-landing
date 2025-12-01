@@ -1,10 +1,13 @@
 import AdminSectorComponent from "@/app/(admin)/admin/sectors/AdminSectorComponent";
-import React from "react";
+import Loading from "@/components/common/Loading";
+import React, { Suspense } from "react";
 
 const AdminSectorPage = () => {
   return (
     <div>
-      <AdminSectorComponent />
+      <Suspense fallback={<Loading />}>
+        <AdminSectorComponent />
+      </Suspense>
     </div>
   );
 };

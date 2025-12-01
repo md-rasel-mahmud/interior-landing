@@ -18,7 +18,7 @@ import { baseInputClass, cn } from "@/lib/utils";
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { Camera, RefreshCw, X } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Control, Controller, FieldValues, useWatch } from "react-hook-form";
 import TooltipSlider from "rc-slider";
 import RichEditor from "@/components/common/form/RichEditor";
@@ -36,6 +36,7 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
+import Loading from "@/components/common/Loading";
 
 // types.ts
 export type InputType =
@@ -584,19 +585,21 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
                 </div>
 
                 {mediaModalOpenFor?.name === input.name && (
-                  <MediaModal
-                    onClose={() => setMediaModalOpenFor(null)}
-                    value={watch[input.name]}
-                    isMultiple={input.isMultiple}
-                    onSelect={(url) =>
-                      handleMediaSelect(
-                        url,
-                        field.onChange,
-                        watch[input.name],
-                        input.isMultiple
-                      )
-                    }
-                  />
+                  <Suspense fallback={<Loading />}>
+                    <MediaModal
+                      onClose={() => setMediaModalOpenFor(null)}
+                      value={watch[input.name]}
+                      isMultiple={input.isMultiple}
+                      onSelect={(url) =>
+                        handleMediaSelect(
+                          url,
+                          field.onChange,
+                          watch[input.name],
+                          input.isMultiple
+                        )
+                      }
+                    />
+                  </Suspense>
                 )}
               </FormInputWrapper>
             );

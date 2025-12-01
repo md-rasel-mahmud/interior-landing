@@ -7,9 +7,7 @@ import mongoose, { Model, Schema } from "mongoose";
 const SectorSchema: Schema = new Schema<ISector>(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: false, index: true, slug: "name" },
     description: { type: String },
-    image: { type: String },
   },
   {
     timestamps: true,

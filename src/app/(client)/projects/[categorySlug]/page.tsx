@@ -1,6 +1,7 @@
+import Loading from "@/components/common/Loading";
 import ProjectsSection from "@/components/sections/ProjectsSection";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 const ProjectsPage = async ({
   params,
@@ -11,7 +12,9 @@ const ProjectsPage = async ({
 
   return (
     <>
-      <ProjectsSection isPage categorySlug={categorySlug} />
+      <Suspense fallback={<Loading />}>
+        <ProjectsSection isPage categorySlug={categorySlug} />
+      </Suspense>
     </>
   );
 };

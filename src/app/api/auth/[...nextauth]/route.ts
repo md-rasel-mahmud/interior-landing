@@ -42,7 +42,6 @@ const authOptions: NextAuthOptions = {
 
         return {
           id: (typedUser._id as { toString: () => string }).toString(),
-          name: typedUser.name,
           username: typedUser.username,
         };
       },

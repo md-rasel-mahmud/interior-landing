@@ -31,7 +31,6 @@ export default function Home() {
       <AboutSection isPage />
       <TeamSection />
 
-      {/* <ProcessSection /> */}
       <ServicesSection />
 
       <GetInTouch />
