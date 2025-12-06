@@ -83,22 +83,31 @@ const AdminMediaClient: React.FC = () => {
 
     try {
       uploadMutate(() =>
-        axiosInstance.post("/media", formData).then((res) => {
-          mutate(
-            `/media?${queryString}`,
-            (prevData: { data: MediaTypeWithId[] } | undefined) => {
-              return {
-                ...(prevData || { data: [] }),
-                data: [res.data as MediaTypeWithId, ...(prevData?.data || [])],
-              };
+        axiosInstance
+          .post("/media", formData, {
+            headers: {
+              "Content-Type": undefined,
             },
-            false
-          );
+          })
+          .then((res) => {
+            mutate(
+              `/media?${queryString}`,
+              (prevData: { data: MediaTypeWithId[] } | undefined) => {
+                return {
+                  ...(prevData || { data: [] }),
+                  data: [
+                    res.data as MediaTypeWithId,
+                    ...(prevData?.data || []),
+                  ],
+                };
+              },
+              false
+            );
 
-          setFile(null);
+            setFile(null);
 
-          return res.data;
-        })
+            return res.data;
+          })
       );
     } catch (error) {
       console.error("Upload failed:", error);
