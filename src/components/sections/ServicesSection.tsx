@@ -92,7 +92,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
   );
 
   const { data: sectorList, isLoading: sectorListLoading } = useSWR(
-    `/sector?page=1&limit=100&sortBy=createdAt&sortOrder=asc`,
+    `/sector?page=1&limit=100`,
     (url: string) => axiosInstance.get(url).then((res) => res.data),
     {
       revalidateOnFocus: false,

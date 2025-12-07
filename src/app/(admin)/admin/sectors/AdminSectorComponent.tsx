@@ -21,9 +21,7 @@ const FormModal = dynamic(() => import("@/components/common/form/FormModal"), {
 import useSWR, { mutate } from "swr";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ReusableTable } from "@/components/common/table/ReusableTable";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { useSearchParams } from "next/navigation";
 import {
   SECTOR_DEFAULT_VALUES,
   ISector,
@@ -52,7 +50,7 @@ const AdminSectorComponent: React.FC = () => {
   const searchParams = useSearchParams();
 
   const { data: sectorList, isLoading: sectorListLoading } = useSWR(
-    `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
+    `/sector?${searchParams.toString()}`,
     (url) => axiosInstance.get(url).then((res) => res.data),
     {
       revalidateOnFocus: false,
@@ -76,7 +74,7 @@ const AdminSectorComponent: React.FC = () => {
         setCurrentSector(null);
 
         mutate(
-          `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
+          `/sector?${searchParams.toString()}`,
           (prevData?: { data: SectorTypeWithId[] }) => {
             // Filter out the deleted sector
             const updatedSector = prevData?.data.filter(
@@ -121,7 +119,7 @@ const AdminSectorComponent: React.FC = () => {
           reset(SECTOR_DEFAULT_VALUES);
 
           mutate(
-            `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
+            `/sector?${searchParams.toString()}`,
             (prevData?: { data: SectorTypeWithId[] }) => {
               // Update the local data with the updated sector
 
@@ -159,7 +157,7 @@ const AdminSectorComponent: React.FC = () => {
           reset(SECTOR_DEFAULT_VALUES);
 
           mutate(
-            `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
+            `/sector?${searchParams.toString()}`,
             (prevData?: { data: ISector[] }) => {
               // Update the local data with the new sector
               const data = [formData as ISector, ...(prevData?.data || [])];
