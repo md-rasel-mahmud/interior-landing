@@ -225,7 +225,7 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
               </h3>
 
               <div className="flex flex-wrap justify-center gap-x-14 gap-y-3 text-black/60 text-lg leading-relaxed">
-                <ul className="text-left space-y-1 grid grid-cols-2 lg:grid-cols-4 gap-x-10">
+                <ul className="text-left grid grid-cols-2 lg:grid-cols-4 gap-x-10">
                   {sectorList?.data?.map(
                     (singleSector: SectorTypeWithId, index: number) => (
                       <li

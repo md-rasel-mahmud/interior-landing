@@ -52,7 +52,7 @@ const AdminSectorComponent: React.FC = () => {
   const searchParams = useSearchParams();
 
   const { data: sectorList, isLoading: sectorListLoading } = useSWR(
-    `/sector?${searchParams.toString()}`,
+    `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
     (url) => axiosInstance.get(url).then((res) => res.data),
     {
       revalidateOnFocus: false,
@@ -76,7 +76,7 @@ const AdminSectorComponent: React.FC = () => {
         setCurrentSector(null);
 
         mutate(
-          `/sector?${searchParams.toString()}`,
+          `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
           (prevData?: { data: SectorTypeWithId[] }) => {
             // Filter out the deleted sector
             const updatedSector = prevData?.data.filter(
@@ -121,7 +121,7 @@ const AdminSectorComponent: React.FC = () => {
           reset(SECTOR_DEFAULT_VALUES);
 
           mutate(
-            `/sector?${searchParams.toString()}`,
+            `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
             (prevData?: { data: SectorTypeWithId[] }) => {
               // Update the local data with the updated sector
 
@@ -159,7 +159,7 @@ const AdminSectorComponent: React.FC = () => {
           reset(SECTOR_DEFAULT_VALUES);
 
           mutate(
-            `/sector?${searchParams.toString()}`,
+            `/sector?${searchParams.toString()}&sortBy=createdAt&sortOrder=asc`,
             (prevData?: { data: ISector[] }) => {
               // Update the local data with the new sector
               const data = [formData as ISector, ...(prevData?.data || [])];
