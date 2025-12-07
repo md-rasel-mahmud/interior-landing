@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const fileName = `${Date.now()}-${file.name}`;
 
     // Upload directory
-    const uploadDir = path.join(process.cwd(), "public/uploads");
+    const uploadDir = path.join(process.cwd(), "uploads");
 
     // Create folder if missing
     if (!fs.existsSync(uploadDir)) {
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
     // Save to DB
     const media = await Media.create({
       title,
-      url: `/uploads/${fileName}`,
+      url: `/api/uploads/${fileName}`,
       type,
       mediaId: fileName,
     });
@@ -115,7 +115,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "Missing mediaId" }, { status: 400 });
     }
 
-    const filePath = path.join(process.cwd(), "public/uploads", mediaId);
+    const filePath = path.join(process.cwd(), "uploads", mediaId);
 
     // Delete file if exists
     if (fs.existsSync(filePath)) {
