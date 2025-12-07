@@ -3,12 +3,12 @@ module.exports = {
     {
       name: "interior-landing",
       script: "./node_modules/next/dist/bin/next",
-      args: "start",
-      exec_mode: "cluster",
-      max_memory_restart: "1G",
-      autorestart: true,
+      args: "start -p 3000",
+      exec_mode: "fork",
       instances: 1,
+      autorestart: true,
       watch: false,
+      max_memory_restart: "1500M",
       env: {
         NODE_ENV: "production",
         PORT: 3000,
