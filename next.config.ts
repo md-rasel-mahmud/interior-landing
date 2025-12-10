@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
-    unoptimized: true,
+    // unoptimized: true,
   },
 };
 
