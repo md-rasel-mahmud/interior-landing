@@ -42,8 +42,11 @@ const PAGE_LIMIT = 12; // Items per page
 
 const AdminMediaClient: React.FC = () => {
   const searchParams = useSearchParams();
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [selecting, setSelecting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{
+    [key: string]: number;
+  }>({});
   const [tabValue, setTabValue] = useState("all-media");
   const [page, setPage] = useState(1);
 
@@ -66,64 +69,104 @@ const AdminMediaClient: React.FC = () => {
 
   const totalPages = mediaPagination?.totalPages || 1;
 
-  const { isLoading: uploadLoading, mutateFn: uploadMutate } =
-    useFetchMutation();
+  const { isLoading: uploadLoading } = useFetchMutation();
 
   const { isLoading: deleteLoading, mutateFn: deleteMutate } =
     useFetchMutation();
 
   const handleUpload = async () => {
-    if (!file) return;
-
-    const formData = new FormData();
-
-    formData.append("file", file, file.name);
-    formData.append("title", file.name);
-    formData.append("type", "image");
+    if (files.length === 0) return;
 
     try {
-      uploadMutate(() =>
-        axiosInstance
-          .post("/media", formData, {
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file, file.name);
+        formData.append("title", file.name);
+        formData.append("type", "image");
+
+        try {
+          setUploadProgress((prev) => ({ ...prev, [file.name]: 0 }));
+
+          const response = await axiosInstance.post("/media", formData, {
             headers: {
               "Content-Type": undefined,
             },
-          })
-          .then((res) => {
-            mutate(
-              `/media?${queryString}`,
-              (prevData: { data: MediaTypeWithId[] } | undefined) => {
-                return {
-                  ...(prevData || { data: [] }),
-                  data: [
-                    res.data as MediaTypeWithId,
-                    ...(prevData?.data || []),
-                  ],
-                };
-              },
-              false
-            );
+            onUploadProgress: (progressEvent) => {
+              const percentCompleted = progressEvent.total
+                ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                : 0;
+              setUploadProgress((prev) => ({
+                ...prev,
+                [file.name]: percentCompleted,
+              }));
+            },
+          });
 
-            setFile(null);
+          return response.data;
+        } catch (error) {
+          console.error(`Upload failed for ${file.name}:`, error);
+          toast.error(`Failed to upload ${file.name}`);
+          return null;
+        }
+      });
 
-            return res.data;
-          })
-      );
+      const results = await Promise.all(uploadPromises);
+      const successfulUploads = results.filter((res) => res !== null);
+
+      if (successfulUploads.length > 0) {
+        mutate(
+          `/media?${queryString}`,
+          (prevData: { data: MediaTypeWithId[] } | undefined) => {
+            return {
+              ...(prevData || { data: [] }),
+              data: [...successfulUploads, ...(prevData?.data || [])],
+            };
+          },
+          false
+        );
+
+        toast.success(
+          `${successfulUploads.length} image(s) uploaded successfully`
+        );
+        setFiles([]);
+        setUploadProgress({});
+      }
     } catch (error) {
       console.error("Upload failed:", error);
+      toast.error("Upload failed");
     }
   };
 
   const handleSelectFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const targetFile = e.target.files?.[0];
-    if (!targetFile) return;
+    const selectedFiles = e.target.files;
+    if (!selectedFiles || selectedFiles.length === 0) return;
+
     setSelecting(true);
+    const compressedFiles: File[] = [];
 
-    const blob = await compressImageToFile(targetFile, targetFile.name, 200);
+    try {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        const file = selectedFiles[i];
+        const blob = await compressImageToFile(file, file.name, 200);
+        if (blob) {
+          compressedFiles.push(blob);
+        }
+      }
 
-    setSelecting(false);
+      setFiles((prevFiles) => [...prevFiles, ...compressedFiles]);
+      toast.success(`${compressedFiles.length} image(s) selected`);
+    } catch (error) {
+      console.error("Error compressing files:", error);
+      toast.error("Error processing images");
+    } finally {
+      setSelecting(false);
+      // Reset the input value to allow selecting the same files again
+      e.target.value = "";
+    }
+  };
 
-    setFile(blob || null);
+  const handleRemoveFile = (index: number) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleDeleteMedia = async (mediaId: string, type: string) => {
@@ -204,7 +247,7 @@ const AdminMediaClient: React.FC = () => {
                         <div
                           key={idx}
                           className={cn(
-                            "mb-4 overflow-hidden rounded-none-none border hover:border-blue-500 cursor-pointer relative",
+                            "mb-4 overflow-hidden rounded border hover:border-primary cursor-pointer relative",
 
                             deleteLoading
                               ? "pointer-events-none opacity-50"
@@ -212,11 +255,11 @@ const AdminMediaClient: React.FC = () => {
                           )}
                         >
                           {deleteLoading ? (
-                            <Skeleton className="absolute top-10 right-2 h-7 w-7 rounded-none-none" />
+                            <Skeleton className="absolute top-10 right-2 h-7 w-7 rounded" />
                           ) : (
                             <button
                               type="button"
-                              className="absolute shadow hover:bg-red-900 top-10 right-2 bg-red-500 text-white px-2 py-1 rounded-none-none h-7 w-7 leading-[0] flex items-center justify-center"
+                              className="absolute shadow hover:bg-red-900 top-10 right-2 bg-red-500 text-white px-2 py-1 rounded h-7 w-7 leading-[0] flex items-center justify-center"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteMedia(
@@ -249,7 +292,7 @@ const AdminMediaClient: React.FC = () => {
             {/* Pagination Controls */}
           </Card>
 
-          <div className="bg-primary-foreground shadow-sm p-3 rounded-none-none border mt-2 flex justify-between">
+          <div className="bg-primary-foreground shadow-sm p-3 rounded border mt-2 flex justify-between">
             <Button
               onClick={() => setPage((p) => Math.max(p - 1, 1))}
               disabled={!canPrev || mediaListLoading}
@@ -278,44 +321,67 @@ const AdminMediaClient: React.FC = () => {
             </CardHeader>
 
             <CardContent className="space-y-2 flex items-center justify-center flex-col ">
-              {file ? (
-                <div className="mt-4 flex justify-between w-full bg-background items-center p-3 gap-3 rounded-none">
-                  <Image
-                    src={URL.createObjectURL(file)}
-                    alt="Selected file preview"
-                    width={150}
-                    height={150}
-                    className="rounded-none w-auto h-16"
-                    unoptimized
-                  />
-                  <span className="text-sm text-gray-700">
-                    {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                  </span>
+              {files.length > 0 ? (
+                <div className="w-full space-y-2 max-h-[50vh] overflow-y-auto">
+                  {files.map((file, index) => (
+                    <div
+                      key={`${file.name}-${index}`}
+                      className="flex justify-between w-full bg-background items-center p-3 gap-3 rounded border"
+                    >
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`Selected file ${index + 1}`}
+                        width={150}
+                        height={150}
+                        className="rounded-none w-auto h-16 object-cover"
+                        unoptimized
+                      />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm text-gray-700 block truncate">
+                          {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                        </span>
+                        {uploadProgress[file.name] !== undefined && (
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div
+                              className="bg-primary h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${uploadProgress[file.name]}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
 
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    className="mt-2"
-                    size="sm"
-                    onClick={() => setFile(null)}
-                    disabled={selecting || uploadLoading}
-                  >
-                    <X />
-                  </Button>
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleRemoveFile(index)}
+                        disabled={selecting || uploadLoading}
+                      >
+                        <X />
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-              ) : selecting ? (
+              ) : null}
+
+              {selecting ? (
                 <p className="text-sm text-gray-500 p-3">
-                  Compressing image, please wait...
+                  Compressing images, please wait...
                 </p>
               ) : (
-                <label className=" border border-dashed rounded-none overflow-hidden cursor-pointer p-10 w-full flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                <label className="border border-dashed rounded-none overflow-hidden cursor-pointer p-10 w-full flex justify-center items-center gap-2 bg-gray-100 hover:bg-gray-200 transition-colors">
                   <CameraIcon />
+                  <span className="text-sm text-gray-600">
+                    Select Images (Multiple)
+                  </span>
 
                   <input
                     type="file"
                     accept="image/*"
+                    multiple
                     onChange={handleSelectFile}
                     className="hidden"
+                    disabled={selecting || uploadLoading}
                   />
                 </label>
               )}
@@ -325,14 +391,15 @@ const AdminMediaClient: React.FC = () => {
               <Button
                 type="button"
                 className="w-full"
-                disabled={uploadLoading || !file}
+                disabled={uploadLoading || files.length === 0}
                 onClick={handleUpload}
               >
                 {uploadLoading ? (
                   "Uploading..."
                 ) : (
                   <>
-                    <Upload /> Upload
+                    <Upload /> Upload{" "}
+                    {files.length > 0 ? `(${files.length})` : ""}
                   </>
                 )}
               </Button>

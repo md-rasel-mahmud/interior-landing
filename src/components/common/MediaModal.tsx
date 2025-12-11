@@ -27,7 +27,6 @@ import {
   ChevronLeft,
   ChevronRight,
   SearchSlash,
-  // Trash2,
   Upload,
   X,
 } from "lucide-react";
@@ -37,7 +36,6 @@ import { useState } from "react";
 import Masonry from "react-masonry-css";
 import useSWR, { mutate } from "swr";
 import axiosInstance from "@/lib/axios.instanse";
-// import { toast } from "sonner";
 
 interface MediaModalProps {
   onClose: () => void;
