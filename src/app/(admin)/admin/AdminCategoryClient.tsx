@@ -191,13 +191,6 @@ const AdminCategoryClient: React.FC = () => {
       required: true,
       className: "md:col-span-2",
     },
-    // {
-    //   name: "slug",
-    //   label: "Slug",
-    //   type: "text",
-    //   placeholder: "Enter category slug",
-    //   required: true,
-    // },
     {
       name: "image",
       label: "Image",
@@ -207,13 +200,13 @@ const AdminCategoryClient: React.FC = () => {
       isMultiple: false,
       className: "md:col-span-2",
     },
-    {
-      name: "description",
-      label: "Description",
-      type: "textarea",
-      placeholder: "Enter category description",
-      className: "md:col-span-2",
-    },
+    // {
+    //   name: "description",
+    //   label: "Description",
+    //   type: "textarea",
+    //   placeholder: "Enter category description",
+    //   className: "md:col-span-2",
+    // },
   ];
 
   return (
@@ -258,11 +251,11 @@ const AdminCategoryClient: React.FC = () => {
             ),
           },
           { header: "Name", accessor: "name" },
-          // { header: "Slug", accessor: "slug" },
-          {
-            header: "Description",
-            accessor: "description",
-          },
+
+          // {
+          //   header: "Description",
+          //   accessor: "description",
+          // },
         ]}
         pagination={categoryList?.pagination}
         onEdit={(cell) => {

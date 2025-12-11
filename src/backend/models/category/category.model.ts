@@ -8,6 +8,7 @@ const CategorySchema: Schema = new Schema<ICategory>(
   {
     name: { type: String, required: true },
     slug: { type: String, required: false, index: true, slug: "name" },
+    features: { type: [String], required: false },
     description: { type: String },
     image: { type: String },
   },

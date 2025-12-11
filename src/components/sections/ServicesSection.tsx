@@ -178,41 +178,24 @@ const ServicesSection = ({ isPage }: { isPage?: boolean }) => {
                 Our Service Categories
               </h2>
 
-              <div className="grid md:grid-cols-2 gap-x-16 gap-y-16">
-                {categoryList?.data &&
-                  categoryList?.data?.map(
-                    (category: CategoryTypeWithId, index: number) => (
-                      <div key={category._id} className="relative group">
-                        <div className="mb-5">
-                          <h3 className="text-xl font-semibold text-primary mb-2 group-hover:text-black transition-colors">
-                            {index + 1} - {category.name}
-                          </h3>
-                          <div className="h-0.5 w-12 bg-primary group-hover:w-20 group-hover:bg-black transition-all"></div>
-                        </div>
+              <div className="grid md:grid-cols-2 gap-y-12 gap-x-16">
+                {serviceCategories.map((category) => (
+                  <div key={category.id}>
+                    <h3 className="font-semibold text-lg mb-3">
+                      {category.id} - {category.title}
+                    </h3>
 
-                        {/* {category.items ? (
-                          <ul className="space-y-1 text-black/60 leading-relaxed">
-                            {category.items.map((item, index) => (
-                              <li
-                                key={index}
-                                className="transition-all hover:translate-x-1 hover:text-primary"
-                              >
-                                • {item}
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <p className="text-black/60 leading-relaxed">
-                            {category.description}
-                          </p>
-                        )} */}
-
-                        <p className="text-black/60 leading-relaxed">
-                          {category.description}
-                        </p>
-                      </div>
-                    )
-                  )}
+                    {category.items ? (
+                      <ul className="space-y-1 opacity-90">
+                        {category.items.map((item, index) => (
+                          <li key={index}>- {item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="opacity-90">{category.description}</p>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
 

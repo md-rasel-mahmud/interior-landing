@@ -24,18 +24,6 @@ import TooltipSlider from "rc-slider";
 import RichEditor from "@/components/common/form/RichEditor";
 import PasswordField from "@/components/common/form/PasswordField";
 import MediaModal from "@/components/common/MediaModal";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
 import Loading from "@/components/common/Loading";
 
 // types.ts
@@ -58,7 +46,8 @@ export type InputType =
   | "switch"
   | "media"
   | "two-way-range"
-  | "rich-editor";
+  | "rich-editor"
+  | "component";
 
 export type OptionType = {
   label: string;
@@ -90,6 +79,7 @@ export interface FormInputConfig<Name extends string = string> {
   max?: number; // for range inputs
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extraOnChange?: (value: any) => void; // for custom onChange logic
+  component?: React.ReactNode; // for custom component rendering
 }
 
 interface FormInputProps {
@@ -316,7 +306,8 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
           )}
         />
       );
-    } else if (input.type === "switch" && visible) {
+    }
+    if (input.type === "switch" && visible) {
       acc.push(
         <Controller
           key={index}
@@ -478,6 +469,14 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
             </FormInputWrapper>
           )}
         />
+      );
+    }
+
+    if (input.type === "component" && visible) {
+      acc.push(
+        <div key={index} className={input.className || ""}>
+          {input.component}
+        </div>
       );
     }
 

@@ -4,6 +4,7 @@ export interface ICategory {
   name: string;
   slug: string;
   description: string;
+  features?: string[];
   image: string;
 }
 
@@ -13,7 +14,7 @@ export type CategoryTypeWithId = ICategory & {
 
 const CATEGORY_DEFAULT_VALUES: Partial<ICategory> = {
   name: "",
-  // slug: "",
+  features: [],
   description: "",
   image: "",
 };
@@ -28,6 +29,7 @@ const categoryValidation = z.object({
   //   .min(1, "Slug is required")
   //   .max(100, "Slug must be less than 100 characters"),
   description: z.string().optional(),
+  features: z.array(z.string()).optional(),
   image: z.string().min(1, "Image is required"),
 });
 
