@@ -25,8 +25,8 @@ export function buildQueryOptions(query: QueryParams) {
     ...filters
   } = query;
 
-  const pageNumber = parseInt(page, 200);
-  const limitNumber = parseInt(limit, 200);
+  const pageNumber = parseInt(page);
+  const limitNumber = parseInt(limit);
   const skip = (pageNumber - 1) * limitNumber;
 
   const filterFields = [
