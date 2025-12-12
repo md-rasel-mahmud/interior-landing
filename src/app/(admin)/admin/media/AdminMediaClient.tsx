@@ -30,6 +30,7 @@ import {
 import Masonry from "react-masonry-css";
 import Image from "next/image";
 import axiosInstance from "@/lib/axios.instanse";
+import { SortOrderEnum } from "@/enums/sort-order.enum";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -38,7 +39,7 @@ const breakpointColumnsObj = {
   640: 1,
 };
 
-const PAGE_LIMIT = 12; // Items per page
+const PAGE_LIMIT = 200; // Items per page
 
 const AdminMediaClient: React.FC = () => {
   const searchParams = useSearchParams();
@@ -51,7 +52,9 @@ const AdminMediaClient: React.FC = () => {
   const [page, setPage] = useState(1);
 
   // Build query with pagination
-  const queryString = `${searchParams.toString()}&page=${page}&limit=${PAGE_LIMIT}`;
+  const queryString = `${searchParams.toString()}&page=${page}&limit=${PAGE_LIMIT}&sortBy=createdAt&sortOrder=${
+    SortOrderEnum.DESC
+  }`;
 
   const { data: mediaData, isLoading: mediaListLoading } = useSWR(
     `/media?${queryString}`,

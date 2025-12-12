@@ -1,10 +1,11 @@
+import { SortOrderEnum } from "@/enums/sort-order.enum";
 import { SortOrder } from "mongoose";
 
 export type QueryParams = {
   page?: string;
   limit?: string;
   sortBy?: string;
-  sortOrder?: SortOrder;
+  sortOrder?: SortOrder | keyof typeof SortOrderEnum;
   category?: string;
   searchTerm?: string;
   [key: string]: unknown;
@@ -13,9 +14,9 @@ export type QueryParams = {
 export function buildQueryOptions(query: QueryParams) {
   const {
     page = "1",
-    limit = "10",
+    limit = "200",
     sortBy = "createdAt",
-    sortOrder = "asc",
+    sortOrder = SortOrderEnum.ASC,
     category,
     minPrice,
     maxPrice,
@@ -24,8 +25,8 @@ export function buildQueryOptions(query: QueryParams) {
     ...filters
   } = query;
 
-  const pageNumber = parseInt(page, 10);
-  const limitNumber = parseInt(limit, 10);
+  const pageNumber = parseInt(page, 200);
+  const limitNumber = parseInt(limit, 200);
   const skip = (pageNumber - 1) * limitNumber;
 
   const filterFields = [
@@ -103,7 +104,7 @@ export function buildQueryOptions(query: QueryParams) {
       sortOrder,
     },
     sort: {
-      [sortBy]: sortOrder === "asc" ? 1 : -1,
+      [sortBy]: sortOrder === SortOrderEnum.ASC ? 1 : -1,
     },
     category,
   };

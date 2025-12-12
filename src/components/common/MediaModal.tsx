@@ -51,7 +51,7 @@ const breakpointColumnsObj = {
   640: 1,
 };
 
-const PAGE_LIMIT = 12; // Items per page
+const PAGE_LIMIT = 200; // Items per page
 
 const MediaModal = ({
   onClose,

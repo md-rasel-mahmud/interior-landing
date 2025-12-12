@@ -1,9 +1,14 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import heroImage from "@/assets/hero-interior.png";
 
 const HeroSection = () => {
+  useEffect(() => {
+    // scroll to top on mount
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <section
       id="hero"

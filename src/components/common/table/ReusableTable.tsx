@@ -93,10 +93,11 @@ export function ReusableTable<T extends { _id: string }>({
       className={cn(
         "bg-white rounded-none-none shadow overflow-hidden w-[100vw] md:w-full overflow-x-auto",
         className
-      )}>
+      )}
+    >
       <Table>
         <TableHeader>
-          <TableRow className='bg-gray-300'>
+          <TableRow className="bg-gray-300">
             {columns.map((col, i) => (
               <TableHead key={i}>{col.header}</TableHead>
             ))}
@@ -110,12 +111,12 @@ export function ReusableTable<T extends { _id: string }>({
                 <TableRow key={`skeleton-${idx}`}>
                   {columns.map((_, i) => (
                     <TableCell key={i}>
-                      <Skeleton className='h-4 w-full' />
+                      <Skeleton className="h-4 w-full" />
                     </TableCell>
                   ))}
                   {hasAction && (
                     <TableCell>
-                      <Skeleton className='h-4 w-12' />
+                      <Skeleton className="h-4 w-12" />
                     </TableCell>
                   )}
                 </TableRow>
@@ -135,22 +136,24 @@ export function ReusableTable<T extends { _id: string }>({
                   })}
                   {hasAction && (
                     <TableCell>
-                      <div className='flex space-x-2'>
+                      <div className="flex space-x-2">
                         {!!onEdit && (
                           <Button
-                            variant='outline'
-                            size='icon'
-                            onClick={() => onEdit(row)}>
-                            <Pencil className='h-4 w-4' />
+                            variant="outline"
+                            size="icon"
+                            onClick={() => onEdit(row)}
+                          >
+                            <Pencil className="h-4 w-4" />
                           </Button>
                         )}
                         {!!onDelete && (
                           <Button
-                            variant='outline'
-                            size='icon'
-                            className='text-red-500 hover:text-red-600'
-                            onClick={() => onDelete(row)}>
-                            <Trash2 className='h-4 w-4' />
+                            variant="outline"
+                            size="icon"
+                            className="text-red-500 hover:text-red-600"
+                            onClick={() => onDelete(row)}
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         )}
                       </div>
@@ -162,7 +165,7 @@ export function ReusableTable<T extends { _id: string }>({
           {data.length === 0 && !isLoading && (
             <TableRow>
               <TableCell colSpan={columns.length + (hasAction ? 1 : 0)}>
-                <div className='text-center text-gray-500 py-20'>
+                <div className="text-center text-gray-500 py-20">
                   No data available
                 </div>
               </TableCell>
@@ -173,19 +176,19 @@ export function ReusableTable<T extends { _id: string }>({
 
       {/* Pagination */}
       {hasPagination && (
-        <div className='py-4 border-t flex items-center gap-4 flex-wrap'>
+        <div className="py-4 border-t flex items-center gap-4 flex-wrap">
           <Pagination>
-            <PaginationContent className='flex items-center gap-4 flex-wrap justify-center'>
-              <p className='text-sm text-gray-500 mr-2'>
+            <PaginationContent className="flex items-center gap-4 flex-wrap justify-center">
+              <p className="text-sm text-gray-500 mr-2">
                 Total: <b>{totalItems}</b> items
               </p>
 
               <Select value={currentLimit} onValueChange={handleLimitChange}>
-                <SelectTrigger className='w-28'>
+                <SelectTrigger className="w-28">
                   <SelectValue placeholder={currentLimit} />
                 </SelectTrigger>
                 <SelectContent>
-                  {[5, 10, 20, 50, 100].map((limit) => (
+                  {[5, 10, 20, 50, 100, 200, 500, 1000].map((limit) => (
                     <SelectItem key={limit} value={limit.toString()}>
                       {limit} items
                     </SelectItem>
@@ -211,7 +214,8 @@ export function ReusableTable<T extends { _id: string }>({
                     <PaginationLink
                       onClick={() => handlePageChange(pageNumber)}
                       isActive={currentPage === pageNumber}
-                      className='cursor-pointer'>
+                      className="cursor-pointer"
+                    >
                       {pageNumber}
                     </PaginationLink>
                   </PaginationItem>
