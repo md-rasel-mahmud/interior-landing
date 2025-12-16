@@ -7,13 +7,15 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { IS_VIDEO_REGEX } from "@/helper/regex";
 
 type Props = {
   images: string[];
+  mediaTypes?: ("image" | "video")[];
   className?: string;
 };
 
-export function ProjectCarousel({ images, className }: Props) {
+export function ProjectCarousel({ images, mediaTypes, className }: Props) {
   const autoplay = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true })
   );
@@ -44,17 +46,31 @@ export function ProjectCarousel({ images, className }: Props) {
       {/* Carousel Container */}
       <div ref={emblaRef} className="overflow-hidden rounded-2xl shadow-lg">
         <div className="flex">
-          {images.map((src, i) => (
-            <div key={i} className="min-w-full relative">
-              <Image
-                src={src}
-                alt={`Project image ${i + 1}`}
-                width={1200}
-                height={800}
-                className="h-[550px] w-full object-cover"
-              />
-            </div>
-          ))}
+          {images.map((src, i) => {
+            return (
+              <div key={i} className="min-w-full relative">
+                {IS_VIDEO_REGEX.test(src) ? (
+                  <video
+                    src={src}
+                    autoPlay
+                    loop
+                    muted
+                    controls
+                    className="h-[550px] w-full object-cover"
+                    controlsList="nodownload"
+                  />
+                ) : (
+                  <Image
+                    src={src}
+                    alt={`Project image ${i + 1}`}
+                    width={1200}
+                    height={800}
+                    className="h-[550px] w-full object-cover"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

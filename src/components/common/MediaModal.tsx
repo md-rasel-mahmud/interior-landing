@@ -29,6 +29,8 @@ import {
   SearchSlash,
   Upload,
   X,
+  Film,
+  Play,
 } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -42,6 +44,7 @@ interface MediaModalProps {
   onSelect: (url: string | string[]) => void;
   value?: string | string[];
   isMultiple?: boolean;
+  allowedTypes?: "image" | "video" | "both";
 }
 
 const breakpointColumnsObj = {
@@ -58,6 +61,7 @@ const MediaModal = ({
   onSelect,
   value,
   isMultiple,
+  allowedTypes = "image",
 }: MediaModalProps) => {
   const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
@@ -79,6 +83,10 @@ const MediaModal = ({
 
   // mediaLists expected shape: { data: MediaTypeWithId[], total: number, page: number, totalPages: number }
   const mediaList = mediaData?.data || [];
+  const filteredMediaList =
+    allowedTypes === "both"
+      ? mediaList
+      : mediaList.filter((m: MediaTypeWithId) => m.type === allowedTypes);
 
   const mediaPagination = mediaData?.pagination;
 
@@ -97,7 +105,8 @@ const MediaModal = ({
 
     formData.append("file", file, file.name);
     formData.append("title", file.name);
-    formData.append("type", "image");
+    const isVideo = file.type?.startsWith("video/") || false;
+    formData.append("type", isVideo ? "video" : "image");
 
     try {
       uploadMutate(() =>
@@ -143,6 +152,13 @@ const MediaModal = ({
     const targetFile = e.target.files?.[0];
     if (!targetFile) return;
     setSelecting(true);
+
+    // If video, don't compress
+    if (targetFile.type?.startsWith("video/")) {
+      setSelecting(false);
+      setFile(targetFile);
+      return;
+    }
 
     const blob = await compressImageToFile(targetFile, targetFile.name, 200);
 
@@ -194,7 +210,11 @@ const MediaModal = ({
         <DialogHeader>
           <DialogTitle>Select or Upload Media</DialogTitle>
           <DialogDescription>
-            Choose an image from the list or upload a new one.
+            {allowedTypes === "video"
+              ? "Choose a video from the list or upload a new one."
+              : allowedTypes === "both"
+              ? "Choose an image or video from the list or upload a new one."
+              : "Choose an image from the list or upload a new one."}
           </DialogDescription>
         </DialogHeader>
 
@@ -219,7 +239,7 @@ const MediaModal = ({
                         <Skeleton key={i} className="h-40 w-full" />
                       ))}
                     </div>
-                  ) : mediaList.length === 0 ? (
+                  ) : filteredMediaList.length === 0 ? (
                     <div className="text-gray-500 flex items-center justify-center gap-3 py-10">
                       <SearchSlash /> No media found.
                     </div>
@@ -229,18 +249,17 @@ const MediaModal = ({
                       className="flex gap-4 "
                       columnClassName="bg-clip-padding"
                     >
-                      {mediaList.map(
+                      {filteredMediaList.map(
                         (mediaSingleData: MediaTypeWithId, idx: number) => (
                           <div
                             key={idx}
                             className={cn(
-                              "mb-4 overflow-hidden rounded-none-none border hover:border-blue-500 cursor-pointer relative",
-                              isMultiple
+                              "mb-4 overflow-hidden rounded-lg border-2 hover:border-blue-500 cursor-pointer relative",
+                              (isMultiple
                                 ? Array.isArray(value) &&
-                                    value.includes(mediaSingleData.url)
-                                : mediaSingleData.url === value
-                                ? "border-green-500 border-2"
-                                : "border-gray-200"
+                                  value.includes(mediaSingleData.url)
+                                : mediaSingleData.url === value) &&
+                                "border-primary overflow-hidden shadow-md"
                               // deleteLoading
                               //   ? "pointer-events-none opacity-50"
                               //   : ""
@@ -262,21 +281,13 @@ const MediaModal = ({
                               }
                             }}
                           >
-                            {(isMultiple
-                              ? Array.isArray(value) &&
-                                value.includes(mediaSingleData.url)
-                              : mediaSingleData.url === value) && (
-                              <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-none-none h-6 w-6 leading-[0] flex items-center justify-center">
-                                <Check className="inline" />
-                              </div>
-                            )}
                             {/* 
                             {deleteLoading ? (
-                              <Skeleton className="absolute top-10 right-2 h-7 w-7 rounded-none-none" />
+                              <Skeleton className="absolute top-10 right-2 h-7 w-7 rounded-lg" />
                             ) : (
                               <button
                                 type="button"
-                                className="absolute shadow hover:bg-red-900 top-10 right-2 bg-red-500 text-white px-2 py-1 rounded-none-none h-7 w-7 leading-[0] flex items-center justify-center"
+                                className="absolute shadow hover:bg-red-900 top-10 right-2 bg-red-500 text-white px-2 py-1 rounded-lg h-7 w-7 leading-[0] flex items-center justify-center"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleDeleteMedia(
@@ -290,14 +301,37 @@ const MediaModal = ({
                               </button>
                             )} */}
 
-                            <Image
-                              src={mediaSingleData.url || "/placeholder.png"}
-                              alt={`media-${idx}`}
-                              width={300}
-                              height={200}
-                              className="w-full h-auto object-cover rounded-none"
-                              unoptimized
-                            />
+                            {mediaSingleData.type === "video" ? (
+                              <div
+                                className={cn("relative z-10 overflow-hidden")}
+                              >
+                                <video
+                                  src={mediaSingleData.url}
+                                  className="w-full h-auto object-cover opacity-90"
+                                  muted
+                                  playsInline
+                                />
+                                <Play className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow z-10" />
+                              </div>
+                            ) : (
+                              <Image
+                                src={mediaSingleData.url || "/placeholder.png"}
+                                alt={`media-${idx}`}
+                                width={300}
+                                height={200}
+                                className="w-full h-auto object-cover rounded-none"
+                                unoptimized
+                              />
+                            )}
+
+                            {(isMultiple
+                              ? Array.isArray(value) &&
+                                value.includes(mediaSingleData.url)
+                              : mediaSingleData.url === value) && (
+                              <div className="absolute top-2 right-2 bg-accent text-white px-2 py-1 rounded-lg h-6 w-6 leading-[0] flex items-center justify-center z-10">
+                                <Check className="inline" />
+                              </div>
+                            )}
                           </div>
                         )
                       )}
@@ -339,17 +373,31 @@ const MediaModal = ({
               <CardContent className="space-y-2 flex items-center justify-center flex-col ">
                 {file ? (
                   <div className="mt-4 flex justify-between w-full bg-background items-center p-3 gap-3 rounded-none">
-                    <Image
-                      src={URL.createObjectURL(file)}
-                      alt="Selected file preview"
-                      width={150}
-                      height={150}
-                      className="rounded-none w-auto h-16"
-                      unoptimized
-                    />
-                    <span className="text-sm text-gray-700">
-                      {file.name} ({(file.size / 1024).toFixed(2)} KB)
-                    </span>
+                    {file.type?.startsWith("video/") ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                          <Film />
+                        </div>
+                        <span className="text-sm text-gray-700">
+                          {file.name} ({(file.size / 1024 / 1024).toFixed(2)}{" "}
+                          MB)
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        <Image
+                          src={URL.createObjectURL(file)}
+                          alt="Selected file preview"
+                          width={150}
+                          height={150}
+                          className="rounded-none w-auto h-16"
+                          unoptimized
+                        />
+                        <span className="text-sm text-gray-700">
+                          {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                        </span>
+                      </>
+                    )}
 
                     <Button
                       type="button"
@@ -364,15 +412,35 @@ const MediaModal = ({
                   </div>
                 ) : selecting ? (
                   <p className="text-sm text-gray-500 p-3">
-                    Compressing image, please wait...
+                    {allowedTypes === "video"
+                      ? "Preparing video, please wait..."
+                      : "Compressing image, please wait..."}
                   </p>
                 ) : (
-                  <label className=" border border-dashed rounded-none overflow-hidden cursor-pointer p-10 w-full flex justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors">
-                    <CameraIcon />
+                  <label className=" border border-dashed rounded-none overflow-hidden cursor-pointer p-10 w-full flex flex-col gap-2 justify-center items-center bg-gray-100 hover:bg-gray-200 transition-colors">
+                    <div className="flex items-center gap-2 text-gray-700">
+                      {(allowedTypes === "image" ||
+                        allowedTypes === "both") && <CameraIcon />}
+                      {(allowedTypes === "video" ||
+                        allowedTypes === "both") && <Film />}
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      {allowedTypes === "video"
+                        ? "Click to upload videos"
+                        : allowedTypes === "both"
+                        ? "Click to upload images or videos"
+                        : "Click to upload images"}
+                    </span>
 
                     <input
                       type="file"
-                      accept="image/*"
+                      accept={
+                        allowedTypes === "video"
+                          ? "video/*"
+                          : allowedTypes === "both"
+                          ? "image/*,video/*"
+                          : "image/*"
+                      }
                       onChange={handleSelectFile}
                       className="hidden"
                     />

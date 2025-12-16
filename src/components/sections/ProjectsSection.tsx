@@ -12,6 +12,7 @@ import useSWR from "swr";
 import axiosInstance from "@/lib/axios.instanse";
 import { ProjectTypeWithId } from "@/backend/models/project/project.dto";
 import Loading from "@/components/common/Loading";
+import { IS_VIDEO_REGEX } from "@/helper/regex";
 
 const ProjectsSection = ({
   isPage,
@@ -74,13 +75,22 @@ const ProjectsSection = ({
                     >
                       <div className="relative border-none overflow-hidden shadow-none hover:shadow-xl transition-all duration-300 h-[35rem] group">
                         {/* Background Image */}
-                        {project?.images?.[0] && (
-                          <Image
+                        {IS_VIDEO_REGEX.test(project?.images?.[0]) ? (
+                          <video
                             src={project?.images?.[0]}
-                            alt={project.name}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="h-[35rem] w-full object-cover"
+                            controls
+                            controlsList="nodownload"
                           />
+                        ) : (
+                          project?.images?.[0] && (
+                            <Image
+                              src={project?.images?.[0]}
+                              alt={project.name}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          )
                         )}
 
                         {/* Gradient Overlay */}

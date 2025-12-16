@@ -10,6 +10,8 @@ import useSWR from "swr";
 import axiosInstance from "@/lib/axios.instanse";
 import { ProjectTypeWithId } from "@/backend/models/project/project.dto";
 import Loading from "@/components/common/Loading";
+import { ProjectCarousel } from "@/components/sections/ProjectCarousel";
+import { IS_VIDEO_REGEX } from "@/helper/regex";
 
 export default function ProjectDetailPage() {
   const { projectSlug } = useParams();
@@ -42,19 +44,21 @@ export default function ProjectDetailPage() {
       <div className="container mx-auto px-6">
         {/* Hero Carousel */}
         <AnimatedSection animation="slideUp" delay={0.2}>
-          {/* <ProjectCarousel images={projectData.images} /> */}
-
-          <div className="min-w-full relative">
-            {projectData?.images?.[0] && (
-              <Image
-                src={projectData?.images?.[0]}
-                alt={`Project image`}
-                width={1200}
-                height={800}
-                className="h-[550px] w-full object-cover"
-              />
-            )}
-          </div>
+          {projectData?.images && projectData.images.length > 0 ? (
+            <ProjectCarousel images={projectData.images} />
+          ) : (
+            <div className="min-w-full relative">
+              {projectData?.images?.[0] && (
+                <Image
+                  src={projectData?.images?.[0]}
+                  alt={`Project image`}
+                  width={1200}
+                  height={800}
+                  className="h-[550px] w-full object-cover"
+                />
+              )}
+            </div>
+          )}
         </AnimatedSection>
 
         {/* Content */}
@@ -171,13 +175,27 @@ export default function ProjectDetailPage() {
               delay={0.6 + index * 0.2}
               key={index}
             >
-              <Image
-                src={img}
-                alt={`${projectData.name} image ${index + 1}`}
-                width={1200}
-                height={800}
-                className="w-full h-auto object-cover"
-              />
+              {IS_VIDEO_REGEX.test(img) ? (
+                <video
+                  src={img}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  width={1200}
+                  height={800}
+                  className="w-full h-[0vh] object-cover"
+                  controlsList="nodownload"
+                />
+              ) : (
+                <Image
+                  src={img}
+                  alt={`${projectData.name} image ${index + 1}`}
+                  width={1200}
+                  height={800}
+                  className="w-full h-[0vh] object-cover"
+                />
+              )}
             </AnimatedSection>
           ))}
         </div>

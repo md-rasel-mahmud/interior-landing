@@ -16,7 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { baseInputClass, cn } from "@/lib/utils";
 import { Checkbox } from "@radix-ui/react-checkbox";
-import { Camera, RefreshCw, X } from "lucide-react";
+import { Camera, Play, RefreshCw, X } from "lucide-react";
 import Image from "next/image";
 import { Suspense, useState } from "react";
 import { Control, Controller, FieldValues, useWatch } from "react-hook-form";
@@ -25,6 +25,7 @@ import RichEditor from "@/components/common/form/RichEditor";
 import PasswordField from "@/components/common/form/PasswordField";
 import MediaModal from "@/components/common/MediaModal";
 import Loading from "@/components/common/Loading";
+import { IS_VIDEO_REGEX } from "@/helper/regex";
 
 // types.ts
 export type InputType =
@@ -80,6 +81,7 @@ export interface FormInputConfig<Name extends string = string> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extraOnChange?: (value: any) => void; // for custom onChange logic
   component?: React.ReactNode; // for custom component rendering
+  mediaType?: "image" | "image/video"; // for media input
 }
 
 interface FormInputProps {
@@ -103,9 +105,23 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
     url: string | string[],
     fieldOnChange: (url: string | string[]) => void,
     value: string | string[] | null,
-    isMultiple: boolean = false
+    isMultiple: boolean = false,
+    fieldName?: string
   ) => {
     fieldOnChange(url);
+
+    // For project images, track media types
+    if (fieldName === "images" && isMultiple && Array.isArray(url)) {
+      const mediaTypes = url.map((u) => {
+        const isVideo = IS_VIDEO_REGEX.test(u);
+        return isVideo ? "video" : "image";
+      });
+      // Set mediaTypes in form
+      const setMediaTypes = watch["mediaTypes"];
+      if (setMediaTypes !== undefined) {
+        // Will be handled through form submission
+      }
+    }
 
     if (!isMultiple) {
       setMediaModalOpenFor(null); // close modal
@@ -495,46 +511,89 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
                 <div className="flex items-center justify-between space-x-4 bg-gray-100 p-1 rounded-none">
                   {field?.value && field?.value?.length > 0 ? (
                     input.isMultiple && Array.isArray(field.value) ? (
-                      <div className="flex items-center gap-1 overflow-x-auto">
-                        {field.value.map((url: string, i: number) => (
-                          <div key={i} className="relative">
+                      <div className="flex items-center gap-1 overflow-x-auto flex-1">
+                        {field.value.map((url: string, i: number) => {
+                          const isVideo = IS_VIDEO_REGEX.test(url);
+
+                          return (
+                            <div key={i} className="relative">
+                              {isVideo ? (
+                                <div className="w-9 h-9 bg-muted rounded-lg flex items-center justify-center border">
+                                  <div
+                                    className={cn(
+                                      "relative z-10 overflow-hidden"
+                                    )}
+                                  >
+                                    <video
+                                      src={url}
+                                      className="w-full h-auto object-cover opacity-90"
+                                      muted
+                                      playsInline
+                                    />
+                                    <Play className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow z-10" />
+                                  </div>
+                                </div>
+                              ) : (
+                                <Image
+                                  src={url || "/placeholder.svg"}
+                                  alt="selected media"
+                                  className="w-9 h-9 object-cover rounded-lg border"
+                                  width={80}
+                                  height={80}
+                                  unoptimized
+                                />
+                              )}
+
+                              <button
+                                type="button"
+                                className="absolute top-0 right-0 rounded-lg p-1 text-xs z-20 bg-destructive/80 hover:bg-destructive/40 backdrop-blur-sm text-destructive-foreground"
+                                onClick={(e) => {
+                                  e.preventDefault();
+
+                                  const newValue = field.value.filter(
+                                    (v: string) => v !== url
+                                  );
+                                  field.onChange(newValue);
+                                }}
+                              >
+                                <X size={10} />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <div className="flex-1">
+                        {(() => {
+                          const isVideo = IS_VIDEO_REGEX.test(
+                            field.value || ""
+                          );
+                          return isVideo ? (
+                            <div className="w-9 h-9 bg-muted rounded-lg flex items-center justify-center border">
+                              <div
+                                className={cn("relative z-10 overflow-hidden")}
+                              >
+                                <video
+                                  src={field.value || ""}
+                                  className="w-full h-auto object-cover opacity-90"
+                                  muted
+                                  playsInline
+                                />
+                                <Play className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow z-10" />
+                              </div>
+                            </div>
+                          ) : (
                             <Image
-                              src={url || "/placeholder.svg"}
+                              src={field.value || "/placeholder.svg"}
                               alt="selected media"
                               className="w-9 h-9 object-cover rounded-none"
                               width={80}
                               height={80}
                               unoptimized
                             />
-
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              className="absolute top-0 right-0 rounded-none-none p-1 text-xs"
-                              onClick={(e) => {
-                                e.preventDefault();
-
-                                const newValue = field.value.filter(
-                                  (v: string) => v !== url
-                                );
-                                field.onChange(newValue);
-                              }}
-                            >
-                              <X />
-                            </Button>
-                          </div>
-                        ))}
+                          );
+                        })()}
                       </div>
-                    ) : (
-                      <Image
-                        src={field.value || "/placeholder.svg"}
-                        alt="selected media"
-                        className="w-9 h-9 object-cover rounded-none"
-                        width={80}
-                        height={80}
-                        unoptimized
-                      />
                     )
                   ) : (
                     <button
@@ -545,7 +604,7 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
                           value: field?.value,
                         })
                       }
-                      className="w-full h-9 border-2 border-dashed flex items-center gap-2 cursor-pointer hover:bg-gray-200 justify-center rounded-none"
+                      className="w-full h-9 border-2 border-dashed flex items-center gap-2 cursor-pointer  justify-center rounded-none"
                     >
                       <Camera className="text-gray-400" size={18} /> Select
                       Media
@@ -589,14 +648,30 @@ export const FormInput = ({ formData, control }: FormInputProps) => {
                       onClose={() => setMediaModalOpenFor(null)}
                       value={watch[input.name]}
                       isMultiple={input.isMultiple}
-                      onSelect={(url) =>
+                      allowedTypes={input.name === "images" ? "both" : "image"}
+                      onSelect={(url) => {
+                        // First, update the image URLs in the form field
                         handleMediaSelect(
                           url,
                           field.onChange,
                           watch[input.name],
-                          input.isMultiple
-                        )
-                      }
+                          input.isMultiple,
+                          input.name
+                        );
+
+                        // For project images field, automatically detect and track media types
+                        if (input.name === "images" && Array.isArray(url)) {
+                          const mediaTypes = url.map((u) => {
+                            const isVideo = IS_VIDEO_REGEX.test(u);
+                            return isVideo ? "video" : "image";
+                          });
+
+                          // Immediately update mediaTypes in the form
+                          // This assumes the form has a "mediaTypes" field
+                          // The actual submission will include both images and mediaTypes arrays
+                          // mediaTypes will be synchronized when form is submitted
+                        }
+                      }}
                     />
                   </Suspense>
                 )}

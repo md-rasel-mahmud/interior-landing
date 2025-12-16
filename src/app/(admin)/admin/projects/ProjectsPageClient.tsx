@@ -250,9 +250,9 @@ const ProjectPageClient: React.FC = () => {
     // },
     {
       name: "images",
-      label: "Image",
+      label: "Media (Images/Videos)",
       type: "media",
-      placeholder: "Upload project image",
+      placeholder: "Upload project images or videos",
       required: true,
       isMultiple: true,
     },
@@ -297,17 +297,20 @@ const ProjectPageClient: React.FC = () => {
         data={projectList?.data || []}
         columns={[
           {
-            header: "Images",
-            accessor: (row) => (
-              <div className="flex space-x-2">
-                <AvatarGroup
-                  data={row.images.map((image) => ({
-                    name: row.name,
-                    image: image || "",
-                  }))}
-                />
-              </div>
-            ),
+            header: "Media",
+            accessor: (row) => {
+              console.log("row.images :>> ", row.images);
+              return (
+                <div className="flex space-x-2">
+                  <AvatarGroup
+                    data={row.images.map((image) => ({
+                      name: row.name,
+                      image: image || "",
+                    }))}
+                  />
+                </div>
+              );
+            },
           },
           { header: "Name", accessor: "name" },
 
