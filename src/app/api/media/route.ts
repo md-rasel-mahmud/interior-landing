@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     const filePath = path.join(uploadDir, fileName);
 
     // Save file locally
-    fs.writeFileSync(filePath, buffer);
+    await fs.promises.writeFile(filePath, buffer);
 
     // Save to DB
     const media = await Media.create({
