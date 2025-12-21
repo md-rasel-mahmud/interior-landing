@@ -79,11 +79,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // sanitize filename
+    // 🛡️ sanitize filename
     const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "");
     const fileName = `${Date.now()}-${safeFileName}`;
 
-    // Next.js friendly upload path
+    // ✅ Next.js friendly upload path
     const uploadDir = path.join(process.cwd(), "public/uploads");
 
     if (!fs.existsSync(uploadDir)) {
@@ -92,13 +92,13 @@ export async function POST(req: Request) {
 
     const filePath = path.join(uploadDir, fileName);
 
-    // STREAM WRITE (RAM SAFE)
+    // 🚀 STREAM WRITE (RAM SAFE)
     const readableStream = file.stream();
     const writeStream = createWriteStream(filePath);
 
     await pipeline(readableStream as any, writeStream);
 
-    // Save to DB
+    // ✅ Save to DB
     const media = await Media.create({
       title,
       type,
