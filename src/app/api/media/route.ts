@@ -7,7 +7,6 @@ import { Media } from "@/backend/models/media.model";
 
 import { SortOrder } from "mongoose";
 import { buildQueryOptions } from "@/helper/query-builder";
-import axios from "axios";
 
 // ========== POST: Upload Image to Local Storage ==========
 export async function POST(req: Request) {
@@ -23,45 +22,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // // Read file buffer
-    // const buffer = Buffer.from(await file.arrayBuffer());
+    // Read file buffer
+    const buffer = Buffer.from(await file.arrayBuffer());
 
-    // // Create unique filename
-    // const fileName = `${Date.now()}-${file.name}`;
+    // Create unique filename
+    const fileName = `${Date.now()}-${file.name}`;
 
-    // // Upload directory
-    // const uploadDir = path.join(process.cwd(), "uploads");
+    // Upload directory
+    const uploadDir = path.join(process.cwd(), "uploads");
 
-    // // Create folder if missing
-    // if (!fs.existsSync(uploadDir)) {
-    //   fs.mkdirSync(uploadDir, { recursive: true });
-    // }
+    // Create folder if missing
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
 
-    // // File path
-    // const filePath = path.join(uploadDir, fileName);
+    // File path
+    const filePath = path.join(uploadDir, fileName);
 
-    // // Save file locally
-    // await fs.promises.writeFile(filePath, buffer);
-
-    const { data: uploadedFile } = await axios.post(
-      "http://localhost:4000/api/express/upload",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: process.env.MEDIA_SECRET || "",
-        },
-      }
-    );
-
-    console.log("uploadedFile :>> ", uploadedFile);
+    // Save file locally
+    await fs.promises.writeFile(filePath, buffer);
 
     // Save to DB
     const media = await Media.create({
-      title: uploadedFile["title"],
-      url: `/api${uploadedFile["url"]}`,
-      type: uploadedFile["type"],
-      mediaId: uploadedFile["fileName"],
+      title,
+      url: `/api/uploads/${fileName}`,
+      type,
+      mediaId: fileName,
     });
 
     return NextResponse.json(media, { status: 201 });

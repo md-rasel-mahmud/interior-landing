@@ -15,6 +15,8 @@ import {
   CameraIcon,
   ChevronLeft,
   ChevronRight,
+  Film,
+  Play,
   SearchSlash,
   Trash2,
   Upload,
@@ -257,12 +259,35 @@ const AdminMediaClient: React.FC = () => {
                               : ""
                           )}
                         >
+                          {mediaSingleData.type === "video" ? (
+                            <div
+                              className={cn("relative z-10 overflow-hidden")}
+                            >
+                              <video
+                                src={mediaSingleData.url}
+                                className="w-full h-auto object-cover opacity-90"
+                                muted
+                                playsInline
+                              />
+                              <Play className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white drop-shadow z-10" />
+                            </div>
+                          ) : (
+                            <Image
+                              src={mediaSingleData.url || "/placeholder.png"}
+                              alt={`media-${idx}`}
+                              width={300}
+                              height={200}
+                              className="w-full h-auto object-cover rounded-none"
+                              unoptimized
+                            />
+                          )}
+
                           {deleteLoading ? (
                             <Skeleton className="absolute top-10 right-2 h-7 w-7 rounded" />
                           ) : (
                             <button
                               type="button"
-                              className="absolute shadow hover:bg-red-900 top-10 right-2 bg-red-500 text-white px-2 py-1 rounded h-7 w-7 leading-[0] flex items-center justify-center"
+                              className="absolute shadow hover:bg-red-900 top-2 right-2 bg-red-500 text-white px-2 py-1 rounded h-7 w-7 leading-[0] flex items-center justify-center z-10"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleDeleteMedia(
@@ -275,15 +300,6 @@ const AdminMediaClient: React.FC = () => {
                               <Trash2 className="inline" />
                             </button>
                           )}
-
-                          <Image
-                            src={mediaSingleData.url || "/placeholder.png"}
-                            alt={`media-${idx}`}
-                            width={300}
-                            height={200}
-                            className="w-full h-auto object-cover rounded-none"
-                            unoptimized
-                          />
                         </div>
                       )
                     )}
@@ -331,14 +347,32 @@ const AdminMediaClient: React.FC = () => {
                       key={`${file.name}-${index}`}
                       className="flex justify-between w-full bg-background items-center p-3 gap-3 rounded border"
                     >
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`Selected file ${index + 1}`}
-                        width={150}
-                        height={150}
-                        className="rounded-none w-auto h-16 object-cover"
-                        unoptimized
-                      />
+                      {file.type?.startsWith("video/") ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                            <Film />
+                          </div>
+                          <span className="text-sm text-gray-700">
+                            {file.name} ({(file.size / 1024 / 1024).toFixed(2)}{" "}
+                            MB)
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          <Image
+                            src={URL.createObjectURL(file)}
+                            alt="Selected file preview"
+                            width={150}
+                            height={150}
+                            className="rounded-none w-auto h-16"
+                            unoptimized
+                          />
+                          <span className="text-sm text-gray-700">
+                            {file.name} ({(file.size / 1024).toFixed(2)} KB)
+                          </span>
+                        </>
+                      )}
+
                       <div className="flex-1 min-w-0">
                         <span className="text-sm text-gray-700 block truncate">
                           {file.name} ({(file.size / 1024).toFixed(2)} KB)
