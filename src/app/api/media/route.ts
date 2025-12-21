@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
-import fs from "fs";
+import fs, { createWriteStream } from "fs";
+import { pipeline } from "stream/promises";
 import path from "path";
 import { connectDB } from "@/backend/db";
 import { Media } from "@/backend/models/media.model";
@@ -8,53 +9,112 @@ import { Media } from "@/backend/models/media.model";
 import { SortOrder } from "mongoose";
 import { buildQueryOptions } from "@/helper/query-builder";
 
+// IMPORTANT: Set runtime to 'nodejs' to use 'fs' module
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
 // ========== POST: Upload Image to Local Storage ==========
+// export async function POST(req: Request) {
+//   try {
+//     await connectDB();
+
+//     const formData = await req.formData();
+//     const file = formData.get("file") as File;
+//     const title = formData.get("title") as string;
+//     const type = formData.get("type") as "image" | "video";
+
+//     if (!file || !title || !type) {
+//       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
+//     }
+
+//     // Read file buffer
+//     const buffer = Buffer.from(await file.arrayBuffer());
+
+//     // Create unique filename
+//     const fileName = `${Date.now()}-${file.name}`;
+
+//     // Upload directory
+//     const uploadDir = path.join(process.cwd(), "uploads");
+
+//     // Create folder if missing
+//     if (!fs.existsSync(uploadDir)) {
+//       fs.mkdirSync(uploadDir, { recursive: true });
+//     }
+
+//     // File path
+//     const filePath = path.join(uploadDir, fileName);
+
+//     // Save file locally
+//     await fs.promises.writeFile(filePath, buffer);
+
+//     // Save to DB
+//     const media = await Media.create({
+//       title,
+//       url: `/api/uploads/${fileName}`,
+//       type,
+//       mediaId: fileName,
+//     });
+
+//     return NextResponse.json(media, { status: 201 });
+//   } catch (err: any) {
+//     console.error("Local Upload Error:", err);
+//     return NextResponse.json(
+//       { error: "Upload failed", details: err.message },
+//       { status: 500 }
+//     );
+//   }
+// }
+
 export async function POST(req: Request) {
   try {
     await connectDB();
 
     const formData = await req.formData();
-    const file = formData.get("file") as File;
-    const title = formData.get("title") as string;
-    const type = formData.get("type") as "image" | "video";
+
+    const file = formData.get("file") as File | null;
+    const title = formData.get("title") as string | null;
+    const type = formData.get("type") as "image" | "video" | null;
 
     if (!file || !title || !type) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // Read file buffer
-    const buffer = Buffer.from(await file.arrayBuffer());
+    // sanitize filename
+    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "");
+    const fileName = `${Date.now()}-${safeFileName}`;
 
-    // Create unique filename
-    const fileName = `${Date.now()}-${file.name}`;
+    // Next.js friendly upload path
+    const uploadDir = path.join(process.cwd(), "public/uploads");
 
-    // Upload directory
-    const uploadDir = path.join(process.cwd(), "uploads");
-
-    // Create folder if missing
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    // File path
     const filePath = path.join(uploadDir, fileName);
 
-    // Save file locally
-    await fs.promises.writeFile(filePath, buffer);
+    // STREAM WRITE (RAM SAFE)
+    const readableStream = file.stream();
+    const writeStream = createWriteStream(filePath);
+
+    await pipeline(readableStream as any, writeStream);
 
     // Save to DB
     const media = await Media.create({
       title,
-      url: `/api/uploads/${fileName}`,
       type,
       mediaId: fileName,
+      url: `/uploads/${fileName}`,
     });
 
     return NextResponse.json(media, { status: 201 });
   } catch (err: any) {
-    console.error("Local Upload Error:", err);
+    console.error("Upload Error:", err);
+
     return NextResponse.json(
-      { error: "Upload failed", details: err.message },
+      {
+        error: "Upload failed",
+        details: err.message,
+      },
       { status: 500 }
     );
   }
