@@ -299,7 +299,6 @@ const ProjectPageClient: React.FC = () => {
           {
             header: "Media",
             accessor: (row) => {
-              console.log("row.images :>> ", row.images);
               return (
                 <div className="flex space-x-2">
                   <AvatarGroup

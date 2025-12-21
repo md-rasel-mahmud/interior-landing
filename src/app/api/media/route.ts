@@ -1,120 +1,74 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
-import fs, { createWriteStream } from "fs";
-import { pipeline } from "stream/promises";
+import fs from "fs";
 import path from "path";
 import { connectDB } from "@/backend/db";
 import { Media } from "@/backend/models/media.model";
 
 import { SortOrder } from "mongoose";
 import { buildQueryOptions } from "@/helper/query-builder";
-
-// IMPORTANT: Set runtime to 'nodejs' to use 'fs' module
-export const runtime = "nodejs";
-export const maxDuration = 60;
+import axios from "axios";
 
 // ========== POST: Upload Image to Local Storage ==========
-// export async function POST(req: Request) {
-//   try {
-//     await connectDB();
-
-//     const formData = await req.formData();
-//     const file = formData.get("file") as File;
-//     const title = formData.get("title") as string;
-//     const type = formData.get("type") as "image" | "video";
-
-//     if (!file || !title || !type) {
-//       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
-//     }
-
-//     // Read file buffer
-//     const buffer = Buffer.from(await file.arrayBuffer());
-
-//     // Create unique filename
-//     const fileName = `${Date.now()}-${file.name}`;
-
-//     // Upload directory
-//     const uploadDir = path.join(process.cwd(), "uploads");
-
-//     // Create folder if missing
-//     if (!fs.existsSync(uploadDir)) {
-//       fs.mkdirSync(uploadDir, { recursive: true });
-//     }
-
-//     // File path
-//     const filePath = path.join(uploadDir, fileName);
-
-//     // Save file locally
-//     await fs.promises.writeFile(filePath, buffer);
-
-//     // Save to DB
-//     const media = await Media.create({
-//       title,
-//       url: `/api/uploads/${fileName}`,
-//       type,
-//       mediaId: fileName,
-//     });
-
-//     return NextResponse.json(media, { status: 201 });
-//   } catch (err: any) {
-//     console.error("Local Upload Error:", err);
-//     return NextResponse.json(
-//       { error: "Upload failed", details: err.message },
-//       { status: 500 }
-//     );
-//   }
-// }
-
 export async function POST(req: Request) {
   try {
     await connectDB();
 
     const formData = await req.formData();
-
-    const file = formData.get("file") as File | null;
-    const title = formData.get("title") as string | null;
-    const type = formData.get("type") as "image" | "video" | null;
+    const file = formData.get("file") as File;
+    const title = formData.get("title") as string;
+    const type = formData.get("type") as "image" | "video";
 
     if (!file || !title || !type) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // 🛡️ sanitize filename
-    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "");
-    const fileName = `${Date.now()}-${safeFileName}`;
+    // // Read file buffer
+    // const buffer = Buffer.from(await file.arrayBuffer());
 
-    // ✅ Next.js friendly upload path
-    const uploadDir = path.join(process.cwd(), "public/uploads");
+    // // Create unique filename
+    // const fileName = `${Date.now()}-${file.name}`;
 
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+    // // Upload directory
+    // const uploadDir = path.join(process.cwd(), "uploads");
 
-    const filePath = path.join(uploadDir, fileName);
+    // // Create folder if missing
+    // if (!fs.existsSync(uploadDir)) {
+    //   fs.mkdirSync(uploadDir, { recursive: true });
+    // }
 
-    // 🚀 STREAM WRITE (RAM SAFE)
-    const readableStream = file.stream();
-    const writeStream = createWriteStream(filePath);
+    // // File path
+    // const filePath = path.join(uploadDir, fileName);
 
-    await pipeline(readableStream as any, writeStream);
+    // // Save file locally
+    // await fs.promises.writeFile(filePath, buffer);
 
-    // ✅ Save to DB
+    const { data: uploadedFile } = await axios.post(
+      "http://localhost:4000/api/express/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: process.env.MEDIA_SECRET || "",
+        },
+      }
+    );
+
+    console.log("uploadedFile :>> ", uploadedFile);
+
+    // Save to DB
     const media = await Media.create({
-      title,
-      type,
-      mediaId: fileName,
-      url: `/uploads/${fileName}`,
+      title: uploadedFile["title"],
+      url: `/api${uploadedFile["url"]}`,
+      type: uploadedFile["type"],
+      mediaId: uploadedFile["fileName"],
     });
 
     return NextResponse.json(media, { status: 201 });
   } catch (err: any) {
-    console.error("Upload Error:", err);
-
+    console.error("Local Upload Error:", err);
     return NextResponse.json(
-      {
-        error: "Upload failed",
-        details: err.message,
-      },
+      { error: "Upload failed", details: err.message },
       { status: 500 }
     );
   }

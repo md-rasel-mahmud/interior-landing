@@ -38,6 +38,7 @@ import { useState } from "react";
 import Masonry from "react-masonry-css";
 import useSWR, { mutate } from "swr";
 import axiosInstance from "@/lib/axios.instanse";
+import axios from "axios";
 
 interface MediaModalProps {
   onClose: () => void;
@@ -109,39 +110,74 @@ const MediaModal = ({
     formData.append("type", isVideo ? "video" : "image");
 
     try {
-      uploadMutate(() =>
-        axiosInstance
-          .post("/media", formData, {
-            headers: {
-              "Content-Type": undefined, // IMPORTANT FIX
-            },
-          })
-          .then((res) => {
-            mutate(
-              `/media?${queryString}`,
-              (prevData: { data: MediaTypeWithId[] } | undefined) => {
-                return {
-                  ...(prevData || { data: [] }),
-                  data: [
-                    res.data as MediaTypeWithId,
-                    ...(prevData?.data || []),
-                  ],
-                };
+      uploadMutate(
+        () =>
+          axiosInstance
+            .post("/media", formData, {
+              headers: {
+                "Content-Type": undefined, // IMPORTANT FIX
               },
-              false
-            );
+            })
+            .then((res) => {
+              mutate(
+                `/media?${queryString}`,
+                (prevData: { data: MediaTypeWithId[] } | undefined) => {
+                  return {
+                    ...(prevData || { data: [] }),
+                    data: [
+                      res.data as MediaTypeWithId,
+                      ...(prevData?.data || []),
+                    ],
+                  };
+                },
+                false
+              );
 
-            setFile(null);
+              setFile(null);
 
-            if (!isMultiple) {
-              onSelect(res.data.url);
-              onClose();
-            } else {
-              setTabValue("all-media");
-            }
+              if (!isMultiple) {
+                onSelect(res.data.url);
+                onClose();
+              } else {
+                setTabValue("all-media");
+              }
 
-            return res.data;
-          })
+              return res.data;
+            })
+
+        // axios
+        //   .post("http://localhost:4000/api/express/upload", formData, {
+        //     headers: {
+        //       "Content-Type": "multipart/form-data",
+        //       Authorization: process.env.NEXT_PUBLIC_MEDIA_SECRET || "",
+        //     },
+        //   })
+        //   .then((res) => {
+        //     mutate(
+        //       `/media?${queryString}`,
+        //       (prevData: { data: MediaTypeWithId[] } | undefined) => {
+        //         return {
+        //           ...(prevData || { data: [] }),
+        //           data: [
+        //             res.data as MediaTypeWithId,
+        //             ...(prevData?.data || []),
+        //           ],
+        //         };
+        //       },
+        //       false
+        //     );
+
+        //     setFile(null);
+
+        //     if (!isMultiple) {
+        //       onSelect(res.data.url);
+        //       onClose();
+        //     } else {
+        //       setTabValue("all-media");
+        //     }
+
+        //     return res.data;
+        //   })
       );
     } catch (error) {
       console.error("Upload failed:", error);

@@ -3,7 +3,8 @@ import fs from "fs";
 import path from "path";
 import mime from "mime";
 
-export async function GET(_: any, { params }: any) {
+export async function GET(_: any, nxtArg: any) {
+  const params = await nxtArg.params;
   const filePath = path.join(process.cwd(), "uploads", ...params.path);
 
   if (!fs.existsSync(filePath)) {
