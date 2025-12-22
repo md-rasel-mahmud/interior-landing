@@ -27,6 +27,8 @@ export default function ProjectDetailPage() {
 
   const projectData = project?.data as ProjectTypeWithId | undefined;
 
+  const firstImageOrVideoSrc = projectData?.images?.[0] || "";
+
   if (projectListLoading) {
     return <Loading />;
   }
@@ -44,7 +46,7 @@ export default function ProjectDetailPage() {
       <div className="container mx-auto px-6">
         {/* Hero Carousel */}
         <AnimatedSection animation="slideUp" delay={0.2}>
-          {projectData?.images && projectData.images.length > 0 ? (
+          {/* {projectData?.images && projectData.images.length > 0 ? (
             <ProjectCarousel images={projectData.images} />
           ) : (
             <div className="min-w-full relative">
@@ -58,7 +60,29 @@ export default function ProjectDetailPage() {
                 />
               )}
             </div>
-          )}
+          )} */}
+
+          <div className="min-w-full relative">
+            {IS_VIDEO_REGEX.test(firstImageOrVideoSrc) ? (
+              <video
+                src={firstImageOrVideoSrc}
+                autoPlay
+                loop
+                muted
+                controls
+                className="h-[550px] w-full object-cover"
+                controlsList="nodownload"
+              />
+            ) : (
+              <Image
+                src={firstImageOrVideoSrc}
+                alt={`Project image 1`}
+                width={1200}
+                height={800}
+                className="h-[550px] w-full object-cover"
+              />
+            )}
+          </div>
         </AnimatedSection>
 
         {/* Content */}
