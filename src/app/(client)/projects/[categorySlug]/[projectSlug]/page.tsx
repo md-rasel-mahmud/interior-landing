@@ -193,35 +193,40 @@ export default function ProjectDetailPage() {
 
         {/* picture */}
         <div className="mt-20 grid lg:grid-cols-2 gap-3">
-          {projectData.images.map((img: string, index: number) => (
-            <AnimatedSection
-              animation="slideUp"
-              delay={0.6 + index * 0.2}
-              key={index}
-            >
-              {IS_VIDEO_REGEX.test(img) ? (
-                <video
-                  src={img}
-                  controls
-                  autoPlay
-                  loop
-                  muted
-                  width={1200}
-                  height={800}
-                  className="w-full h-[0vh] object-cover"
-                  controlsList="nodownload"
-                />
-              ) : (
-                <Image
-                  src={img}
-                  alt={`${projectData.name} image ${index + 1}`}
-                  width={1200}
-                  height={800}
-                  className="w-full h-[0vh] object-cover"
-                />
-              )}
-            </AnimatedSection>
-          ))}
+          {projectData.images.map((img: string, index: number) => {
+            console.log("img :>> ", img);
+            return (
+              <AnimatedSection
+                animation="slideUp"
+                delay={0.6 + index * 0.2}
+                key={index}
+              >
+                <div>
+                  {IS_VIDEO_REGEX.test(img) ? (
+                    <video
+                      src={img}
+                      controls
+                      autoPlay
+                      loop
+                      muted
+                      width={1200}
+                      height={800}
+                      className="w-full h-[50vh] object-cover"
+                      controlsList="nodownload"
+                    />
+                  ) : (
+                    <Image
+                      src={img}
+                      alt={`${projectData.name} image ${index + 1}`}
+                      width={1200}
+                      height={800}
+                      className="w-full h-[50vh] object-cover"
+                    />
+                  )}
+                </div>
+              </AnimatedSection>
+            );
+          })}
         </div>
 
         <div className="flex justify-between items-center mt-10">
